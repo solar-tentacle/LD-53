@@ -150,6 +150,11 @@ public class LevelMakerEditor : Editor {
                 // Refresh the Asset Database to ensure the new prefab asset is visible in the Project window
                 AssetDatabase.Refresh();
                 Debug.Log($"Prefab saved as asset: {assetPath}");
+
+                var prefabResult = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                AssetDatabase.OpenAsset(prefabResult);
+                
+                //PrefabUtility.UnpackPrefabInstance(Selection.activeGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.UserAction);
             }
         }
     }
