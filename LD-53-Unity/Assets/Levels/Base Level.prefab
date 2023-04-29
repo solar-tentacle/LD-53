@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &193978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494456}
+  - component: {fileID: 11449636}
+  m_Layer: 0
+  m_Name: Base Level
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &494456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193978}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 551479374308077829}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11449636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b20882f7603164289faf15c6081162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 1
+  height: 1
+  gridColor: {r: 0.48353767, g: 1, b: 0.1745283, a: 1}
+  gridVisible: 1
+  tiles:
+  - {fileID: 107018, guid: ef7414be8ed49443d9abd1f04362e561, type: 3}
+  - {fileID: 134140, guid: 65a55d887964a4f6ebce333e013bf25f, type: 3}
+  loops:
+  - loopName: WaterSurface
+    tiles:
+    - {fileID: 191460, guid: 7d16e04b4d9344df48db7550298fd062, type: 3}
+    - {fileID: 178356, guid: 70921dd0ad352497c91327b23a200878, type: 3}
+    - {fileID: 136466, guid: e1d0842a9704d4b5b8db5fe106aba11b, type: 3}
+  randomLoops:
+  - loopName: GrassOnGround
+    tiles:
+    - {fileID: 183546, guid: 6a989947fd414487d9fe1cb6a7a28038, type: 3}
+    - {fileID: 167098, guid: f4946764da21d49959292cdc57a4c1e4, type: 3}
+  - loopName: GrassOnStone
+    tiles:
+    - {fileID: 139128, guid: 95be91251d48b44f69683849b932d4c0, type: 3}
+    - {fileID: 167570, guid: 39ef5091b78474fd997281231a00105f, type: 3}
+  - loopName: Ground
+    tiles:
+    - {fileID: 175728, guid: ad834299949d843068e76dc22f9f32eb, type: 3}
+    - {fileID: 180804, guid: c9f765102c6b3431fa26c213d8c94643, type: 3}
+    - {fileID: 124960, guid: cd5f6a1fcd5e5482083d8710d9fa4bc4, type: 3}
+    - {fileID: 155380, guid: 9c12b0583119c4f50b7bc3d5e6cc7dc5, type: 3}
+  - loopName: Stones
+    tiles:
+    - {fileID: 144312, guid: 49fc31db843044ad6a292bc038ced202, type: 3}
+    - {fileID: 167258, guid: c2fbdd3261b394824aca6f1c41e103b0, type: 3}
+--- !u!1 &7685354560954406752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551479374308077829}
+  - component: {fileID: 8795525965005931253}
+  - component: {fileID: 757370339335466563}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &551479374308077829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7685354560954406752}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 494456}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &8795525965005931253
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7685354560954406752}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &757370339335466563
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7685354560954406752}
+  m_Enabled: 1
