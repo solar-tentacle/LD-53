@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using Game.Level;
+using Unity.VisualScripting;
 
 [CustomEditor(typeof(LevelMaker))]
 public class LevelMakerEditor : Editor {
@@ -37,7 +39,7 @@ public class LevelMakerEditor : Editor {
         }
         GUILayout.EndHorizontal();
         // SEPARATOR
-        GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
+        /*GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
 		GUILayout.Label("SEQUENTIAL LOOPS");
 		GUILayout.BeginHorizontal();
 		for(int j = 0; j < grid.loops.Length; j++){
@@ -51,9 +53,9 @@ public class LevelMakerEditor : Editor {
 				grid.EnableLoop();
 			}
 		}
-		GUILayout.EndHorizontal();
+		GUILayout.EndHorizontal();*/
 		// SEPARATOR
-		GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
+		/*GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
 		GUILayout.Label("RANDOM LOOPS");
 		GUILayout.BeginHorizontal();
 		for(int z = 0; z < grid.randomLoops.Length; z++){
@@ -67,7 +69,7 @@ public class LevelMakerEditor : Editor {
 				grid.EnableRandomLoop();
 			}
 		}
-		GUILayout.EndHorizontal();
+		GUILayout.EndHorizontal();*/
 		// SEPARATOR
 		GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
 		GUILayout.Label("WARNING AREA!!!");
@@ -78,7 +80,100 @@ public class LevelMakerEditor : Editor {
         if (GUILayout.Button("Reset Level"))
         {
             grid.ResetLevel();
+
+            var prefabInstance = Selection.activeObject.GameObject();
+
+            var levelMaker = prefabInstance.GameObject().GetComponent<LevelMaker>();
+        
+            foreach(Transform child in levelMaker.Parent.GetComponentsInChildren<Transform>())
+            {
+                if (child == null || child == levelMaker.Parent)
+                {
+                    continue;
+                }
+                DestroyImmediate(child.gameObject);
+
+            }
+
+            // Clear levelTiles list
+            levelMaker.LevelTiles.Clear();
+            
+            // Mark the prefab as dirty
+            EditorUtility.SetDirty(prefabInstance);
+            
+            AssetDatabase.OpenAsset(target);
         }
+        
+        GUILayout.Space(20);
+        
+        if (GUILayout.Button("Generate Level"))
+        {
+            grid.GenerateLevel();
+            
+            var prefab = target;
+
+            var prefabInstance = PrefabUtility.InstantiateAttachedAsset(prefab).GameObject();
+
+            var levelMaker = prefabInstance.GetComponent<LevelMaker>();
+            var levelDataHolder = prefabInstance.AddComponent<LevelDataHolder>();
+
+            GenerateData(levelMaker, levelDataHolder);
+            
+            
+            var parent = levelMaker.Parent;
+            parent.Rotate(90.0f, 0.0f, 0.0f);
+            
+            DestroyImmediate(levelMaker);
+
+            string assetPath = $"Assets/Levels/Generated/{prefab.name} generated.prefab";
+
+            // If the user selected a valid path, save the prefab as an asset
+            if (!string.IsNullOrEmpty(assetPath))
+            {
+                PrefabUtility.SaveAsPrefabAsset(prefabInstance, assetPath);
+
+                // Destroy the original instantiated prefab instance
+                DestroyImmediate(prefabInstance);
+
+                // Refresh the Asset Database to ensure the new prefab asset is visible in the Project window
+                AssetDatabase.Refresh();
+                Debug.Log($"Prefab saved as asset: {assetPath}");
+            }
+        }
+    }
+
+    private void GenerateData(LevelMaker levelMaker, LevelDataHolder levelDataHolder)
+    {
+        levelDataHolder.LevelData = new LevelData
+        {
+            Tiles = new Tile[levelMaker.sizeX, levelMaker.sizeY]
+        };
+
+        foreach (var levelTile in levelMaker.LevelTiles)
+        {
+            var position = levelTile.transform.position;
+            int xIndex = Mathf.FloorToInt((position.x) / levelMaker.width);
+            int yIndex = Mathf.FloorToInt((position.y) / levelMaker.height);
+            levelDataHolder.LevelData.Tiles[xIndex, yIndex] = new Tile
+            {
+                TileView = levelTile
+            };
+        }
+
+        string output = "";
+        for (int i = 0; i < levelDataHolder.LevelData.Tiles.GetLength(0); i++)
+        {
+            output += "[";
+            for (int j = 0; j < levelDataHolder.LevelData.Tiles.GetLength(1); j++)
+            {
+                var tile = levelDataHolder.LevelData.Tiles[i, j];
+                output += (tile != null ? $" {tile.TileView.name}" : "         0         ").PadLeft(4);
+            }
+
+            output += "]\n";
+        }
+
+        Debug.Log(output);
     }
 
     void OnSceneGUI()
@@ -126,11 +221,11 @@ public class LevelMakerEditor : Editor {
         // Add element: left click, remove element, right click
         if (button == 0)
         {
-            grid.AddTile(snappedPosition);
+            AddTile(snappedPosition);
         }
         else if(button == 1)
         {
-            grid.RemoveTileAt(snappedPosition);
+            RemoveTile(snappedPosition);
         }
     }
 
@@ -146,11 +241,30 @@ public class LevelMakerEditor : Editor {
         // Add element: left click, remove element, right click
         if (button == 0)
         {
-            grid.AddTile(snappedPosition);
+            AddTile(snappedPosition);
         }
 		else if(button == 1)
         {
-            grid.RemoveTileAt(snappedPosition);
+            RemoveTile(snappedPosition);
         }
+    }
+
+    private void AddTile(Vector3 snappedPosition)
+    {
+        grid.AddTile(snappedPosition);
+        SetDirty();
+    }
+
+    private void RemoveTile(Vector3 snappedPosition)
+    {
+        grid.RemoveTileAt(snappedPosition);
+        SetDirty();
+    }
+
+    private void SetDirty()
+    {
+        var prefabInstance = Selection.activeObject.GameObject();
+        // Mark the prefab as dirty
+        EditorUtility.SetDirty(prefabInstance);
     }
 }
