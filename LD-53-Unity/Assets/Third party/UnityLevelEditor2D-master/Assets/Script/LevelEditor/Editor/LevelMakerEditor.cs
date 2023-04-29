@@ -111,15 +111,27 @@ public class LevelMakerEditor : Editor {
             grid.GenerateLevel();
             
             var prefab = target;
+            
+            
+            GameObject prefabRoot = PrefabUtility.GetNearestPrefabInstanceRoot(target.GameObject());
+            
+            string baseAssetPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(prefabRoot);
 
-            var prefabInstance = PrefabUtility.InstantiateAttachedAsset(prefab).GameObject();
+            var basePrefab  = AssetDatabase.LoadAssetAtPath<GameObject>(baseAssetPath);
+            var assetPathOrigin = baseAssetPath.Replace(basePrefab.name, prefabRoot.name);
+
+
+            LevelMaker originalPrefab = AssetDatabase.LoadAssetAtPath<LevelMaker>(assetPathOrigin);
+
+
+            var prefabInstance = PrefabUtility.InstantiatePrefab(originalPrefab).GameObject();
 
             var levelMaker = prefabInstance.GetComponent<LevelMaker>();
             var levelDataHolder = prefabInstance.AddComponent<LevelDataHolder>();
+            
 
             GenerateData(levelMaker, levelDataHolder);
-            
-            
+
             var parent = levelMaker.Parent;
             parent.Rotate(90.0f, 0.0f, 0.0f);
             
@@ -130,7 +142,7 @@ public class LevelMakerEditor : Editor {
             // If the user selected a valid path, save the prefab as an asset
             if (!string.IsNullOrEmpty(assetPath))
             {
-                PrefabUtility.SaveAsPrefabAsset(prefabInstance, assetPath);
+                PrefabUtility.SaveAsPrefabAssetAndConnect(prefabInstance, assetPath, InteractionMode.UserAction);
 
                 // Destroy the original instantiated prefab instance
                 DestroyImmediate(prefabInstance);
@@ -138,6 +150,11 @@ public class LevelMakerEditor : Editor {
                 // Refresh the Asset Database to ensure the new prefab asset is visible in the Project window
                 AssetDatabase.Refresh();
                 Debug.Log($"Prefab saved as asset: {assetPath}");
+
+                var prefabResult = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                AssetDatabase.OpenAsset(prefabResult);
+                
+                //PrefabUtility.UnpackPrefabInstance(Selection.activeGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.UserAction);
             }
         }
     }
@@ -251,8 +268,10 @@ public class LevelMakerEditor : Editor {
 
     private void AddTile(Vector3 snappedPosition)
     {
-        grid.AddTile(snappedPosition);
-        SetDirty();
+        if (grid.AddTile(snappedPosition))
+        {
+            SetDirty();
+        }
     }
 
     private void RemoveTile(Vector3 snappedPosition)

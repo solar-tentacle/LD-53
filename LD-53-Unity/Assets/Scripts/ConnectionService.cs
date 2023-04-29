@@ -43,7 +43,7 @@ public class ConnectionService : Service, IInject
 
     private static bool CanConnectTiles(ItemContext a, ItemContext b)
     {
-        if (a.Type is ItemType.Sphere && b.Type is ItemType.Sphere)
+        if (a.Type is TileType.Sphere && b.Type is TileType.Sphere)
         {
             return Vector2Int.Distance(a.Point, b.Point) < 2;
         }
