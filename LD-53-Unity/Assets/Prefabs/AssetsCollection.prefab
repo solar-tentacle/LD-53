@@ -44,5 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5240361815437f93546f71a7ddb783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelDataHolder: {fileID: 7699516526292280767, guid: e0d774a5394ed4efb888a5002cecdc94, type: 3}
   ConnectionViewPrefab: {fileID: 0}
   PlayerView: {fileID: 4197228296285816469, guid: 56711c12dbdef484f869903d55292e27, type: 3}
+  _grounds:
+  - {fileID: 282172260205918866, guid: 3b2a6d8dea537425bab04891ab54ba34, type: 3}
+  - {fileID: 7960460714737394318, guid: 34175744e687b42b39295a3354eae977, type: 3}

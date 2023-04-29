@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridService : Service
+public class GridService : Service, IStart
 {
     private TileType[][] _gridTypes;
     private ItemView[][] _gridViews;
@@ -25,5 +25,12 @@ public class GridService : Service
         }
 
         return contexts;
+    }
+
+    public void GameStart()
+    {
+        AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
+        GridBuilder builder = new(assetsCollection.LevelDataHolder.LevelData);
+        builder.Build();
     }
 }

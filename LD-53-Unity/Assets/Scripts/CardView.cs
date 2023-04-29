@@ -1,25 +1,18 @@
 ﻿using System;
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class CardView : MonoBehaviour
+public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
+    public event Action OnThrowed;
     private bool _isSelected;
+    private Image _image;
+
     private void Start()
     {
-        EventTrigger trigger = GetComponent<EventTrigger>();
-        
-        EventTrigger.Entry up = new EventTrigger.Entry();
-        up.eventID = EventTriggerType.PointerDown;
-        up.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
-        
-        EventTrigger.Entry down = new EventTrigger.Entry();
-        down.eventID = EventTriggerType.PointerUp;
-        down.callback.AddListener((data) => { OnPointerUpDelegate((PointerEventData)data); });
-
-        trigger.triggers.Add(up);
-        trigger.triggers.Add(down);
+        _image = GetComponent<Image>();
     }
 
     private void Update()
@@ -32,15 +25,27 @@ public class CardView : MonoBehaviour
         }
     }
 
-    private void OnPointerUpDelegate(PointerEventData data)
+    public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("up");
         _isSelected = false;
+        OnThrowed?.Invoke();
+        gameObject.SetActive(false);
+        Debug.Log("Card destroyed [CardView]");
     }
 
-    public void OnPointerDownDelegate(PointerEventData data)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("down");
         _isSelected = true;
+        _image.DOFade(0.3f, 0.3f);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        transform.DOScale(1.2f, 0.3f);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        transform.DOScale(1.0f, 0.3f);
     }
 }
