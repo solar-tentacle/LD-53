@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridService : Service, IStart
+public class GridService : IService, IStart
 {
     private GroundGridElement[,] _ground;
     private ItemView[,] _gridViews;
