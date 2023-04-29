@@ -50,3 +50,7 @@ MonoBehaviour:
   _grounds:
   - {fileID: 282172260205918866, guid: 3b2a6d8dea537425bab04891ab54ba34, type: 3}
   - {fileID: 7960460714737394318, guid: 34175744e687b42b39295a3354eae977, type: 3}
+  _objects:
+  - {fileID: 4197228296285816469, guid: 56711c12dbdef484f869903d55292e27, type: 3}
+  - {fileID: 3840372947026379875, guid: c317674fe4b2e4e4089febef9b15e330, type: 3}
+  - {fileID: 3840372947026379875, guid: 72acaeccc1d554dee9f9c38137fd31ee, type: 3}

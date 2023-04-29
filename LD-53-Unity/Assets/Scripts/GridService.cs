@@ -4,6 +4,7 @@ using UnityEngine;
 public class GridService : IService, IStart
 {
     private GroundGridElement[,] _ground;
+    private ObjectGridElement[,] _objects;
     private ItemView[,] _gridViews;
 
     public int SizeX { get; private set; }
@@ -16,21 +17,6 @@ public class GridService : IService, IStart
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
         GridBuilder builder = new(assetsCollection.LevelDataHolder.LevelData);
-        _ground = builder.Build();
-    }
-
-    public List<ItemContext> GetTileContexts()
-    {
-        List<ItemContext> contexts = new();
-
-        for (int x = 0; x < SizeX; x++)
-        {
-            for (int y = 0; y < SizeY; y++)
-            {
-                // contexts.Add(new ItemContext(_gridTypes[x, y], new Vector2Int(x, y)));
-            }
-        }
-
-        return contexts;
+        builder.Build(out _ground, out _objects);
     }
 }

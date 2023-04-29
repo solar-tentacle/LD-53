@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerView : MonoBehaviour
+public class PlayerView : ObjectGridElement
 {
     [SerializeField] private PlayerMovement _movement;
     public PlayerMovement Movement => _movement;

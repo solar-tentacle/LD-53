@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GroundGridElement : MonoBehaviour
+public class GroundGridElement : GridElement
 {
     [SerializeField] private GroundType _type;
 

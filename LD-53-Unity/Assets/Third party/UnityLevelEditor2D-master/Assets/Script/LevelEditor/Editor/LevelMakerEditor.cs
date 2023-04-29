@@ -25,12 +25,12 @@ public class LevelMakerEditor : Editor {
         GUILayout.BeginHorizontal();
         for (int i = 0; i < grid.BackTilePrefabs.Length; i++)
         {
-            GameObject tilePrefab = grid.BackTilePrefabs[i];
+            GroundGridElement tilePrefab = grid.BackTilePrefabs[i];
             
-            /*if (tilePrefab == null)
+            if (tilePrefab == null)
             {
                 continue;
-            }*/
+            }
             // We want two buttons per line
             if(i % 2 == 0 && i != 0)
             {
@@ -50,12 +50,12 @@ public class LevelMakerEditor : Editor {
         GUILayout.BeginHorizontal();
         for (int i = 0; i < grid.ObjectTilePrefabs.Length; i++)
         {
-            GameObject tilePrefab = grid.ObjectTilePrefabs[i];
+            ObjectGridElement tilePrefab = grid.ObjectTilePrefabs[i];
             
-            /*if (tilePrefab == null)
+            if (tilePrefab == null)
             {
                 continue;
-            }*/
+            }
             // We want two buttons per line
             if(i % 2 == 0 && i != 0)
             {

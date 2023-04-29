@@ -33,8 +33,8 @@ public class LevelMaker : MonoBehaviour {
     public Color gridColor = Color.green;
     public bool gridVisible = true;
 
-    public GameObject[] BackTilePrefabs = Array.Empty<GameObject>();
-    public GameObject[] ObjectTilePrefabs = Array.Empty<GameObject>();
+    public GroundGridElement[] BackTilePrefabs = Array.Empty<GroundGridElement>();
+    public ObjectGridElement[] ObjectTilePrefabs = Array.Empty<ObjectGridElement>();
     [HideInInspector] public Loop[] loops;
     [HideInInspector] public Loop[] randomLoops;
 
@@ -105,7 +105,7 @@ public class LevelMaker : MonoBehaviour {
     {
         Transform parent = null;
         List<GameObject> list = null;
-        GameObject[] prefabsList = null;
+        GridElement[] prefabsList = null;
         
         switch (selectedTileType)
         {
@@ -189,7 +189,7 @@ public class LevelMaker : MonoBehaviour {
         selectedTile = index;
         selectedTileType = type;
         // In case of array overflow default to 0
-        var list = type == TileTypes.Back ? BackTilePrefabs : ObjectTilePrefabs;
+        GridElement[] list = type == TileTypes.Back ? BackTilePrefabs : ObjectTilePrefabs;
         if(index >= list.Length)
             selectedTile = 0;
     }
