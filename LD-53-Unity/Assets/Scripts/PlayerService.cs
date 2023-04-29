@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerService : Service, IInject, IStart
+public class PlayerService : IService, IInject, IStart, IUpdate
 {
     private static readonly int IdleTrigger = Animator.StringToHash("Idle");
     private static readonly int RunTrigger = Animator.StringToHash("Run");
@@ -21,10 +21,15 @@ public class PlayerService : Service, IInject, IStart
         _playerView = CreatePlayerView();
         _playerView.Animator.SetTrigger(IdleTrigger);
     }
+    
+    void IUpdate.GameUpdate(float delta)
+    {
+        
+    }
 
     public void Move(Vector3 movePosition)
     {
-        StartCoroutine(MoveCrt(movePosition));
+        _playerView.StartCoroutine(MoveCrt(movePosition));
     }
 
     public IEnumerator MoveCrt(Vector3 movePosition)
@@ -41,11 +46,13 @@ public class PlayerService : Service, IInject, IStart
 
     private PlayerView CreatePlayerView()
     {
-        PlayerView view = Instantiate(_assetsCollection.PlayerView);
+        PlayerView view = Object.Instantiate(_assetsCollection.PlayerView);
         Vector3 pos = _gridService.GetWorldPoint(Vector2Int.zero);
         pos.y = 1;
         view.transform.position = pos;
 
         return view;
     }
+
+    
 }

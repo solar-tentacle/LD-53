@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
-public class DragAndDropService : Service, IUpdate
+public class DragAndDropService : IService, IUpdate
 {
     private ItemView _selectedItem;
     private RaycastHit[] _buffer;
@@ -25,7 +21,7 @@ public class DragAndDropService : Service, IUpdate
             Cursor.visible = false;
             UpdateItemPosition();
         }
-        
+
         if (Input.GetMouseButtonUp(0))
         {
             _selectedItem = null;
