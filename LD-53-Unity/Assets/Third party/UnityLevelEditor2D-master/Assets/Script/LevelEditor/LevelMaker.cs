@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class Loop
@@ -17,7 +19,7 @@ public class Tile
     public GameObject TileView;
 }
 
-public class LevelData
+[Serializable] public class LevelData
 {
     public Tile[,] Tiles;
 }
