@@ -19,9 +19,50 @@ public class Tile
     public GameObject TileView;
 }
 
-[Serializable] public class LevelData
+[Serializable] public class LevelData: ISerializationCallbackReceiver
 {
     public Tile[,] Tiles;
+
+// A list that can be serialized
+[SerializeField, HideInInspector] private List<Package<Tile>> _serializableTiles;
+[SerializeField, HideInInspector] private Vector2Int _size;
+// A package to store our stuff
+[System.Serializable]
+struct Package<TElement>
+{
+    public int Index0;
+    public int Index1;
+    public TElement Element;
+    public Package(int idx0, int idx1, TElement element)
+    {
+        Index0 = idx0;
+        Index1 = idx1;
+        Element = element;
+    }
+}
+public void OnBeforeSerialize()
+{
+    // Convert our Tiles array into a serializable list
+    _serializableTiles = new List<Package<Tile>>();
+    _size.x = Tiles.GetLength(0);
+    _size.y = Tiles.GetLength(1);
+    for (int i = 0; i < _size.x; i++)
+    {
+        for (int j = 0; j < _size.y; j++)
+        {
+            _serializableTiles.Add(new Package<Tile>(i, j, Tiles[i, j]));
+        }
+    }
+}
+public void OnAfterDeserialize()
+{
+    // Convert the serializable list into our Tiles array
+    Tiles = new Tile[_size.x, _size.y];
+    foreach(var package in _serializableTiles)
+    {
+        Tiles[package.Index0, package.Index1] = package.Element;
+    }
+}
 }
 
 public class LevelMaker : MonoBehaviour {
