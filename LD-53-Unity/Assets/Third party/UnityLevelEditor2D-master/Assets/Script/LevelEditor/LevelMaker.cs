@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor;
 
 [System.Serializable]
 public class Loop
@@ -107,21 +109,21 @@ public class LevelMaker : MonoBehaviour {
 			if(loopIndex == loops[selectedLoop].tiles.Length){
 				loopIndex = 0;
 			}
-        	GameObject newTile = Instantiate<GameObject>(loops[selectedLoop].tiles[loopIndex++]) as GameObject;
+        	GameObject newTile = PrefabUtility.InstantiatePrefab(loops[selectedLoop].tiles[loopIndex++]).GameObject();
         	newTile.transform.position = position;
         	newTile.transform.SetParent(Parent);
         	LevelTiles.Add(newTile);
             return true;
         }
 		else if(randomLoop){
-			GameObject newTile = Instantiate<GameObject>(randomLoops[selectedRandomLoop].tiles[Random.Range(0, randomLoops[selectedRandomLoop].tiles.Length)]) as GameObject;
+			GameObject newTile = PrefabUtility.InstantiatePrefab(randomLoops[selectedRandomLoop].tiles[Random.Range(0, randomLoops[selectedRandomLoop].tiles.Length)]).GameObject();
 			newTile.transform.position = position;
 			newTile.transform.SetParent(Parent);
 			LevelTiles.Add(newTile);
             return true;
         }
 		else{
-			GameObject newTile = Instantiate<GameObject>(tiles[selectedTile]) as GameObject;
+			GameObject newTile = PrefabUtility.InstantiatePrefab(tiles[selectedTile]).GameObject();
 			newTile.transform.position = position;
 			newTile.transform.SetParent(Parent);
 			LevelTiles.Add(newTile);

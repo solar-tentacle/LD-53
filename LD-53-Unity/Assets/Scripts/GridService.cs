@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class GridService : Service
 {
-    private ItemType[][] _gridTypes;
+    private TileType[][] _gridTypes;
     private ItemView[][] _gridViews;
 
     public int SizeX { get; private set; }
     public int SizeY { get; private set; }
-    public ItemType GetItemType(Vector2Int point) => _gridTypes[point.x][point.y];
+    public TileType GetItemType(Vector2Int point) => _gridTypes[point.x][point.y];
     public ItemView GetView(Vector2Int point) => _gridViews[point.x][point.y];
     public Vector3 GetTileWorldPoint(Vector2Int point) => _gridViews[point.x][point.y].transform.position;
 
