@@ -15,6 +15,10 @@ public class LevelMaker : MonoBehaviour {
     public float width = 32.0f;
     [Range(1f, 2048f)]
     public float height = 32.0f;
+    public uint sizeX = 20;
+    public uint sizeY = 20;
+
+    [SerializeField] public Transform Parent;
 
     public Color gridColor = Color.green;
 	public bool gridVisible = true;
@@ -56,21 +60,21 @@ public class LevelMaker : MonoBehaviour {
 		}
 		Gizmos.color = gridColor;
 
-        for (float y = 0; y < pos.y + 800.0f; y += this.height)
+        for (float y = 0; y < sizeY * height + 1; y += this.height)
         {
             Gizmos.DrawLine(new Vector3(0, Mathf.Floor(y / this.height) * this.height, 0.0f),
-                            new Vector3(1000000.0f, Mathf.Floor(y / this.height) * this.height, 0.0f));
+                            new Vector3(sizeX * width, Mathf.Floor(y / this.height) * this.height, 0.0f));
         }
-        for (float x = 0; x < pos.x + 1200.0f; x += this.width)
+        for (float x = 0; x < sizeX * width + 1; x += this.width)
         {
             Gizmos.DrawLine(new Vector3(Mathf.Floor(x / this.width) * this.width, 0, 0.0f),
-                            new Vector3(Mathf.Floor(x / this.width) * this.width, 1000000.0f, 0.0f));
+                            new Vector3(Mathf.Floor(x / this.width) * this.width, sizeY * height, 0.0f));
         }
     }
 
     public void AddTile(Vector3 position)
     {
-        if (position.x < 0 || position.y < 0)
+        if (position.x < 0 || position.x > sizeX * width || position.y < 0 || position.y > sizeY * height)
         {
             return;
         }
@@ -90,20 +94,20 @@ public class LevelMaker : MonoBehaviour {
 			}
         	GameObject newTile = Instantiate<GameObject>(loops[selectedLoop].tiles[loopIndex++]) as GameObject;
         	newTile.transform.position = position;
-        	newTile.transform.SetParent(transform);
+        	newTile.transform.SetParent(Parent);
         	levelTiles.Add(newTile);
     
 		}
 		else if(randomLoop){
 			GameObject newTile = Instantiate<GameObject>(randomLoops[selectedRandomLoop].tiles[Random.Range(0, randomLoops[selectedRandomLoop].tiles.Length)]) as GameObject;
 			newTile.transform.position = position;
-			newTile.transform.SetParent(transform);
+			newTile.transform.SetParent(Parent);
 			levelTiles.Add(newTile);
 		}
 		else{
 			GameObject newTile = Instantiate<GameObject>(tiles[selectedTile]) as GameObject;
 			newTile.transform.position = position;
-			newTile.transform.SetParent(transform);
+			newTile.transform.SetParent(Parent);
 			levelTiles.Add(newTile);
 		}
 	}
@@ -191,7 +195,7 @@ public class LevelMaker : MonoBehaviour {
                 GameObject.DestroyImmediate(tileObj);
                 GameObject newTile = Instantiate<GameObject>(prefabToInstantiate) as GameObject;
                 newTile.transform.position = objPosition;
-                newTile.transform.SetParent(transform);
+                newTile.transform.SetParent(Parent);
                 counter++;
             }
             else
@@ -250,4 +254,7 @@ public class LevelMaker : MonoBehaviour {
 		loop = false;
 	}
 
+    public void GenerateLevel()
+    {
+    }
 }
