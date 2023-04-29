@@ -9,6 +9,17 @@ public class Loop
 	public GameObject[] tiles;
 }
 
+[System.Serializable]
+public class Tile
+{
+    public GameObject TileView;
+}
+
+public class LevelData
+{
+    public Tile[,] Tiles;
+}
+
 public class LevelMaker : MonoBehaviour {
 
     [Range(1f,2048f)]
@@ -21,28 +32,28 @@ public class LevelMaker : MonoBehaviour {
     [SerializeField] public Transform Parent;
 
     public Color gridColor = Color.green;
-	public bool gridVisible = true;
+    public bool gridVisible = true;
 
     public GameObject[] tiles;
-	public Loop[] loops;
-	public Loop[] randomLoops;
+    [HideInInspector] public Loop[] loops;
+    [HideInInspector] public Loop[] randomLoops;
 
-    List<GameObject> levelTiles = new List<GameObject>();
+    [HideInInspector] public List<GameObject> LevelTiles = new List<GameObject>();
 
     int selectedTile = 0;
-	int selectedLoop = 0;
-	int selectedRandomLoop = 0;
-	int loopIndex = 0;
-	bool loop;
+    int selectedLoop = 0;
+    int selectedRandomLoop = 0;
+    int loopIndex = 0;
+    bool loop;
 	bool randomLoop;
 
     void OnDrawGizmos()
     {
-		if(gameObject.GetComponentsInChildren<Transform>().Length - 1 > levelTiles.Count){
-			levelTiles.Clear();
-			foreach(Transform child in gameObject.GetComponentsInChildren<Transform>()){
-				if(!child.gameObject.Equals(gameObject)){
-					levelTiles.Add(child.gameObject);
+		if(gameObject.GetComponentsInChildren<Transform>().Length - 1 > LevelTiles.Count){
+			LevelTiles.Clear();
+			foreach(Transform child in Parent.GetComponentsInChildren<Transform>()){
+				if(!child.gameObject.Equals(Parent.gameObject)){
+					LevelTiles.Add(child.gameObject);
 				}
 			}
 		}
@@ -72,20 +83,24 @@ public class LevelMaker : MonoBehaviour {
         }
     }
 
-    public void AddTile(Vector3 position)
+    public bool AddTile(Vector3 position)
     {
         if (position.x < 0 || position.x > sizeX * width || position.y < 0 || position.y > sizeY * height)
         {
-            return;
+            return false;
         }
         
-        foreach(GameObject tile in levelTiles)
+        foreach(GameObject tile in LevelTiles)
         {
+            if (tile == null)
+            {
+                continue;
+            }
             if(tile.transform.position == position)
             {
                 // If we get here, tile is already occupied, ignoring adding request
                 //Debug.Log("Tile already occupied, ignoring");
-                return;
+                return false;
             }
         }
 		if(loop){
@@ -95,33 +110,37 @@ public class LevelMaker : MonoBehaviour {
         	GameObject newTile = Instantiate<GameObject>(loops[selectedLoop].tiles[loopIndex++]) as GameObject;
         	newTile.transform.position = position;
         	newTile.transform.SetParent(Parent);
-        	levelTiles.Add(newTile);
-    
-		}
+        	LevelTiles.Add(newTile);
+            return true;
+        }
 		else if(randomLoop){
 			GameObject newTile = Instantiate<GameObject>(randomLoops[selectedRandomLoop].tiles[Random.Range(0, randomLoops[selectedRandomLoop].tiles.Length)]) as GameObject;
 			newTile.transform.position = position;
 			newTile.transform.SetParent(Parent);
-			levelTiles.Add(newTile);
-		}
+			LevelTiles.Add(newTile);
+            return true;
+        }
 		else{
 			GameObject newTile = Instantiate<GameObject>(tiles[selectedTile]) as GameObject;
 			newTile.transform.position = position;
 			newTile.transform.SetParent(Parent);
-			levelTiles.Add(newTile);
-		}
-	}
+			LevelTiles.Add(newTile);
+            return true;
+        }
+
+        return false;
+    }
 
     public void RemoveTileAt(Vector3 position)
     {
-        foreach (GameObject tile in levelTiles)
+        foreach (GameObject tile in LevelTiles)
         {
             if (tile.transform.position == position)
             {
                 // Found it! Removing tile.
                 //Debug.Log("Removing Tile");
                 GameObject.DestroyImmediate(tile);
-                levelTiles.Remove(tile);
+                LevelTiles.Remove(tile);
                 return;
             }
         }
@@ -129,17 +148,6 @@ public class LevelMaker : MonoBehaviour {
 
     public void ResetLevel()
     {
-        // Remove all children
-        foreach(Transform child in gameObject.GetComponentsInChildren<Transform>())
-        {
-            if (!child.gameObject.Equals(gameObject))
-            {
-                DestroyImmediate(child.gameObject);
-
-            }
-        }
-        // Clear levelTiles list
-        levelTiles.Clear();
     }
 
     public void RebuildLevel()
@@ -148,8 +156,8 @@ public class LevelMaker : MonoBehaviour {
         // so this is useful when we make changes on the prefab and want to apply them to the level.
         List<GameObject> newLevelTiles = new List<GameObject>();
         int counter = 0;
-        int totalElements = levelTiles.Count;
-        foreach (GameObject tileObj in levelTiles)
+        int totalElements = LevelTiles.Count;
+        foreach (GameObject tileObj in LevelTiles)
         {
             string prefabName = tileObj.name.Replace("(Clone)", "");
             Vector3 objPosition = tileObj.transform.position;
@@ -203,12 +211,12 @@ public class LevelMaker : MonoBehaviour {
                 Debug.Log("Could not find a prefab named: " + prefabName);
             }
         }
-        levelTiles.Clear();
+        LevelTiles.Clear();
         foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
         {
             if (!child.gameObject.Equals(gameObject))
             {
-                levelTiles.Add(child.gameObject);
+                LevelTiles.Add(child.gameObject);
             }
         }
         Debug.Log("Reinstantiated " + counter + " of " + totalElements + " gameObjects");
