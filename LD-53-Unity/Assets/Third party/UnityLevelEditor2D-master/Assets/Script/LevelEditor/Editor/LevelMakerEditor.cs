@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
 using Game.Level;
 using Unity.VisualScripting;
 
@@ -19,12 +20,17 @@ public class LevelMakerEditor : Editor {
         DrawDefaultInspector();
         // SEPARATOR
         GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
-		GUILayout.Label("SINGLE TILE");
+		GUILayout.Label("Back");
         // Customizing the inspector a little bit
         GUILayout.BeginHorizontal();
-        for (int i = 0; i < grid.tiles.Length; i++)
+        for (int i = 0; i < grid.BackTilePrefabs.Length; i++)
         {
-            GameObject tilePrefab = grid.tiles[i];
+            GameObject tilePrefab = grid.BackTilePrefabs[i];
+            
+            /*if (tilePrefab == null)
+            {
+                continue;
+            }*/
             // We want two buttons per line
             if(i % 2 == 0 && i != 0)
             {
@@ -33,50 +39,43 @@ public class LevelMakerEditor : Editor {
             }
             if (GUILayout.Button(tilePrefab.name))
             {
-                grid.SelectTile(i);
+                grid.SelectTile(i, LevelMaker.TileTypes.Back);
 				grid.DisableLoop();
             }
         }
         GUILayout.EndHorizontal();
         // SEPARATOR
-        /*GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
-		GUILayout.Label("SEQUENTIAL LOOPS");
-		GUILayout.BeginHorizontal();
-		for(int j = 0; j < grid.loops.Length; j++){
-			if(j % 2 == 0 && j != 0)
-			{
-				GUILayout.EndHorizontal();
-				GUILayout.BeginHorizontal();
-			}
-			if(GUILayout.Button(grid.loops[j].loopName == "" ? "Loop "+ j : grid.loops[j].loopName)){
-				grid.SelectLoop(j);
-				grid.EnableLoop();
-			}
-		}
-		GUILayout.EndHorizontal();*/
-		// SEPARATOR
-		/*GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
-		GUILayout.Label("RANDOM LOOPS");
-		GUILayout.BeginHorizontal();
-		for(int z = 0; z < grid.randomLoops.Length; z++){
-			if(z % 2 == 0 && z != 0)
-			{
-				GUILayout.EndHorizontal();
-				GUILayout.BeginHorizontal();
-			}
-			if(GUILayout.Button(grid.randomLoops[z].loopName == "" ? "Loop "+ z : grid.randomLoops[z].loopName)){
-				grid.SelectRandomLoop(z);
-				grid.EnableRandomLoop();
-			}
-		}
-		GUILayout.EndHorizontal();*/
+        GUILayout.Label("Objects");
+        // Customizing the inspector a little bit
+        GUILayout.BeginHorizontal();
+        for (int i = 0; i < grid.ObjectTilePrefabs.Length; i++)
+        {
+            GameObject tilePrefab = grid.ObjectTilePrefabs[i];
+            
+            /*if (tilePrefab == null)
+            {
+                continue;
+            }*/
+            // We want two buttons per line
+            if(i % 2 == 0 && i != 0)
+            {
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+            }
+            if (GUILayout.Button(tilePrefab.name))
+            {
+                grid.SelectTile(i, LevelMaker.TileTypes.Object);
+                grid.DisableLoop();
+            }
+        }
+        GUILayout.EndHorizontal();
 		// SEPARATOR
 		GUILayout.Box("", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
 		GUILayout.Label("WARNING AREA!!!");
-        if (GUILayout.Button("Rebuild Level"))
+        /*if (GUILayout.Button("Rebuild Level"))
         {
             grid.RebuildLevel();
-        }
+        }*/
         if (GUILayout.Button("Reset Level"))
         {
             grid.ResetLevel();
@@ -85,22 +84,12 @@ public class LevelMakerEditor : Editor {
 
             var levelMaker = prefabInstance.GameObject().GetComponent<LevelMaker>();
         
-            foreach(Transform child in levelMaker.Parent.GetComponentsInChildren<Transform>())
-            {
-                if (child == null || child == levelMaker.Parent)
-                {
-                    continue;
-                }
-                DestroyImmediate(child.gameObject);
+            ResetTiles(levelMaker.BackTiles, levelMaker.BackTilesParent);
+            ResetTiles(levelMaker.ObjectTiles, levelMaker.ObjectsParent);
 
-            }
-
-            // Clear levelTiles list
-            levelMaker.LevelTiles.Clear();
-            
             // Mark the prefab as dirty
             EditorUtility.SetDirty(prefabInstance);
-            
+
             AssetDatabase.OpenAsset(target);
         }
         
@@ -132,8 +121,11 @@ public class LevelMakerEditor : Editor {
 
             GenerateData(levelMaker, levelDataHolder);
 
-            var parent = levelMaker.Parent;
-            parent.Rotate(90.0f, 0.0f, 0.0f);
+            var backParent = levelMaker.BackTilesParent;
+            backParent.Rotate(90.0f, 0.0f, 0.0f);
+            
+            var objectsParent = levelMaker.ObjectsParent;
+            objectsParent.Rotate(90.0f, 0.0f, 0.0f);
             
             DestroyImmediate(levelMaker);
 
@@ -159,31 +151,54 @@ public class LevelMakerEditor : Editor {
         }
     }
 
+    private void ResetTiles(List<GameObject> list, Transform parent)
+    {
+        foreach (Transform child in parent.GetComponentsInChildren<Transform>())
+        {
+            if (child == null || child == parent)
+            {
+                continue;
+            }
+
+            DestroyImmediate(child.gameObject);
+        }
+
+        // Clear levelTiles list
+        list.Clear();
+    }
+
     private void GenerateData(LevelMaker levelMaker, LevelDataHolder levelDataHolder)
     {
         levelDataHolder.LevelData = new LevelData
         {
-            Tiles = new Tile[levelMaker.sizeX, levelMaker.sizeY]
+            BackTiles = new Tile[levelMaker.sizeX, levelMaker.sizeY],
+            ObjectTiles = new Tile[levelMaker.sizeX, levelMaker.sizeY]
         };
+        
+        FillTiles(levelMaker, levelMaker.BackTiles, levelDataHolder.LevelData.BackTiles);
+        FillTiles(levelMaker, levelMaker.ObjectTiles, levelDataHolder.LevelData.ObjectTiles);
+    }
 
-        foreach (var levelTile in levelMaker.LevelTiles)
+    private static void FillTiles(LevelMaker levelMaker, List<GameObject> sourceList, Tile[,] resultList)
+    {
+        foreach (var levelTile in sourceList)
         {
             var position = levelTile.transform.position;
             int xIndex = Mathf.FloorToInt((position.x) / levelMaker.width);
             int yIndex = Mathf.FloorToInt((position.y) / levelMaker.height);
-            levelDataHolder.LevelData.Tiles[xIndex, yIndex] = new Tile
+            resultList[xIndex, yIndex] = new Tile
             {
                 TileView = levelTile
             };
         }
 
         string output = "";
-        for (int i = 0; i < levelDataHolder.LevelData.Tiles.GetLength(0); i++)
+        for (int i = 0; i < resultList.GetLength(0); i++)
         {
             output += "[";
-            for (int j = 0; j < levelDataHolder.LevelData.Tiles.GetLength(1); j++)
+            for (int j = 0; j < resultList.GetLength(1); j++)
             {
-                var tile = levelDataHolder.LevelData.Tiles[i, j];
+                var tile = resultList[i, j];
                 output += (tile != null ? $" {tile.TileView.name}" : "         0         ").PadLeft(4);
             }
 

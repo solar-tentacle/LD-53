@@ -1,68 +1,21 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
-[System.Serializable]
+[Serializable]
 public class Loop
 {
 	public string loopName = "";
 	public GameObject[] tiles;
 }
 
-[System.Serializable]
+[Serializable]
 public class Tile
 {
     public GameObject TileView;
-}
-
-[Serializable] public class LevelData: ISerializationCallbackReceiver
-{
-    public Tile[,] Tiles;
-
-// A list that can be serialized
-[SerializeField, HideInInspector] private List<Package<Tile>> _serializableTiles;
-[SerializeField, HideInInspector] private Vector2Int _size;
-// A package to store our stuff
-[System.Serializable]
-struct Package<TElement>
-{
-    public int Index0;
-    public int Index1;
-    public TElement Element;
-    public Package(int idx0, int idx1, TElement element)
-    {
-        Index0 = idx0;
-        Index1 = idx1;
-        Element = element;
-    }
-}
-public void OnBeforeSerialize()
-{
-    // Convert our Tiles array into a serializable list
-    _serializableTiles = new List<Package<Tile>>();
-    _size.x = Tiles.GetLength(0);
-    _size.y = Tiles.GetLength(1);
-    for (int i = 0; i < _size.x; i++)
-    {
-        for (int j = 0; j < _size.y; j++)
-        {
-            _serializableTiles.Add(new Package<Tile>(i, j, Tiles[i, j]));
-        }
-    }
-}
-public void OnAfterDeserialize()
-{
-    // Convert the serializable list into our Tiles array
-    Tiles = new Tile[_size.x, _size.y];
-    foreach(var package in _serializableTiles)
-    {
-        Tiles[package.Index0, package.Index1] = package.Element;
-    }
-}
 }
 
 public class LevelMaker : MonoBehaviour {
@@ -74,35 +27,55 @@ public class LevelMaker : MonoBehaviour {
     public uint sizeX = 20;
     public uint sizeY = 20;
 
-    [SerializeField] public Transform Parent;
+    [SerializeField] public Transform BackTilesParent;
+    [SerializeField] public Transform ObjectsParent;
 
     public Color gridColor = Color.green;
     public bool gridVisible = true;
 
-    public GameObject[] tiles;
+    public GameObject[] BackTilePrefabs = Array.Empty<GameObject>();
+    public GameObject[] ObjectTilePrefabs = Array.Empty<GameObject>();
     [HideInInspector] public Loop[] loops;
     [HideInInspector] public Loop[] randomLoops;
 
-    [HideInInspector] public List<GameObject> LevelTiles = new List<GameObject>();
+    [HideInInspector] public List<GameObject> BackTiles = new();
+    [HideInInspector] public List<GameObject> ObjectTiles = new();
 
     int selectedTile = 0;
-    int selectedLoop = 0;
-    int selectedRandomLoop = 0;
+    TileTypes selectedTileType = TileTypes.Back;
     int loopIndex = 0;
     bool loop;
 	bool randomLoop;
 
+    public enum TileTypes
+    {
+        Back,
+        Object
+    }
+
     void OnDrawGizmos()
     {
-		if(gameObject.GetComponentsInChildren<Transform>().Length - 1 > LevelTiles.Count){
-			LevelTiles.Clear();
-			foreach(Transform child in Parent.GetComponentsInChildren<Transform>()){
-				if(!child.gameObject.Equals(Parent.gameObject)){
-					LevelTiles.Add(child.gameObject);
-				}
-			}
-		}
+        CheckTiles(BackTiles, BackTilesParent);
+        CheckTiles(ObjectTiles, ObjectsParent);
         DrawGrid();
+    }
+
+    private void CheckTiles(List<GameObject> tiles, Transform parent)
+    {
+        if (parent.GetComponentsInChildren<Transform>().Length - 1 <= tiles.Count)
+        {
+            return;
+        }
+
+        tiles.Clear();
+        var children = parent.GetComponentsInChildren<Transform>();
+        foreach (var child in children)
+        {
+            if (!child.gameObject.Equals(parent.gameObject))
+            {
+                tiles.Add(child.gameObject);
+            }
+        }
     }
 
     void DrawGrid()
@@ -130,12 +103,31 @@ public class LevelMaker : MonoBehaviour {
 
     public bool AddTile(Vector3 position)
     {
+        Transform parent = null;
+        List<GameObject> list = null;
+        GameObject[] prefabsList = null;
+        
+        switch (selectedTileType)
+        {
+            case TileTypes.Back:
+                parent = BackTilesParent;
+                list = BackTiles;
+                prefabsList = BackTilePrefabs;
+                break;
+            case TileTypes.Object:
+                parent = ObjectsParent;
+                list = ObjectTiles;
+                prefabsList = ObjectTilePrefabs;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
         if (position.x < 0 || position.x > sizeX * width || position.y < 0 || position.y > sizeY * height)
         {
             return false;
         }
         
-        foreach(GameObject tile in LevelTiles)
+        foreach(GameObject tile in list)
         {
             if (tile == null)
             {
@@ -147,150 +139,60 @@ public class LevelMaker : MonoBehaviour {
                 //Debug.Log("Tile already occupied, ignoring");
                 return false;
             }
-        }
-		if(loop){
-			if(loopIndex == loops[selectedLoop].tiles.Length){
-				loopIndex = 0;
-			}
-        	GameObject newTile = PrefabUtility.InstantiatePrefab(loops[selectedLoop].tiles[loopIndex++]).GameObject();
-        	newTile.transform.position = position;
-        	newTile.transform.SetParent(Parent);
-        	LevelTiles.Add(newTile);
-            return true;
-        }
-		else if(randomLoop){
-			GameObject newTile = PrefabUtility.InstantiatePrefab(randomLoops[selectedRandomLoop].tiles[Random.Range(0, randomLoops[selectedRandomLoop].tiles.Length)]).GameObject();
+        }{
+			GameObject newTile = PrefabUtility.InstantiatePrefab(prefabsList[selectedTile]).GameObject();
 			newTile.transform.position = position;
-			newTile.transform.SetParent(Parent);
-			LevelTiles.Add(newTile);
+			newTile.transform.SetParent(parent);
+			list.Add(newTile);
             return true;
         }
-		else{
-			GameObject newTile = PrefabUtility.InstantiatePrefab(tiles[selectedTile]).GameObject();
-			newTile.transform.position = position;
-			newTile.transform.SetParent(Parent);
-			LevelTiles.Add(newTile);
-            return true;
-        }
-
-        return false;
     }
 
     public void RemoveTileAt(Vector3 position)
     {
-        foreach (GameObject tile in LevelTiles)
+        foreach (GameObject tile in ObjectTiles)
         {
-            if (tile.transform.position == position)
+            if (GetTilePosition(tile) == position)
             {
                 // Found it! Removing tile.
                 //Debug.Log("Removing Tile");
-                GameObject.DestroyImmediate(tile);
-                LevelTiles.Remove(tile);
+                DestroyImmediate(tile);
+                ObjectTiles.Remove(tile);
                 return;
             }
         }
+        
+        foreach (GameObject tile in BackTiles)
+        {
+            if (GetTilePosition(tile) == position)
+            {
+                // Found it! Removing tile.
+                //Debug.Log("Removing Tile");
+                DestroyImmediate(tile);
+                BackTiles.Remove(tile);
+                return;
+            }
+        }
+    }
+
+    private Vector3 GetTilePosition(GameObject tile)
+    {
+        return new Vector3(tile.transform.position.x, tile.transform.position.y, 0);
     }
 
     public void ResetLevel()
     {
     }
 
-    public void RebuildLevel()
-    {
-        // This actually reinstantiates every gameobject in levelTiles list, for some reason Unity doesn't keep prefab link on instances
-        // so this is useful when we make changes on the prefab and want to apply them to the level.
-        List<GameObject> newLevelTiles = new List<GameObject>();
-        int counter = 0;
-        int totalElements = LevelTiles.Count;
-        foreach (GameObject tileObj in LevelTiles)
-        {
-            string prefabName = tileObj.name.Replace("(Clone)", "");
-            Vector3 objPosition = tileObj.transform.position;
-            GameObject prefabToInstantiate = null;
-            foreach (GameObject prefab in tiles)
-            {
-                if (prefab.name.Equals(prefabName))
-                {
-                    prefabToInstantiate = prefab;
-                    break;
-                }
-            }
-            if (prefabToInstantiate == null)
-            {
-                foreach (Loop lp in loops)
-                {
-                    foreach (GameObject prefab in lp.tiles)
-                    {
-                        if (prefab.name.Equals(prefabName))
-                        {
-                            prefabToInstantiate = prefab;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (prefabToInstantiate == null)
-            {
-                foreach (Loop lp in randomLoops)
-                {
-                    foreach (GameObject prefab in lp.tiles)
-                    {
-                        if (prefab.name.Equals(prefabName))
-                        {
-                            prefabToInstantiate = prefab;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (prefabToInstantiate != null)
-            {
-                GameObject.DestroyImmediate(tileObj);
-                GameObject newTile = Instantiate<GameObject>(prefabToInstantiate) as GameObject;
-                newTile.transform.position = objPosition;
-                newTile.transform.SetParent(Parent);
-                counter++;
-            }
-            else
-            {
-                Debug.Log("Could not find a prefab named: " + prefabName);
-            }
-        }
-        LevelTiles.Clear();
-        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
-        {
-            if (!child.gameObject.Equals(gameObject))
-            {
-                LevelTiles.Add(child.gameObject);
-            }
-        }
-        Debug.Log("Reinstantiated " + counter + " of " + totalElements + " gameObjects");
-    }
-
-    public void SelectTile(int index)
+    public void SelectTile(int index, TileTypes type)
     {
         selectedTile = index;
+        selectedTileType = type;
         // In case of array overflow default to 0
-        if(index >= tiles.Length)
+        var list = type == TileTypes.Back ? BackTilePrefabs : ObjectTilePrefabs;
+        if(index >= list.Length)
             selectedTile = 0;
     }
-
-	public void SelectLoop(int index)
-	{
-		selectedLoop = index;
-		loopIndex = 0;
-		// In case of array overflow default to 0
-		if(index >= loops.Length)
-			selectedLoop = 0;
-	}
-
-	public void SelectRandomLoop(int index)
-	{
-		selectedRandomLoop = index;
-		// In case of array overflow default to 0
-		if(index >= randomLoops.Length)
-			selectedRandomLoop = 0;
-	}
 
 	public void EnableRandomLoop(){
 		loop = false;
