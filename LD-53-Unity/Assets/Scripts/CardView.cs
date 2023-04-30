@@ -9,23 +9,19 @@ using UnityEngine.UI;
 
 public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
-    [Space]
-    
-    [SerializeField] private CanvasGroup _canvasGroup;
+    public event Action Thrown;
 
+    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _descriptionText;
-    
-    
+
     private float _fadeEndValue = 0.5f;
     private float _scaleEndValueOnEnter = 1.5f;
     private float _fadeDuration = 0.5f;
     private float _scaleDuration = 0.5f;
     private float _moveYDuration = 0.5f;
 
-
-    public event Action OnExecuted;
     private bool _isSelected;
     private RectTransform _rectTransform;
     private Vector3 _endValue;
@@ -42,7 +38,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void SetContent(CardConfig cardConfig)
     {
         _cardConfig = cardConfig;
-        
+
         _titleText.text = cardConfig.Title;
         _descriptionText.text = cardConfig.Description;
         _icon.sprite = cardConfig.Icon;
@@ -53,7 +49,6 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         _startPosY = _rectTransform.position.y;
-        Debug.Log(_startPosY + " Start");
     }
 
     private void Update()
@@ -68,14 +63,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        StartCoroutine(_cardConfig.Action.Deselect());
-        
-        if (_cardConfig.Action.CanExecute())
-        {
-            OnExecuted?.Invoke();
-            Destroy(gameObject);
-        }
-        
+        Thrown?.Invoke();
         _isSelected = false;
     }
 
@@ -87,17 +75,15 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        StartCoroutine(_cardConfig.Action.Select());
         _endValue = new Vector3(_rectTransform.position.x, _startPosY);
         var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 100f);
-        
+
         transform.DOMove(tempEndValue, _moveYDuration);
         transform.DOScale(_scaleEndValueOnEnter, _scaleDuration);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        StartCoroutine(_cardConfig.Action.Deselect());
         transform.DOMove(_endValue, _moveYDuration);
         transform.DOScale(1f, _scaleDuration);
     }
