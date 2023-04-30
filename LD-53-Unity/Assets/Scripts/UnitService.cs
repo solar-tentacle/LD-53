@@ -117,9 +117,10 @@ public class UnitService : IService, IInject, IStart, IUpdate
         }
     }
 
-    public IEnumerator AttackObject(ObjectGridElement target)
+    public IEnumerator AttackObject(ObjectGridElement target, uint? damage = null)
     {
-        var damage = _statesByObjects.FirstOrDefault(s => s.Key.Type == ObjectType.Player).Value.AttackDamage;
+        damage = damage.GetValueOrDefault(_statesByObjects.FirstOrDefault(s => s.Key.Type == ObjectType.Player).Value
+            .AttackDamage);
         ChangeUnitHealth(target, -(int)damage);
         yield break;
     }

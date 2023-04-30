@@ -7,4 +7,13 @@ public class UIHud : ActivateView
 
     [SerializeField] private UIDeckIndicator _uiDeckIndicator;
     public UIDeckIndicator UIDeckIndicator => _uiDeckIndicator;
+    
+    [SerializeField] private GameObject _battleInProgress;
+    public GameObject BattleInProgress => _battleInProgress;
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        BattleInProgress.SetActive(false);
+    }
 }
