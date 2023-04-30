@@ -13,7 +13,7 @@ public class GridService : IService, IStart
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
         BuildLevel(assetsCollection.GetLevelData(GameFlowService.LevelIndex));
-        
+
         UnitService unitService = Services.Get<UnitService>();
         unitService.CreateUnitStates(_objects);
     }
@@ -103,7 +103,12 @@ public class GridService : IService, IStart
     {
         if (TryGetGroundView(pos, out GroundGridElement element))
         {
-            buffer.Add(element);
+            if (element.Type is GroundType.Water) return;
+
+            if (_objects[pos.x, pos.y] != null &&
+                _objects[pos.x, pos.y].Type is not ObjectType.Player or ObjectType.EndLevel) return;
+
+                buffer.Add(element);
         }
     }
 
