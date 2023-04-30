@@ -16,6 +16,12 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _descriptionText;
 
+    [SerializeField] private GameObject _moveTopPanelGO;
+    [SerializeField] private GameObject _actionTopPanelGO;
+
+    [SerializeField] private GameObject _battleIconGO;
+    [SerializeField] private GameObject _specialIconGO;
+
     private float _fadeEndValue = 0.5f;
     private float _scaleEndValueOnEnter = 1.5f;
     private float _fadeDuration = 0.3f;
@@ -38,6 +44,34 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         _titleText.text = cardConfig.Title;
         _descriptionText.text = cardConfig.Description;
         _icon.sprite = cardConfig.Icon;
+
+        switch (cardConfig.CardType)
+        {
+            case CardType.Movement:
+                _moveTopPanelGO.SetActive(true);
+                _actionTopPanelGO.SetActive(false);
+                break;
+            case CardType.Action:
+                _moveTopPanelGO.SetActive(false);
+                _actionTopPanelGO.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        switch (cardConfig.RarityType)
+        {
+            case RarityType.Common:
+                _specialIconGO.SetActive(false);
+                break;
+            case RarityType.Rare:
+                _specialIconGO.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        _battleIconGO.SetActive(cardConfig.IsOnlyBattle);
     }
 
     private IEnumerator GetStartPositions()

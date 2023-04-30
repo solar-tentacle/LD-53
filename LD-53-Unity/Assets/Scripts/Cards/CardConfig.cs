@@ -9,6 +9,7 @@ public class CardConfig : ScriptableObject
     public Sprite Icon;
     public CardType CardType;
     public RarityType RarityType;
+    public bool IsOnlyBattle;
 
     [SerializeReference] public CardAction Action;
 }

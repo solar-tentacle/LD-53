@@ -16,7 +16,8 @@ MonoBehaviour:
   Description: Attack 1 Hp
   Icon: {fileID: 21300000, guid: 9d6cddeae784fe741ad825a4c0936bb4, type: 3}
   CardType: 1
-  RarityType: 0
+  RarityType: 1
+  IsOnlyBattle: 1
   Action:
     rid: 2169304147512000514
   references:
