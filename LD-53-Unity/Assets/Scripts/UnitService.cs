@@ -1,31 +1,40 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class UnitService : IService, IInject, IStart, IUpdate
 {
     public class UnitState
     {
+        public uint AttackDamage;
         public uint Health;
     }
     
     private AssetsCollection _assetsCollection;
     private readonly List<KeyValuePair<ObjectGridElement, UnitState>> _statesByObjects = new();
     private UIService _uiService;
+    private GameFlowService _flowService;
+    private GridService _gridService;
 
     void IInject.Inject()
     {
         _assetsCollection = Services.Get<AssetsCollection>();
+        _flowService = Services.Get<GameFlowService>();
+        _gridService = Services.Get<GridService>();
         _uiService = Services.Get<UIService>();
     }
 
-    public void CreateUnitState(ObjectGridElement element, uint? health = null)
+    public void CreateUnitState(ObjectGridElement element, uint? health = null, uint? attackDamage = null)
     {
         var unitState = new UnitState();
         _statesByObjects.Add(new KeyValuePair<ObjectGridElement, UnitState>(element, unitState));
         
         unitState.Health = health.GetValueOrDefault(_assetsCollection.GetElementHealth(element));
-        
+        unitState.AttackDamage = attackDamage.GetValueOrDefault(_assetsCollection. GetElementAttackDamage(element));
+
         _uiService.AddHealthView(element, unitState.Health);
     }
 
@@ -37,7 +46,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 $"{nameof(UnitService)} нельзя выполнить {nameof(ChangeUnitHealth)}, {nameof(element)} == null");
         }
 
-        var unitState = new UnitState();
+        var (unitElement, unitState) = _statesByObjects.FirstOrDefault(s => s.Key == element);
         var state = _statesByObjects.FirstOrDefault(s => s.Key == element);
 
         if (state.Value is null)
@@ -50,6 +59,32 @@ public class UnitService : IService, IInject, IStart, IUpdate
         unitState.Health += (uint)Math.Max(-unitState.Health, delta);
 
         _uiService.UpdatedHealthView(element, unitState.Health);
+
+        if (unitState.Health == 0)
+        {
+            if (element.Type == ObjectType.Player)
+            {
+                _flowService.EndGame();
+            }
+            else
+            {
+                RemoveUnit(unitElement);
+            }
+        }
+    }
+
+    private void RemoveUnit(ObjectGridElement element)
+    {
+        for (int i = 0; i < _statesByObjects.Count; i++)
+        {
+            if (_statesByObjects[i].Key == element)
+            {
+                _uiService.RemoveHealthView(element);
+                _statesByObjects.RemoveAt(i);
+                _gridService.RemoveElement(element);
+                return;
+            }
+        }
     }
 
     void IStart.GameStart()
@@ -80,5 +115,12 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 CreateUnitState(element);
             }
         }
+    }
+
+    public IEnumerator AttackObject(ObjectGridElement target)
+    {
+        var damage = _statesByObjects.FirstOrDefault(s => s.Key.Type == ObjectType.Player).Value.AttackDamage;
+        ChangeUnitHealth(target, -(int)damage);
+        yield break;
     }
 }
