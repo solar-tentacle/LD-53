@@ -80,7 +80,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         if (_isSelected) return;
         _endValue = new Vector3(_rectTransform.position.x, _startPosY);
-        var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 100f);
+        var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 30f);
 
         transform.DOMove(tempEndValue, _moveYDuration);
         transform.DOScale(_scaleEndValueOnEnter, _scaleDuration);

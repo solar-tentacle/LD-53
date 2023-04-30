@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class UIEncounterWindow : ActivateView
     [SerializeField] private TextMeshProUGUI _buttonYesText;
     [SerializeField] private TextMeshProUGUI _buttonNoText;
     [SerializeField] private TextMeshProUGUI _buttonEndText;
+    [SerializeField] private CanvasGroup _canvasGroup;
     private EncounterData _data;
     private AnswerEncounterData _currentAnswerData;
     private CoroutineService _coroutineService;
@@ -35,7 +37,8 @@ public class UIEncounterWindow : ActivateView
     public void ShowEncounterWindow()
     {
         Show();
-        //make DOFade huetu
+        _canvasGroup.alpha = 0;
+        _canvasGroup.DOFade(1.0f, 0.5f);
     }
 
     public void ButtonYesClick()
