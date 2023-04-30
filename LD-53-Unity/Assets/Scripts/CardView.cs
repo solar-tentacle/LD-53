@@ -8,20 +8,21 @@ using UnityEngine.UI;
 
 public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
-    [SerializeField] private float FadeEndValue;
-    [SerializeField] private float FadeDuration;
-    [SerializeField] private float ScaleEndValueOnEnter;
-    [SerializeField] private float ScaleDuration;
-    [SerializeField] private float MoveYDuration;
-
     [Space]
     
     [SerializeField] private CanvasGroup _canvasGroup;
+
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _descriptionText;
     
-    
+    private float _fadeEndValue = 0.5f;
+    private float _scaleEndValueOnEnter = 1.5f;
+    private float _fadeDuration = 0.5f;
+    private float _scaleDuration = 0.5f;
+    private float _moveYDuration = 0.5f;
+
+
     public event Action OnThrowed;
     private bool _isSelected;
     private RectTransform _rectTransform;
@@ -70,20 +71,21 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         _isSelected = true;
-        _canvasGroup.DOFade(FadeEndValue, FadeDuration);
+        _canvasGroup.DOFade(_fadeEndValue, _fadeDuration);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         _endValue = new Vector3(_rectTransform.position.x, _startPosY);
         var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 100f);
-        transform.DOMove(tempEndValue, MoveYDuration);
-        transform.DOScale(ScaleEndValueOnEnter, ScaleDuration);
+        
+        transform.DOMove(tempEndValue, _moveYDuration);
+        transform.DOScale(_scaleEndValueOnEnter, _scaleDuration);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        transform.DOScale(1f, ScaleDuration);
-        transform.DOMove(_endValue, MoveYDuration);
+        transform.DOMove(_endValue, _moveYDuration);
+        transform.DOScale(1f, _scaleDuration);
     }
 }
