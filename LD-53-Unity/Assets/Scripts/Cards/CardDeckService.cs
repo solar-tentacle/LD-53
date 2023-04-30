@@ -6,7 +6,6 @@ public class CardDeckService : IService, IInject, IStart
     
     private CardDeck _deck = new CardDeck();
     private CardPile _drawPile = new CardPile();
-    private CardPile _discardPile = new CardPile();
 
     public void Inject()
     {
@@ -34,42 +33,38 @@ public class CardDeckService : IService, IInject, IStart
     public void FillCurrentDeck()
     {
         var cards = new List<Card>();
-        cards.Add(GetCardFromDrawPile(CardType.Movement));
-        cards.Add(GetCardFromDrawPile(CardType.Action));
+
+        if (TryGetCardFromDrawPile(CardType.Movement, out var moveCard))
+        {
+            cards.Add(moveCard);
+
+        }
+        
+        if (TryGetCardFromDrawPile(CardType.Action, out var actionCard))
+        {
+            cards.Add(actionCard);
+        }
         
         _cardHandService.FillCurrentHand(cards);
     }
 
-    public void RemoveCardFromCurrentDeck(Card card)
+    public void TryAddCardFromCurrentDeck(CardType type)
     {
-        _cardHandService.RemoveCard(card);
-        _discardPile.AddCard(card);
-
-        if (_cardHandService.IsCanAutoDrawCard(card.Config.CardType))
+        if (TryGetCardFromDrawPile(type, out var card))
         {
-            _cardHandService.AddCard(GetCardFromDrawPile(card.Config.CardType));
+            _cardHandService.AddCard(card);
         }
     }
 
-    private Card GetCardFromDrawPile(CardType cardType)
+    private bool TryGetCardFromDrawPile(CardType cardType, out Card card)
     {
         if (_drawPile.HasCard(cardType))
         {
-            return _drawPile.ReceiveCard(cardType);
+            card = _drawPile.ReceiveCard(cardType);
+            return true;
         }
-        
-        FillDrawPileByDiscardPile(cardType);
-        return _drawPile.ReceiveCard(cardType);
-    }
 
-    private void FillDrawPileByDiscardPile(CardType cardType)
-    {
-        while (_discardPile.HasCard(cardType))
-        {
-            var card = _discardPile.ReceiveCard(cardType);
-            _drawPile.AddCard(card);
-        }
-        
-        _drawPile.Shuffle(cardType);
+        card = null;
+        return false;
     }
 }

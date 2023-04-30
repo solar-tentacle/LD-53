@@ -5,17 +5,15 @@ public class CardHandService : IService, IInject
 {
     private UIService _uiService;
     private CoroutineService _coroutineService;
-    private CardDeckService _cardDeckService;
+    private CardHandService _cardHandService;
     
     private CardDeck _currentHand = new CardDeck();
-
-    public bool IsCanAutoDrawCard(CardType cardType) => !_currentHand.Has(cardType);
     
     public void Inject()
     {
         _uiService = Services.Get<UIService>();
         _coroutineService = Services.Get<CoroutineService>();
-        _cardDeckService = Services.Get<CardDeckService>();
+        _cardHandService = Services.Get<CardHandService>();
     }
     
     public void FillCurrentHand(List<Card> cards)
@@ -43,7 +41,7 @@ public class CardHandService : IService, IInject
     {
         _coroutineService.StartCoroutine(ExecuteAction(card.Config.Action));
 
-        _cardDeckService.RemoveCardFromCurrentDeck(card);
+        _cardHandService.RemoveCard(card);
     }
 
     private IEnumerator ExecuteAction(CardAction action)
@@ -57,7 +55,7 @@ public class CardHandService : IService, IInject
 
         for (int i = 0; i < cards.Count; i++)
         {
-            _cardDeckService.RemoveCardFromCurrentDeck(cards[i]);
+            _cardHandService.RemoveCard(cards[i]);
         }
         
         _uiService.UICanvas.HUD.UICardsHand.ClearHand();
