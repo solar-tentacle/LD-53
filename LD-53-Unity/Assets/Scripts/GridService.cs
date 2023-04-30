@@ -9,7 +9,12 @@ public class GridService : IService, IStart
     void IStart.GameStart()
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
-        GridBuilder builder = new(assetsCollection.LevelDataHolder.LevelData);
+        BuildLevel(assetsCollection.GetLevelData(GameFlowService.LevelIndex));
+    }
+
+    public void BuildLevel(LevelData levelData)
+    {
+        GridBuilder builder = new(levelData);
         builder.Build(out _ground, out _objects);
         UnitService unitService = Services.Get<UnitService>();
         unitService.CreateUnitStates(_objects);
