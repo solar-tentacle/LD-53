@@ -107,7 +107,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
                     continue;
                 }
 
-                if (element.Type is ObjectType.EndLevel or ObjectType.Obstacle)
+                if (element.Type is ObjectType.EndLevel or ObjectType.Obstacle or ObjectType.Encounter)
                 {
                     continue;
                 }

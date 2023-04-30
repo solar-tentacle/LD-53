@@ -6,5 +6,5 @@ public enum ObjectType
     EnemyEasy = 3,
     EnemyMedium = 4,
     EnemyMediumRare = 5,
-    Choice = 6
+    Encounter = 6
 }

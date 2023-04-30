@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ChoiceGridElement : ObjectGridElement
+public class EncounterGridElement : ObjectGridElement
 {
     [SerializeField] private EncounterData _encounterData;
     
