@@ -5,5 +5,6 @@ public enum ObjectType
     Obstacle = 2,
     EnemyEasy = 3,
     EnemyMedium = 4,
-    EnemyMediumRare = 5
+    EnemyMediumRare = 5,
+    Choice = 6
 }

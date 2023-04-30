@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class CoroutineService : Service
 {
-    public IEnumerator ExecuteAction(CardAction action)
+    public IEnumerator ExecuteActionCrt(CardAction action)
     {
         yield return action.Execute();
+    }
+
+    public void ExecuteAction(CardAction action)
+    {
+        StartCoroutine(ExecuteActionCrt(action));
     }
 }
