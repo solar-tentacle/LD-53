@@ -43,9 +43,11 @@ public class FlowService : IService, IInject, IStart
     {
         while (true)
         {
+            
             yield return _enemyService.EnableHighlight();
 
             yield return _cardHandService.SelectCardFlow();
+
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
 
