@@ -28,7 +28,7 @@ public class MovementCard : CardAction
 
         foreach (GroundGridElement element in _elements)
         {
-            yield return element.EnableHighlight();
+            yield return element.EnableHighlight(HighlightType.Move);
         }
     }
 

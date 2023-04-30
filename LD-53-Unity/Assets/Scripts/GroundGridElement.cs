@@ -4,19 +4,19 @@ using UnityEngine;
 public class GroundGridElement : GridElement
 {
     [SerializeField] private GroundType _type;
-    [SerializeField] private GameObject _highlight;
+    [SerializeField] private HighlightView _highlight;
 
     public GroundType Type => _type;
 
-    public IEnumerator EnableHighlight()
+    public IEnumerator EnableHighlight(HighlightType type)
     {
-        _highlight.SetActive(true);
+        _highlight.Highlight(type);
         yield return null;
     }
     
     public IEnumerator DisableHighlight()
     {
-        _highlight.SetActive(false);
+        _highlight.DisableAll();
         yield return null;    
     }
 }

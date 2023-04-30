@@ -12,6 +12,8 @@ public class AttackAction : CardAction
     private readonly List<(GroundGridElement, ObjectGridElement)> _elements = new();
     private UnitService _unitService;
     private ObjectGridElement _selectedElement;
+    private AssetsCollection _assetCollection;
+    private ObjectType[] _enemyTypes;
 
     public override void Init()
     {
@@ -19,6 +21,8 @@ public class AttackAction : CardAction
         _playerView = _playerService.PlayerView;
         _gridService = Services.Get<GridService>();
         _unitService = Services.Get<UnitService>();
+        _assetCollection = Services.Get<AssetsCollection>();
+        _enemyTypes = _assetCollection.GetObjectsWithHealth();
     }
 
     public override IEnumerator Select()
@@ -29,8 +33,8 @@ public class AttackAction : CardAction
         foreach (var element in _elements)
         {
             var (ground, gridObject) = element;
-            yield return ground.EnableHighlight();
-            //yield return gridObject.EnableHighlight();
+            yield return ground.EnableHighlight(HighlightType.Attack);
+            //yield return gridObject.EnableHighlight(HighlightType.Attack);
         }
     }
 
@@ -69,6 +73,6 @@ public class AttackAction : CardAction
     {
         var range = 1;
         _elements.Clear();
-        _gridService.GetSurroundingElements(pos.x, pos.y, range, _elements);
+        _gridService.GetSurroundingElements(pos.x, pos.y, range, _elements, _enemyTypes);
     }
 }
