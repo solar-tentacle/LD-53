@@ -112,7 +112,7 @@ public class GridService : IService, IStart
         {
             Vector3 worldPosition = ray.GetPoint(distance);
 
-            pos = _gridService.GetMatrixPosition(worldPosition);
+            pos = GetMatrixPosition(worldPosition);
             return true;
         }
 
