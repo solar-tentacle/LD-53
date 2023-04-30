@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class CardDeck
 {
@@ -17,5 +18,10 @@ public class CardDeck
     public List<Card> GetCopyCardsList()
     {
         return new List<Card>(_cards);
+    }
+
+    public bool Has(CardType type)
+    {
+        return _cards.Any(card => card.Config.CardType == type);
     }
 }

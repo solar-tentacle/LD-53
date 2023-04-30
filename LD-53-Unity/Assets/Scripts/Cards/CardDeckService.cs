@@ -44,6 +44,11 @@ public class CardDeckService : IService, IInject, IStart
     {
         _cardHandService.RemoveCard(card);
         _discardPile.AddCard(card);
+
+        if (_cardHandService.IsCanAutoDrawCard(card.Config.CardType))
+        {
+            _cardHandService.AddCard(GetCardFromDrawPile(card.Config.CardType));
+        }
     }
 
     private Card GetCardFromDrawPile(CardType cardType)

@@ -8,6 +8,8 @@ public class CardHandService : IService, IInject
     private CardDeckService _cardDeckService;
     
     private CardDeck _currentHand = new CardDeck();
+
+    public bool IsCanAutoDrawCard(CardType cardType) => !_currentHand.Has(cardType);
     
     public void Inject()
     {
