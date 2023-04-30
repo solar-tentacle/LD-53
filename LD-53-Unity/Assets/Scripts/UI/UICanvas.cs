@@ -10,6 +10,8 @@ public class UICanvas : MonoBehaviour
     public UIHud HUD => _hud;
     [SerializeField] private UIWinWindow _uiWinWindow;
 
+    [SerializeField] private UILoseWindow _uiLoseWindow;
+
     private void Start()
     {
         _healthViewPrefab.gameObject.SetActive(false);
