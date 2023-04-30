@@ -10,17 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e39470e9457544aab92ae4ab009a7b42, type: 3}
-  m_Name: ForwardMoveCard
+  m_Name: PlusMoveCard
   m_EditorClassIdentifier: 
-  Title: Forward
+  Title: Plus
   Description: Move in Forward direction to 1 cell
   Icon: {fileID: 21300000, guid: 3042b019b052942a1baf7aa49d7ca6bb, type: 3}
   CardType: 0
   RarityType: 0
   Action:
-    rid: 3673524013913604097
+    rid: 628710235408957441
   references:
     version: 2
     RefIds:
-    - rid: 3673524013913604097
-      type: {class: PlusMovement, ns: , asm: Assembly-CSharp}
+    - rid: 628710235408957441
+      type: {class: MovementCard, ns: , asm: Assembly-CSharp}
+      data:
+        _directions:
+        - {x: 0, y: 1}
+        - {x: 0, y: -1}
+        - {x: 1, y: 0}
+        - {x: -1, y: 0}
