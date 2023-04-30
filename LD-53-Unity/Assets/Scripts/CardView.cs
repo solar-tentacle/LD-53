@@ -19,8 +19,8 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private float _fadeEndValue = 0.5f;
     private float _scaleEndValueOnEnter = 1.5f;
     private float _fadeDuration = 0.3f;
-    private float _scaleDuration = 0.30f;
-    private float _moveYDuration = 0.25f;
+    private float _scaleDuration = 0.3f;
+    private float _moveYDuration = 0.3f;
 
     private bool _isSelected;
     private RectTransform _rectTransform;
@@ -66,8 +66,8 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         Thrown?.Invoke();
         _isSelected = false;
-        _canvasGroup.DOFade(1f, _fadeDuration);
-        transform.DOMove(_endValue, _moveYDuration);
+        // _canvasGroup.DOFade(1f, _fadeDuration);
+        // transform.DOMove(_endValue, _moveYDuration);
     }
 
     public void OnPointerDown(PointerEventData eventData)

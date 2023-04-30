@@ -39,6 +39,8 @@ public class UIEncounterWindow : ActivateView
         Show();
         _canvasGroup.alpha = 0;
         _canvasGroup.DOFade(1.0f, 0.5f);
+        _buttonNo.SetActive(true);
+        _buttonYes.SetActive(true);
     }
 
     public void ButtonYesClick()
