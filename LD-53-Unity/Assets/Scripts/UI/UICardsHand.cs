@@ -7,6 +7,7 @@ public class UICardsHand : ActivateView
     [SerializeField] private CardView _cardViewPrefab;
     [SerializeField] private Transform _cardViewParent;
     [SerializeField] private Transform _selectedCardParent;
+    [SerializeField] private GameObject _blocker;
 
     public CardView CreateCard(CardConfig cardConfig)
     {
@@ -34,4 +35,8 @@ public class UICardsHand : ActivateView
     {
         yield return view.transform.DOScale(Vector3.zero, 0.3f);
     }
+
+    public void EnableBlocker() => _blocker.SetActive(true);
+
+    public void DisableBlocker() => _blocker.SetActive(false);
 }

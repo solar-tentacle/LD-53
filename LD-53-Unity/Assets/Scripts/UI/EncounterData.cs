@@ -13,5 +13,5 @@ public class AnswerEncounterData
 {
     public string AnswerText;
     public string ResultText;
-    public CardAction ResultAction;
+    public EncounterReward Reward;
 }

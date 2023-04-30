@@ -45,23 +45,11 @@ public class FlowService : IService, IInject, IStart
         {
             yield return _enemyService.EnableHighlight();
 
-            yield return _cardHandService.SelectCardFlow();
+            yield return _cardHandService.SelectCardFlow(_isBattle);
+
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
-
-            yield return action.Select();
-
-            while (true)
-            {
-                if (Input.GetMouseButtonDown(0) && action.CanExecute())
-                {
-                    yield return action.Deselect();
-                    yield return action.Execute();
-                    break;
-                }
-
-                yield return null;
-            }
+            yield return HandleCardAction(action);
 
             yield return _cardHandService.HideCardFlow();
             TryAddCard(card);
@@ -70,7 +58,7 @@ public class FlowService : IService, IInject, IStart
 
             if (_encounterService.TryGetEncounter(playerPos, out var encounter))
             {
-                yield return _encounterService.Flow(encounter);
+                yield return _encounterService.Flow(encounter, playerPos);
             }
 
             if (playerPos == _endLevelPosition)
@@ -132,6 +120,29 @@ public class FlowService : IService, IInject, IStart
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private IEnumerator HandleCardAction(CardAction action)
+    {
+        if (action is GetCardsFromHandAction)
+        {
+            yield return action.Execute();
+            yield break;
+        }
+
+        yield return action.Select();
+
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0) && action.CanExecute())
+            {
+                yield return action.Deselect();
+                yield return action.Execute();
+                break;
+            }
+
+            yield return null;
         }
     }
 }

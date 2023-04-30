@@ -6,7 +6,7 @@ public class CardHandService : IService, IInject
 {
     private UIService _uiService;
     private UICardsHand _uiHand;
-    
+
     private Dictionary<CardView, Card> _cards = new();
     private CardView _selectedCardView;
 
@@ -48,10 +48,18 @@ public class CardHandService : IService, IInject
         _selectedCardView = view;
     }
 
-    public IEnumerator SelectCardFlow()
+    public IEnumerator SelectCardFlow(bool isBattle)
     {
+        _uiHand.DisableBlocker();
+
+        foreach ((CardView view, Card card) in _cards)
+        {
+            if (card.Config.CardType == CardType.Action) view.enabled = isBattle;
+        }
+        
         yield return new WaitUntil(() => _selectedCardView != null);
         yield return _uiHand.SelectCard(_selectedCardView);
+        _uiHand.EnableBlocker();
     }
 
     public IEnumerator HideCardFlow()
