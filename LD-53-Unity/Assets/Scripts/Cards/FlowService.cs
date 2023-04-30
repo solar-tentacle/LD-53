@@ -13,6 +13,7 @@ public class FlowService : IService, IInject, IStart
     private GameObject _uiBattle;
     private GameFlowService _gameFlowService;
     private EncounterService _encounterService;
+    private UIService _uiService;
     private Vector2Int _endLevelPosition;
 
     void IInject.Inject()
@@ -25,6 +26,7 @@ public class FlowService : IService, IInject, IStart
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
         _gameFlowService = Services.Get<GameFlowService>();
         _encounterService = Services.Get<EncounterService>();
+        _uiService = Services.Get<UIService>();
     }
 
     void IStart.GameStart()
@@ -70,7 +72,7 @@ public class FlowService : IService, IInject, IStart
             
             if (playerPos == _endLevelPosition)
             {
-                _gameFlowService.CompleteLevel();
+                _uiService.UICanvas.UIWinWindow.Show();
                 yield break;
             }
 

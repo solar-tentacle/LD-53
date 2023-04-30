@@ -28,8 +28,8 @@ public class GameFlowService : IService, IInject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void EndGame()
+    public void LoseGame()
     {
-        throw new System.NotImplementedException();
+        _uiService.UICanvas.UILoseWindow.Show();
     }
 }

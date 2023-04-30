@@ -135,8 +135,8 @@ public class GridService : IService, IStart
 
     public bool IsInBounds(Vector2Int pos)
     {
-        if (pos.x < 0 || pos.x > _ground.GetLength(0)) return false;
-        if (pos.y < 0 || pos.y > _ground.GetLength(1)) return false;
+        if (pos.x < 0 || pos.x >= _ground.GetLength(0)) return false;
+        if (pos.y < 0 || pos.y >= _ground.GetLength(1)) return false;
         return true;
     }
 
@@ -148,7 +148,8 @@ public class GridService : IService, IStart
 
             if (_objects[pos.x, pos.y] != null &&
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
-                _objects[pos.x, pos.y].Type != ObjectType.EndLevel) return;
+                _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
+                _objects[pos.x, pos.y].Type != ObjectType.Encounter) return;
 
             buffer.Add(element);
         }

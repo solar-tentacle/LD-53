@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class  UIWinWindow : ActivateView
@@ -13,6 +12,6 @@ public class  UIWinWindow : ActivateView
 
     private void OnNextButtonClicked()
     {
-        Services.Get<GameFlowService>().GoToNextLevel();
+        Services.Get<GameFlowService>().CompleteLevel();
     }
 }
