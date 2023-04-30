@@ -29,13 +29,15 @@ public class CardHandService : IService, IInject
         }
     }
 
-    public void AddCard(Card card)
+    public CardView AddCard(Card card)
     {
         _currentHand.AddCard(card);
 
         var view = _uiHand.CreateCard(card.Config);
         _cards.Add(view, card);
         view.Thrown += () => OnCardThrown(view);
+
+        return view;
     }
 
     public void RemoveCard(Card card)
@@ -79,5 +81,10 @@ public class CardHandService : IService, IInject
         }
 
         _uiService.UICanvas.HUD.UICardsHand.ClearHand();
+    }
+
+    public IEnumerator DrawAnimation(CardView view)
+    {
+        yield return _uiHand.DrawAnimation(view);
     }
 }

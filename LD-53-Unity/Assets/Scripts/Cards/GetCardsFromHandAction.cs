@@ -34,7 +34,7 @@ public class GetCardsFromHandAction : CardAction
     {
         for (int i = 0; i < Cards.Count; i++)
         {
-            _cardDeckService.TryAddCardFromCurrentDeck(Cards[i]);
+            yield return _cardDeckService.TryAddCardFromCurrentDeck(Cards[i]);
         }
         
         yield return null;

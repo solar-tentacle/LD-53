@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 public class CardDeckService : IService, IInject, IStart
@@ -51,11 +52,13 @@ public class CardDeckService : IService, IInject, IStart
         UpdateDeckIndicator();
     }
 
-    public void TryAddCardFromCurrentDeck(CardType type)
+    public IEnumerator TryAddCardFromCurrentDeck(CardType type)
     {
         if (TryGetCardFromDrawPile(type, out var card))
         {
-            _cardHandService.AddCard(card);
+            CardView view = _cardHandService.AddCard(card);
+
+            yield return _cardHandService.DrawAnimation(view);
         }
         
         UpdateDeckIndicator();

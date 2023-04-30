@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 [Serializable]
@@ -7,7 +8,7 @@ public class EncounterReward
     public float Health;
     public List<CardType> GetCardsFromDeck = new List<CardType>();
 
-    public void GiveReward()
+    public IEnumerator GiveReward()
     {
         var playerService = Services.Get<PlayerService>();
         var unitService = Services.Get<UnitService>();
@@ -18,7 +19,7 @@ public class EncounterReward
         
         for (int i = 0; i < GetCardsFromDeck.Count; i++)
         {
-            cardDeckService.TryAddCardFromCurrentDeck(GetCardsFromDeck[i]);
+            yield return cardDeckService.TryAddCardFromCurrentDeck(GetCardsFromDeck[i]);
         }
     }
 }

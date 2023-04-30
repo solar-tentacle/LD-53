@@ -33,6 +33,8 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private Vector3 _endValue;
     private float _startPosY;
 
+    public CanvasGroup CanvasGroup => _canvasGroup;
+
     private void Start()
     {
         _rectTransform = GetComponent<RectTransform>();

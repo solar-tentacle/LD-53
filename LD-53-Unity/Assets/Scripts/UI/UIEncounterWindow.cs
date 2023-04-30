@@ -19,6 +19,7 @@ public class UIEncounterWindow : ActivateView
     private AnswerEncounterData _currentAnswerData;
     private CoroutineService _coroutineService;
 
+    public bool Ended { get; private set; }
     public AnswerEncounterData CurrentAnswerData => _currentAnswerData;
 
     private void Start()
@@ -41,6 +42,7 @@ public class UIEncounterWindow : ActivateView
         _canvasGroup.DOFade(1.0f, 0.5f);
         _buttonNo.SetActive(true);
         _buttonYes.SetActive(true);
+        Ended = false;
     }
 
     public void ButtonYesClick()
@@ -49,7 +51,7 @@ public class UIEncounterWindow : ActivateView
         _buttonEnd.SetActive(true);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);
-        ChangeEncounterWindowTextTo(CurrentAnswerData.ResultText);
+        ChangeEncounterWindowTextTo(_currentAnswerData.ResultText);
     }
 
     public void ButtonNoClick()
@@ -58,12 +60,12 @@ public class UIEncounterWindow : ActivateView
         _buttonEnd.SetActive(true);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);
-        ChangeEncounterWindowTextTo(CurrentAnswerData.ResultText);
+        ChangeEncounterWindowTextTo(_currentAnswerData.ResultText);
     }
 
     public void ButtonEndClick()
     {
-        CurrentAnswerData.Reward?.GiveReward();
+        Ended = true;
         _buttonEnd.SetActive(false);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);

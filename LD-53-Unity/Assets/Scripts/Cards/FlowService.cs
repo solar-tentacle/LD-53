@@ -52,7 +52,7 @@ public class FlowService : IService, IInject, IStart
             yield return HandleCardAction(action);
 
             yield return _cardHandService.HideCardFlow();
-            TryAddCard(card);
+            yield return TryAddCard(card);
 
             var playerPos = _gridService.GetObjectPosition(_playerView);
 
@@ -98,7 +98,7 @@ public class FlowService : IService, IInject, IStart
     private bool IsPlayerInAgro() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
     private bool FarFromEnemies() => _enemyService.FarFromEnemies(_gridService.GetObjectPosition(_playerView));
 
-    private void TryAddCard(Card card)
+    private IEnumerator TryAddCard(Card card)
     {
         CardType type = card.Config.CardType;
 
@@ -106,17 +106,17 @@ public class FlowService : IService, IInject, IStart
         {
             case CardType.Movement:
             {
-                _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
+                yield return _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
 
                 if (card.Config.Action is MovementCard {DirectionsCount: 16})
                 {
-                    _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
+                    yield return _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
                 }
 
                 break;
             }
             case CardType.Action when _isBattle:
-                _cardDeckService.TryAddCardFromCurrentDeck(CardType.Action);
+                yield return _cardDeckService.TryAddCardFromCurrentDeck(CardType.Action);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

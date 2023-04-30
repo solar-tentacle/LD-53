@@ -39,9 +39,12 @@ public class EncounterService : IService, IInject, IStart
         _encounterPositions.Remove(encounterPosition);
         _uiEncounterWindow.SetContent(encounter.EncounterData);
         _uiEncounterWindow.ShowEncounterWindow();
-        while (_uiEncounterWindow.CurrentAnswerData is null)
+
+        yield return new WaitUntil(() => _uiEncounterWindow.Ended);
+        if (_uiEncounterWindow.CurrentAnswerData.Reward != null)
         {
-            yield return null;
+            yield return _uiEncounterWindow.CurrentAnswerData.Reward.GiveReward();
+
         }
     }
 }

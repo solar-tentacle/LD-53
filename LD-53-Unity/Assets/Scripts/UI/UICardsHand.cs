@@ -5,9 +5,11 @@ using UnityEngine;
 public class UICardsHand : ActivateView
 {
     [SerializeField] private CardView _cardViewPrefab;
+    [SerializeField] private GameObject _cardShirt;
     [SerializeField] private Transform _cardViewParent;
     [SerializeField] private Transform _selectedCardParent;
     [SerializeField] private GameObject _blocker;
+    [SerializeField] private Transform _drawStartPoint;
 
     public CardView CreateCard(CardConfig cardConfig)
     {
@@ -39,4 +41,15 @@ public class UICardsHand : ActivateView
     public void EnableBlocker() => _blocker.SetActive(true);
 
     public void DisableBlocker() => _blocker.SetActive(false);
+
+    public IEnumerator DrawAnimation(CardView view)
+    {
+        Transform shirtTransform = Instantiate(_cardShirt, transform).transform;
+        shirtTransform.position = _drawStartPoint.position;
+        view.CanvasGroup.alpha = 0;
+        yield return shirtTransform.DOMove(view.transform.position, 1).WaitForCompletion();
+        view.CanvasGroup.DOFade(1, 0.3f);
+        yield return shirtTransform.GetComponent<CanvasGroup>().DOFade(0, 0.3f);
+        Destroy(shirtTransform.gameObject);
+    }
 }
