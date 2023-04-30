@@ -142,9 +142,9 @@ public class UnitService : IService, IInject, IStart, IUpdate
         }
     }
 
-    public IEnumerator AttackObject(ObjectGridElement target, uint? damage = null)
+    public IEnumerator AttackObject(ObjectGridElement source, ObjectGridElement target, uint? damage = null)
     {
-        damage = damage.GetValueOrDefault(_statesByObjects.FirstOrDefault(s => s.Key.Type == ObjectType.Player).Value
+        damage = damage.GetValueOrDefault(_statesByObjects.FirstOrDefault(s => s.Key.Type == source.Type).Value
             .AttackDamage);
         ChangeUnitHealth(target, -(int)damage);
         yield break;

@@ -65,7 +65,7 @@ public class AttackAction : CardAction
 
     public override IEnumerator Execute()
     {
-        yield return _unitService.AttackObject(_selectedElement);
+        yield return _unitService.AttackObject(_playerView, _selectedElement);
     }
 
     private void FillElements(Vector2Int pos)
@@ -85,6 +85,6 @@ public class LifeStealAttackAction : AttackAction
     public override IEnumerator Execute()
     {
         _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_heal);
-        yield return _unitService.AttackObject(_selectedElement, _damage);
+        yield return _unitService.AttackObject(_playerService.PlayerView, _selectedElement, _damage);
     }
 }

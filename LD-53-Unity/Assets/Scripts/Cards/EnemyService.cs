@@ -123,7 +123,7 @@ public class EnemyService : IService, IInject, IStart
         }
         else
         {
-            _unitService.ChangeUnitHealth(_playerView, -enemy.Damage);
+            yield return _unitService.AttackObject(enemy, _playerView);
         }
     }
 
