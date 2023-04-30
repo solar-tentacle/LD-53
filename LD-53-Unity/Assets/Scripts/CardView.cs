@@ -26,6 +26,10 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         StartCoroutine(GetStartPositions());
     }
 
+    public void SetContent(CardConfig cardConfig)
+    {
+    }
+
     private IEnumerator GetStartPositions()
     {
         yield return new WaitForEndOfFrame();

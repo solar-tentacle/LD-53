@@ -59,6 +59,7 @@ public class Services : MonoBehaviour
         Register(new PlayerService());
         Register(new DragAndDropService());
         Register(new CardDeckService());
+        Register(new CardHandService());
     }
     private void Register(IService service)
     {

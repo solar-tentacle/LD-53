@@ -1,11 +1,18 @@
-public class CardDeckService : IService, IStart
+using System.Collections.Generic;
+
+public class CardDeckService : IService, IInject, IStart
 {
+    private CardHandService _cardHandService;
+    
     private CardDeck _deck = new CardDeck();
     private CardPile _drawPile = new CardPile();
     private CardPile _discardPile = new CardPile();
 
-    private CardDeck _currentDeck = new CardDeck();
-    
+    public void Inject()
+    {
+        _cardHandService = Services.Get<CardHandService>();
+    }
+
     void IStart.GameStart()
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
@@ -23,16 +30,19 @@ public class CardDeckService : IService, IStart
         
         FillCurrentDeck();
     }
-
+    
     public void FillCurrentDeck()
     {
-        _currentDeck.AddCard(GetCardFromDrawPile(CardType.Movement));
-        _currentDeck.AddCard(GetCardFromDrawPile(CardType.Action));
+        var cards = new List<Card>();
+        cards.Add(GetCardFromDrawPile(CardType.Movement));
+        cards.Add(GetCardFromDrawPile(CardType.Action));
+        
+        _cardHandService.FillCurrentHand(cards);
     }
 
     public void RemoveCardFromCurrentDeck(Card card)
     {
-        _currentDeck.RemoveCard(card);
+        _cardHandService.RemoveCard(card);
         _discardPile.AddCard(card);
     }
 
@@ -57,5 +67,4 @@ public class CardDeckService : IService, IStart
         
         _drawPile.Shuffle(cardType);
     }
-    
 }
