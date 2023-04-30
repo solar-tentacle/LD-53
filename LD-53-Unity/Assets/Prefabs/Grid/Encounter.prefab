@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1405597145171110708}
-  - component: {fileID: 3840372947026379875}
+  - component: {fileID: 3239879723301133259}
   m_Layer: 0
   m_Name: Encounter
   m_TagString: Untagged
@@ -144,7 +144,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3840372947026379875
+--- !u!114 &3239879723301133259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,7 +153,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4685043970458680019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95fb8a0bc8264032b0ca6de84d6be06d, type: 3}
+  m_Script: {fileID: 11500000, guid: 590876b452f74581b2a7611ed5004c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 6
+  EncounterData:
+    Question: 
+    AnswerData1:
+      AnswerText: 
+      ResultText: 
+    AnswerData2:
+      AnswerText: 
+      ResultText: 

@@ -54,6 +54,11 @@ public class GridBuilder
                 ObjectGridElement element = Object.Instantiate(_assetsCollection.GetObject(type), _gridTransform);
                 element.transform.position = new Vector3(i + i * 0.1f, ObjectHeight, j + j * 0.1f);
                 objects[i, j] = element;
+
+                if (element is EncounterGridElement encounterElement)
+                {
+                    encounterElement.EncounterData = (e as EncounterGridElement).EncounterData;
+                }
             }
         }
 

@@ -57,7 +57,7 @@ MonoBehaviour:
   - {fileID: 3840372947026379875, guid: c317674fe4b2e4e4089febef9b15e330, type: 3}
   - {fileID: 3840372947026379875, guid: 72acaeccc1d554dee9f9c38137fd31ee, type: 3}
   - {fileID: 1221485795439300029, guid: a37624e2b57387e42b4f590d5a5a867a, type: 3}
-  - {fileID: 3840372947026379875, guid: 8f246ac8b1b038245a6b92135974e49f, type: 3}
+  - {fileID: 3239879723301133259, guid: 8f246ac8b1b038245a6b92135974e49f, type: 3}
   _objectsStats:
   - Type: 0
     Health: 2
