@@ -66,17 +66,18 @@ public class UnitService : IService, IInject, IStart, IUpdate
         {
             for (var j = 0; j < objects.GetLength(1); j++)
             {
-                if (objects[i, j] is null)
+                var element = objects[i, j];
+                if (element is null)
                 {
                     continue;
                 }
 
-                if (objects[i, j].Type == ObjectType.EndLevel)
+                if (element.Type is ObjectType.EndLevel or ObjectType.Obstacle)
                 {
                     continue;
                 }
                 
-                CreateUnitState(objects[i, j]);
+                CreateUnitState(element);
             }
         }
     }
