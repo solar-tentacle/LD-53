@@ -293,7 +293,7 @@ MonoBehaviour:
     - Index0: 0
       Index1: 4
       Element:
-        TileView: {fileID: 5566753316102919772}
+        TileView: {fileID: 4294892634005375029}
     - Index0: 1
       Index1: 0
       Element:
@@ -410,6 +410,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 372507638129411981, guid: d8d599b9689dd5347adbf034e7f789db, type: 3}
   m_PrefabInstance: {fileID: 4498022792471742217}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4294892634005375029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 429717721080827708, guid: d8d599b9689dd5347adbf034e7f789db, type: 3}
+  m_PrefabInstance: {fileID: 4498022792471742217}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4298181065860729863 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 417175662060882702, guid: d8d599b9689dd5347adbf034e7f789db, type: 3}
@@ -438,11 +443,6 @@ GameObject:
 --- !u!1 &5540211571227518574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8254789119497331047, guid: d8d599b9689dd5347adbf034e7f789db, type: 3}
-  m_PrefabInstance: {fileID: 4498022792471742217}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5566753316102919772 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8299354835827380565, guid: d8d599b9689dd5347adbf034e7f789db, type: 3}
   m_PrefabInstance: {fileID: 4498022792471742217}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6291999377101198369 stripped
