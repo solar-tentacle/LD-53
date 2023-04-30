@@ -130,7 +130,8 @@ public class GridService : IService, IStart
 
             if (_objects[pos.x, pos.y] != null &&
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
-                _objects[pos.x, pos.y].Type != ObjectType.EndLevel) return;
+                _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
+                _objects[pos.x, pos.y].Type != ObjectType.Encounter) return;
 
             buffer.Add(element);
         }
