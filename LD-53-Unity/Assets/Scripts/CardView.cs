@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,22 +13,32 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     [SerializeField] private float ScaleEndValueOnEnter;
     [SerializeField] private float ScaleDuration;
     [SerializeField] private float MoveYDuration;
+
+    [Space]
+    
+    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private Image _icon;
+    [SerializeField] private TMP_Text _titleText;
+    [SerializeField] private TMP_Text _descriptionText;
+    
+    
     public event Action OnThrowed;
     private bool _isSelected;
-    private Image _image;
     private RectTransform _rectTransform;
     private Vector3 _endValue;
     private float _startPosY;
 
     private void Start()
     {
-        _image = GetComponent<Image>();
         _rectTransform = GetComponent<RectTransform>();
         StartCoroutine(GetStartPositions());
     }
 
     public void SetContent(CardConfig cardConfig)
     {
+        _titleText.text = cardConfig.Title;
+        _descriptionText.text = cardConfig.Description;
+        _icon.sprite = cardConfig.Icon;
     }
 
     private IEnumerator GetStartPositions()
@@ -59,7 +70,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         _isSelected = true;
-        _image.DOFade(FadeEndValue, FadeDuration);
+        _canvasGroup.DOFade(FadeEndValue, FadeDuration);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
