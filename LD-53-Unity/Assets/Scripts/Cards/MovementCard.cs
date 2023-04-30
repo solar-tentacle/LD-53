@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlusMovement : CardAction
+public class MovementCard : CardAction
 {
+    [SerializeField] private List<Vector2Int> _directions;
     private PlayerService _playerService;
     private PlayerView _playerView;
     private GridService _gridService;
@@ -63,10 +64,10 @@ public class PlusMovement : CardAction
     private List<GroundGridElement> GetElements(Vector2Int pos)
     {
         List<GroundGridElement> elements = new();
-        _gridService.TryAddGroundElement(elements, pos + Vector2Int.up);
-        _gridService.TryAddGroundElement(elements, pos + Vector2Int.down);
-        _gridService.TryAddGroundElement(elements, pos + Vector2Int.left);
-        _gridService.TryAddGroundElement(elements, pos + Vector2Int.right);
+        foreach (Vector2Int direction in _directions)
+        {
+            _gridService.TryAddGroundElement(elements, pos + direction);
+        }
 
         return elements;
     }
