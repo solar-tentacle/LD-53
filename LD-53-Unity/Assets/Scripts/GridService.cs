@@ -4,7 +4,6 @@ public class GridService : IService, IStart
 {
     private GroundGridElement[,] _ground;
     private ObjectGridElement[,] _objects;
-    private ItemView[,] _gridViews;
 
     void IStart.GameStart()
     {
@@ -16,26 +15,34 @@ public class GridService : IService, IStart
     {
         GridBuilder builder = new(levelData);
         builder.Build(out _ground, out _objects);
-        UnitService unitService = Services.Get<UnitService>();
-        unitService.CreateUnitStates(_objects);
     }
 
-    public int SizeX { get; private set; }
-    public int SizeY { get; private set; }
-    public GroundType GetGroundType(Vector2Int point) => _ground[point.x, point.y].Type;
-    public ItemView GetView(Vector2Int point) => _gridViews[point.x, point.y];
+    public GroundGridElement GetGroundView(Vector2Int point) => _ground[point.x, point.y];
+
+    public bool TryGetGroundView(Vector2Int point, out GroundGridElement element)
+    {
+        element = null;
+        if (IsInBounds(point))
+        {
+            element = GetGroundView(point);
+            return true;
+        }
+
+        return false;
+    }
+
     public Vector3 GetWorldPoint(Vector2Int point) => _ground[point.x, point.y].transform.position;
 
     public Vector2Int GetMatrixPosition(Vector3 pos)
     {
         float max = float.MaxValue;
         Vector2Int res = Vector2Int.zero;
-        
+
         for (int i = 0; i < _ground.GetLength(0); i++)
         {
             for (int j = 0; j < _ground.GetLength(1); j++)
             {
-                float distance = Vector3.Distance(_ground[i,j].transform.position, pos);
+                float distance = Vector3.Distance(_ground[i, j].transform.position, pos);
                 if (distance < max)
                 {
                     max = distance;
@@ -56,7 +63,7 @@ public class GridService : IService, IStart
                 if (_objects[i, j] == element) return new Vector2Int(i, j);
             }
         }
-        
+
         return Vector2Int.zero;
     }
 
@@ -75,5 +82,12 @@ public class GridService : IService, IStart
         Vector2Int oldPos = GetObjectPosition(element);
         _objects[oldPos.x, oldPos.y] = null;
         _objects[pos.x, pos.y] = element;
+    }
+
+    public bool IsInBounds(Vector2Int pos)
+    {
+        if (pos.x < 0 || pos.x > _ground.GetLength(0)) return false;
+        if (pos.y < 0 || pos.y > _ground.GetLength(1)) return false;
+        return true;
     }
 }
