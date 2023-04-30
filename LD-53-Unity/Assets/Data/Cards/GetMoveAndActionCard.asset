@@ -25,4 +25,4 @@ MonoBehaviour:
     - rid: 3673524013913604100
       type: {class: GetCardsFromHandAction, ns: , asm: Assembly-CSharp}
       data:
-        Cards: 01000000000000000000000000000000
+        Cards: 0100000000000000
