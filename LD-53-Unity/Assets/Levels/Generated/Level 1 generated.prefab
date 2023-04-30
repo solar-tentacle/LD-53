@@ -255,7 +255,7 @@ MonoBehaviour:
     - Index0: 0
       Index1: 1
       Element:
-        TileView: {fileID: 0}
+        TileView: {fileID: 3781514307847463028}
     - Index0: 0
       Index1: 2
       Element:
@@ -367,7 +367,7 @@ MonoBehaviour:
     - Index0: 4
       Index1: 5
       Element:
-        TileView: {fileID: 0}
+        TileView: {fileID: 1712861284591095382}
     - Index0: 5
       Index1: 0
       Element:
@@ -418,6 +418,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 152985748767116812, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
   m_PrefabInstance: {fileID: 1602757006568825108}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1712861284591095382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 142827943769403202, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
+  m_PrefabInstance: {fileID: 1602757006568825108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1717622825849914470 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 137390426468296050, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
@@ -466,6 +471,11 @@ GameObject:
 --- !u!1 &3614379172139894037 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2600540388409582593, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
+  m_PrefabInstance: {fileID: 1602757006568825108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3781514307847463028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2469239487629328736, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
   m_PrefabInstance: {fileID: 1602757006568825108}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &3799313046453663697 stripped

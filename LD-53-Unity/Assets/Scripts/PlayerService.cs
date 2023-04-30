@@ -27,8 +27,8 @@ public class PlayerService : IService, IInject, IStart, IUpdate
 
     }
 
-    public IEnumerator Move(Vector2Int movePosition)
+    public IEnumerator Move(Vector2Int movePosition, float? duration = null)
     {
-        yield return _movement.Move(movePosition);
+        yield return _movement.Move(movePosition, duration);
     }
 }

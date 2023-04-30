@@ -24,7 +24,7 @@ public class PlayerMovement
         _view.Animator.SetTrigger(IdleTrigger);
     }
 
-    public IEnumerator Move(Vector2Int pos)
+    public IEnumerator Move(Vector2Int pos, float? duration = null)
     {
         _gridService.Move(_view, pos);
         Vector3 newPosition = _gridService.GetWorldPoint(pos);
@@ -39,7 +39,7 @@ public class PlayerMovement
         
         _view.Animator.SetTrigger(RunTrigger);
         
-        yield return _view.transform.DOMove(newPosition, MoveTimePerCell).WaitForCompletion();
+        yield return _view.transform.DOMove(newPosition, duration.GetValueOrDefault(MoveTimePerCell)).WaitForCompletion();
         
         _view.Animator.SetTrigger(IdleTrigger);
     }

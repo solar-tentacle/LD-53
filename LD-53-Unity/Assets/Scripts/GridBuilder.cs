@@ -59,6 +59,11 @@ public class GridBuilder
                 {
                     encounterElement.EncounterData = (e as EncounterGridElement).EncounterData;
                 }
+                
+                if (element is PortalGridElement portalElement)
+                {
+                    portalElement.Data = (e as PortalGridElement).Data;
+                }
             }
         }
 

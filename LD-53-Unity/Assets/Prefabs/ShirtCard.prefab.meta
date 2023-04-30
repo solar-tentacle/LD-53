@@ -1,6 +1,11 @@
 fileFormatVersion: 2
-guid: b452a023b02094385a8897f1eedd8c86
+<<<<<<<< Updated upstream:LD-53-Unity/Assets/Prefabs/ShirtCard.prefab.meta
+guid: dbea0cb1a52861d4083a9a0598f50b91
 PrefabImporter:
+========
+guid: 85ce8f94a07798649b570c778d8f93e8
+DefaultImporter:
+>>>>>>>> Stashed changes:LD-53-Unity/Assets/Models/source/PortalGate.zip.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

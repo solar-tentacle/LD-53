@@ -3,12 +3,18 @@ using System.Linq;
 using Sirenix.Utilities;
 using UnityEngine;
 
-public class GridService : IService, IStart
+public class GridService : IService, IStart, IInject
 {
     private GroundGridElement[,] _ground;
     private ObjectGridElement[,] _objects;
     private Plane _plane = new(Vector3.up, 0);
+    private PlayerService _playerService;
 
+    public void Inject()
+    {
+        _playerService = Services.Get<PlayerService>();
+    }
+    
     void IStart.GameStart()
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
@@ -149,10 +155,25 @@ public class GridService : IService, IStart
             if (_objects[pos.x, pos.y] != null &&
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
                 _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
+                !HasValidPortal(pos) &&
                 _objects[pos.x, pos.y].Type != ObjectType.Encounter) return;
 
             buffer.Add(element);
         }
+    }
+
+    private bool HasValidPortal(Vector2Int pos)
+    {
+        if (_objects[pos.x, pos.y].Type != ObjectType.Portal)
+        {
+            return false;
+        }
+        if (pos + (_objects[pos.x, pos.y] as PortalGridElement).Data.Direction != GetObjectPosition(_playerService.PlayerView))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public void GetSurroundingElements(int rowIndex, int colIndex, int range,
