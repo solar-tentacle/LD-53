@@ -14,6 +14,7 @@ public class FlowService : IService, IInject, IStart
     private GameFlowService _gameFlowService;
     private UIService _uiService;
     private Vector2Int _endLevelPosition;
+    private AssetsCollection _assetsCollection;
 
     void IInject.Inject()
     {
@@ -25,6 +26,7 @@ public class FlowService : IService, IInject, IStart
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
         _gameFlowService = Services.Get<GameFlowService>();
         _uiService = Services.Get<UIService>();
+        _assetsCollection = Services.Get<AssetsCollection>();
     }
 
     void IStart.GameStart()
@@ -70,7 +72,7 @@ public class FlowService : IService, IInject, IStart
             
             if (!_cardHandService.Has(CardType.Movement))
             {
-                _gameFlowService.LoseGame();
+                _gameFlowService.LoseGame(_assetsCollection.GameConfig.EndMoveCardsLoseReasonText);
                 yield break;
             }
 

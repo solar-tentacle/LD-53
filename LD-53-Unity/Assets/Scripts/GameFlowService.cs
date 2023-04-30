@@ -28,8 +28,9 @@ public class GameFlowService : IService, IInject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoseGame()
+    public void LoseGame(string reasonText)
     {
+        _uiService.UICanvas.UILoseWindow.SetContent(reasonText);
         _uiService.UICanvas.UILoseWindow.Show();
     }
 }
