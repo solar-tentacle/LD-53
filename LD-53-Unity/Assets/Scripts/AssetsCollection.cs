@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AssetsCollection : Service
 {
-    public LevelDataHolder LevelDataHolder;
+    public LevelDataHolder[] Levels;
     public ConnectionView ConnectionViewPrefab;
     public PlayerView PlayerView;
     [SerializeField] private GroundGridElement[] _grounds;
@@ -42,5 +42,11 @@ public class AssetsCollection : Service
     {
         public ObjectType Type;
         public uint Health = 1;
+    }
+
+    public LevelData GetLevelData(uint index)
+    {
+        index = (uint)Mathf.Repeat(index, Levels.Length);
+        return Levels[index].LevelData;
     }
 }

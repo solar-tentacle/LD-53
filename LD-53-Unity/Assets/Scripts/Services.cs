@@ -62,6 +62,7 @@ public class Services : MonoBehaviour
         Register(new CardHandService());
         Register(new UnitService());
         Register(new EndTurnService());
+        Register(new GameFlowService());
     }
     
     private void Register(IService service)
