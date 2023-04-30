@@ -9,6 +9,7 @@ public class UICanvas : MonoBehaviour
 
     public UIHud HUD => _hud;
     [SerializeField] private UIWinWindow _uiWinWindow;
+    public UIWinWindow UIWinWindow => _uiWinWindow;
 
     [SerializeField] private UILoseWindow _uiLoseWindow;
 
