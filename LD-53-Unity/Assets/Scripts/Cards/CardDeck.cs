@@ -13,4 +13,9 @@ public class CardDeck
     {
         _cards.Remove(card);
     }
+
+    public List<Card> GetCopyCardsList()
+    {
+        return new List<Card>(_cards);
+    }
 }

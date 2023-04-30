@@ -70,6 +70,11 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 {
                     continue;
                 }
+
+                if (objects[i, j].Type == ObjectType.EndLevel)
+                {
+                    continue;
+                }
                 
                 CreateUnitState(objects[i, j]);
             }
