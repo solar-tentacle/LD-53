@@ -18,7 +18,6 @@ public class FlowService : IService, IInject, IStart
         _coroutineService = Services.Get<CoroutineService>();
         _cardDeckService = Services.Get<CardDeckService>();
         _enemyService = Services.Get<EnemyService>();
-        _playerView = Services.Get<PlayerService>().PlayerView;
         _gridService = Services.Get<GridService>();
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
     }
@@ -27,6 +26,7 @@ public class FlowService : IService, IInject, IStart
     void IStart.GameStart()
     {
         _coroutineService.StartCoroutine(FlowCoroutine());
+        _playerView = Services.Get<PlayerService>().PlayerView;
     }
 
     private IEnumerator FlowCoroutine()

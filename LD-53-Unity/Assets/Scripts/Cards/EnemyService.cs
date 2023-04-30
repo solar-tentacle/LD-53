@@ -13,13 +13,12 @@ public class EnemyService : IService, IInject, IStart
     void IInject.Inject()
     {
         _gridService = Services.Get<GridService>();
-        _playerView = Services.Get<PlayerService>().PlayerView;
         _unitService = Services.Get<UnitService>();
     }
 
-
     void IStart.GameStart()
     {
+        _playerView = Services.Get<PlayerService>().PlayerView;
         _enemies = _gridService.GetEnemies();
 
         foreach (EnemyView enemy in _enemies)
@@ -81,7 +80,7 @@ public class EnemyService : IService, IInject, IStart
         foreach (EnemyView enemy in _enemies)
         {
             float distance = Vector3.Distance(_playerView.transform.position, enemy.transform.position);
-            if (minDistance < Vector3.Distance(_playerView.transform.position, enemy.transform.position))
+            if (minDistance > Vector3.Distance(_playerView.transform.position, enemy.transform.position))
             {
                 minDistance = distance;
                 nearestEnemy = enemy;
