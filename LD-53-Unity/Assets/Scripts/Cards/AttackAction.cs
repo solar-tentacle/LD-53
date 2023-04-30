@@ -56,6 +56,7 @@ public class AttackAction : CardAction
             {
                 return false;
             }
+
             return _elements.Exists(element => element.Item2 == _selectedElement);
         }
 
@@ -75,10 +76,12 @@ public class AttackAction : CardAction
     }
 }
 
-[Serializable] public class LifeStealAttackAction : AttackAction
+[Serializable]
+public class LifeStealAttackAction : AttackAction
 {
     [SerializeField] private uint _damage = 1;
     [SerializeField] private uint _heal = 1;
+
     public override IEnumerator Execute()
     {
         _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_heal);

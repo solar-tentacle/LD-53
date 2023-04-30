@@ -7,4 +7,8 @@ public class GameConfig : ScriptableObject
     public float StartMaxHp;
 
     public List<CardConfig> StartCards = new List<CardConfig>();
+
+    [Space] 
+    public string EndHealthLoseReasonText = "Reason: 0 Health";
+    public string EndMoveCardsLoseReasonText = "Reason: 0 Move Cards";
 }

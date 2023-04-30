@@ -11,6 +11,10 @@ public class FlowService : IService, IInject, IStart
     private PlayerView _playerView;
     private GridService _gridService;
     private GameObject _uiBattle;
+    private GameFlowService _gameFlowService;
+    private UIService _uiService;
+    private Vector2Int _endLevelPosition;
+    private AssetsCollection _assetsCollection;
 
     void IInject.Inject()
     {
@@ -20,12 +24,16 @@ public class FlowService : IService, IInject, IStart
         _enemyService = Services.Get<EnemyService>();
         _gridService = Services.Get<GridService>();
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
+        _gameFlowService = Services.Get<GameFlowService>();
+        _uiService = Services.Get<UIService>();
+        _assetsCollection = Services.Get<AssetsCollection>();
     }
 
     void IStart.GameStart()
     {
         _coroutineService.StartCoroutine(FlowCoroutine());
         _playerView = Services.Get<PlayerService>().PlayerView;
+        _endLevelPosition = _gridService.GetObjectPosition(_gridService.GetEndLevelView());
     }
 
     private IEnumerator FlowCoroutine()
@@ -33,13 +41,13 @@ public class FlowService : IService, IInject, IStart
         while (true)
         {
             yield return _enemyService.EnableHighlight();
-            
+
             yield return _cardHandService.SelectCardFlow();
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
-            
+
             yield return action.Select();
-            
+
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && action.CanExecute())
@@ -51,9 +59,22 @@ public class FlowService : IService, IInject, IStart
 
                 yield return null;
             }
-            
+
             yield return _cardHandService.HideCardFlow();
             _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
+
+            var playerPos = _gridService.GetObjectPosition(_playerView);
+            if (playerPos == _endLevelPosition)
+            {
+                _uiService.UICanvas.UIWinWindow.Show();
+                yield break;
+            }
+            
+            if (!_cardHandService.Has(CardType.Movement))
+            {
+                _gameFlowService.LoseGame(_assetsCollection.GameConfig.EndMoveCardsLoseReasonText);
+                yield break;
+            }
 
             bool inAgro = IsPlayerInAgro();
             if (inAgro && _isBattle == false)

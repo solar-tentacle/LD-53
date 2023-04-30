@@ -66,7 +66,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         {
             if (element.Type == ObjectType.Player)
             {
-                _flowService.EndGame();
+                _flowService.LoseGame(_assetsCollection.GameConfig.EndHealthLoseReasonText);
             }
             else
             {

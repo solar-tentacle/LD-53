@@ -11,6 +11,7 @@ public class CardHandService : IService, IInject
     private CardView _selectedCardView;
 
     private CardDeck _currentHand = new CardDeck();
+    public bool Has(CardType cardType) => _currentHand.Has(cardType);
 
     public Card SelectedCard => _cards[_selectedCardView];
 

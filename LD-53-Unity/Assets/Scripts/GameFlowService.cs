@@ -18,13 +18,19 @@ public class GameFlowService : IService, IInject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
+    public void CompleteLevel()
+    {
+        GoToNextLevel();
+    }
+    
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void EndGame()
+    public void LoseGame(string reasonText)
     {
-        throw new System.NotImplementedException();
+        _uiService.UICanvas.UILoseWindow.SetContent(reasonText);
+        _uiService.UICanvas.UILoseWindow.Show();
     }
 }
