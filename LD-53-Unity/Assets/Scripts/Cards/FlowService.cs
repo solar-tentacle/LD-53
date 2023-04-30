@@ -39,13 +39,13 @@ public class FlowService : IService, IInject, IStart
         while (true)
         {
             yield return _enemyService.EnableHighlight();
-            
+
             yield return _cardHandService.SelectCardFlow();
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
-            
+
             yield return action.Select();
-            
+
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && action.CanExecute())
@@ -57,7 +57,7 @@ public class FlowService : IService, IInject, IStart
 
                 yield return null;
             }
-            
+
             yield return _cardHandService.HideCardFlow();
             _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
 
@@ -65,6 +65,12 @@ public class FlowService : IService, IInject, IStart
             if (playerPos == _endLevelPosition)
             {
                 _uiService.UICanvas.UIWinWindow.Show();
+                yield break;
+            }
+            
+            if (!_cardHandService.Has(CardType.Movement))
+            {
+                _gameFlowService.LoseGame();
                 yield break;
             }
 
