@@ -67,11 +67,4 @@ public class CardDeckService : IService, IInject, IStart
         
         _drawPile.Shuffle(cardType);
     }
-
-    public void EndTurn()
-    {
-        _cardHandService.RemoveAllCards();
-        
-        FillCurrentDeck();
-    }
 }
