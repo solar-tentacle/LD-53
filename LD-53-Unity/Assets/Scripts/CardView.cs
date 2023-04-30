@@ -85,8 +85,6 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        StartCoroutine(_cardConfig.Action.Select());
-
         _isSelected = true;
         _canvasGroup.DOFade(_fadeEndValue, _fadeDuration);
     }
@@ -94,6 +92,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_isSelected) return;
+        StartCoroutine(_cardConfig.Action.Select());
         _endValue = new Vector3(_rectTransform.position.x, _startPosY);
         var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 100f);
 
@@ -104,6 +103,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_isSelected) return;
+        StartCoroutine(_cardConfig.Action.Deselect());
         transform.DOMove(_endValue, _moveYDuration);
         transform.DOScale(1f, _scaleDuration);
     }
