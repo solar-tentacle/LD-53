@@ -99,7 +99,14 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 _uiService.RemoveHealthView(element);
                 _statesByObjects.RemoveAt(i);
                 _gridService.RemoveElement(element);
-                if (element is EnemyView view) _enemyService.RemoveEnemy(view);
+                if (element is EnemyView view)
+                {
+                    _enemyService.RemoveEnemy(view);
+                    if (view.EncounterReward != null)
+                    {
+                        view.EncounterReward.GiveReward();
+                    }
+                }
                 return;
             }
         }

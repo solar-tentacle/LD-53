@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
-  _damage: 1
+  _damage: 2
   _agroDeltaPoints:
   - {x: 0, y: 1}
   - {x: 0, y: -1}
@@ -121,3 +121,6 @@ MonoBehaviour:
   - {x: 1, y: -1}
   - {x: -1, y: 1}
   - {x: -1, y: -1}
+  _encounterReward:
+    Health: 2
+    GetCardsFromDeck: 000000000000000001000000
