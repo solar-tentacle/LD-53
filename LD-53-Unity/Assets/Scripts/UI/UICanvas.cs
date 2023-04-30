@@ -12,6 +12,7 @@ public class UICanvas : MonoBehaviour
     public UIWinWindow UIWinWindow => _uiWinWindow;
 
     [SerializeField] private UILoseWindow _uiLoseWindow;
+    public UILoseWindow UILoseWindow => _uiLoseWindow;
 
     private void Start()
     {
