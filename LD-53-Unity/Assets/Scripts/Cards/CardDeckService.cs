@@ -3,13 +3,15 @@ using System.Collections.Generic;
 public class CardDeckService : IService, IInject, IStart
 {
     private CardHandService _cardHandService;
-    
+    private UIService _uiService;
+
     private CardDeck _deck = new CardDeck();
     private CardPile _drawPile = new CardPile();
 
     public void Inject()
     {
         _cardHandService = Services.Get<CardHandService>();
+        _uiService = Services.Get<UIService>();
     }
 
     void IStart.GameStart()
@@ -17,7 +19,7 @@ public class CardDeckService : IService, IInject, IStart
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
 
         var startCards = assetsCollection.GameConfig.StartCards;
-        
+
         for (int i = 0; i < assetsCollection.GameConfig.StartCards.Count; i++)
         {
             var card = new Card(startCards[i]);
@@ -26,10 +28,10 @@ public class CardDeckService : IService, IInject, IStart
         }
 
         _drawPile.ShuffleAll();
-        
+
         FillCurrentDeck();
     }
-    
+
     public void FillCurrentDeck()
     {
         var cards = new List<Card>();
@@ -37,15 +39,16 @@ public class CardDeckService : IService, IInject, IStart
         if (TryGetCardFromDrawPile(CardType.Movement, out var moveCard))
         {
             cards.Add(moveCard);
-
         }
-        
+
         if (TryGetCardFromDrawPile(CardType.Action, out var actionCard))
         {
             cards.Add(actionCard);
         }
-        
+
         _cardHandService.FillCurrentHand(cards);
+        
+        UpdateDeckIndicator();
     }
 
     public void TryAddCardFromCurrentDeck(CardType type)
@@ -54,6 +57,14 @@ public class CardDeckService : IService, IInject, IStart
         {
             _cardHandService.AddCard(card);
         }
+        
+        UpdateDeckIndicator();
+    }
+
+    private void UpdateDeckIndicator()
+    {
+        _uiService.UICanvas.HUD.UIDeckIndicator.UpdateView(_drawPile.GetCount(CardType.Movement),
+            _drawPile.GetCount(CardType.Action));
     }
 
     private bool TryGetCardFromDrawPile(CardType cardType, out Card card)
