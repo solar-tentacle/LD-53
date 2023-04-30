@@ -56,7 +56,7 @@ MonoBehaviour:
   _hideTime: 1
   _uiCardsHand: {fileID: 7073555614299823526}
   _uiDeckIndicator: {fileID: 4000517315513446994}
-  _battleInProgress: {fileID: 0}
+  _battleInProgress: {fileID: 5252218163465776860}
 --- !u!1001 &1766627872512014626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -260,6 +260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52909b6a6e843f74f84d731f8f66b399, type: 3}
+--- !u!1 &5252218163465776860 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5798479099251725714, guid: 52909b6a6e843f74f84d731f8f66b399, type: 3}
+  m_PrefabInstance: {fileID: 1773281991539981134}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5935946315630711893 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5402983827220164379, guid: 52909b6a6e843f74f84d731f8f66b399, type: 3}
