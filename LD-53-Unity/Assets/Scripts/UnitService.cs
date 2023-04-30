@@ -38,6 +38,11 @@ public class UnitService : IService, IInject, IStart, IUpdate
         unitState.AttackDamage = attackDamage.GetValueOrDefault(_assetsCollection. GetElementAttackDamage(element));
 
         _uiService.AddHealthView(element, unitState.Health);
+        
+        if (element.Type == ObjectType.Player)
+        {
+            _uiService.UICanvas.HUD.PlayerHealth.SetHealth(unitState.Health);
+        }
     }
 
     public void ChangeUnitHealth(ObjectGridElement element, int delta)
@@ -61,6 +66,11 @@ public class UnitService : IService, IInject, IStart, IUpdate
         unitState.Health += (uint)Math.Max(-unitState.Health, delta);
 
         _uiService.UpdatedHealthView(element, unitState.Health);
+
+        if (element.Type == ObjectType.Player)
+        {
+            _uiService.UICanvas.HUD.PlayerHealth.SetHealth(unitState.Health);
+        }
 
         if (unitState.Health == 0)
         {

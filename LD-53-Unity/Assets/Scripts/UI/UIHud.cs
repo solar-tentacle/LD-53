@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 
 public class UIHud : ActivateView
 {
@@ -10,6 +11,9 @@ public class UIHud : ActivateView
     
     [SerializeField] private GameObject _battleInProgress;
     public GameObject BattleInProgress => _battleInProgress;
+    
+    [SerializeField] private HealthView _playerHealth;
+    public HealthView PlayerHealth => _playerHealth;
 
     protected override void OnInit()
     {
