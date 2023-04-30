@@ -1,23 +1,46 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement
 {
-    [SerializeField] private float _rotationTime = 0.5f;
-    [SerializeField] private float _moveTimePerCell = 1f;
+    private static readonly int IdleTrigger = Animator.StringToHash("Idle");
+    private static readonly int RunTrigger = Animator.StringToHash("Run");
     
-    public IEnumerator Move(Vector3 movePosition, Action onStartMove)
+    private const float RotationTime = 0.5f;
+    private const float MoveTimePerCell = 1f;
+
+    private readonly PlayerView _view;
+    private readonly GridService _gridService;
+
+    public PlayerMovement(PlayerView view)
     {
-        var direction = (movePosition - transform.position).normalized;
-        var deltaRotation = Quaternion.FromToRotation(transform.forward, direction);
-        var newRotation = transform.rotation * deltaRotation;
+        _view = view;
+        _gridService = Services.Get<GridService>();
+    }
+
+    public void Init()
+    {
+        _view.Animator.SetTrigger(IdleTrigger);
+    }
+
+    public IEnumerator Move(Vector2Int pos)
+    {
+        _gridService.Move(_view, pos);
+        Vector3 newPosition = _gridService.GetWorldPoint(pos);
+        newPosition.y = _view.transform.position.y;
         
-        yield return transform.DORotateQuaternion(newRotation, _rotationTime).WaitForCompletion();
+        Vector3 direction = (newPosition - _view.transform.position);
+        direction.y = 0;
+        direction.Normalize();
+        Quaternion newRotation = Quaternion.LookRotation(direction);
         
-        onStartMove?.Invoke();
+        yield return _view.transform.DORotateQuaternion(newRotation, RotationTime).WaitForCompletion();
         
-        yield return transform.DOMove(movePosition, _moveTimePerCell).WaitForCompletion();
+        _view.Animator.SetTrigger(RunTrigger);
+        
+        yield return _view.transform.DOMove(newPosition, MoveTimePerCell).WaitForCompletion();
+        
+        _view.Animator.SetTrigger(IdleTrigger);
     }
 }
