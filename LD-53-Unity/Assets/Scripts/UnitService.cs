@@ -18,6 +18,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
     private UIService _uiService;
     private GameFlowService _flowService;
     private GridService _gridService;
+    private EnemyService _enemyService;
 
     void IInject.Inject()
     {
@@ -25,6 +26,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         _flowService = Services.Get<GameFlowService>();
         _gridService = Services.Get<GridService>();
         _uiService = Services.Get<UIService>();
+        _enemyService = Services.Get<EnemyService>();
     }
 
     public void CreateUnitState(ObjectGridElement element, uint? health = null, uint? attackDamage = null)
@@ -82,6 +84,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 _uiService.RemoveHealthView(element);
                 _statesByObjects.RemoveAt(i);
                 _gridService.RemoveElement(element);
+                if (element is EnemyView view) _enemyService.RemoveEnemy(view);
                 return;
             }
         }

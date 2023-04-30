@@ -25,7 +25,6 @@ public class FlowService : IService, IInject, IStart
         _gameFlowService = Services.Get<GameFlowService>();
     }
 
-
     void IStart.GameStart()
     {
         _coroutineService.StartCoroutine(FlowCoroutine());
