@@ -14,7 +14,7 @@ public class UICardsHand : ActivateView
         return view;
     }
 
-    private void ClearHand()
+    public void ClearHand()
     {
         _cardViewParent.Clear();
     }
