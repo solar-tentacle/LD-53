@@ -33,8 +33,10 @@ public class EncounterService : IService, IInject, IStart
         return false;
     }
 
-    public IEnumerator Flow(EncounterGridElement encounter)
+    public IEnumerator Flow(EncounterGridElement encounter, Vector2Int encounterPosition)
     {
+        encounter.gameObject.SetActive(false);
+        _encounterPositions.Remove(encounterPosition);
         _uiEncounterWindow.SetContent(encounter.EncounterData);
         _uiEncounterWindow.ShowEncounterWindow();
         while (_uiEncounterWindow.CurrentAnswerData is null)
