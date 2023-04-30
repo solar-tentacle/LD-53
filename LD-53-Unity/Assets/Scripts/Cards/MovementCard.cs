@@ -34,7 +34,7 @@ public class MovementCard : CardAction
     {
         foreach (GroundGridElement element in _elements)
         {
-            yield return element.DisableHighlight();
+            yield return element.DisableHighlight(HighlightType.Move);
         }
     }
 

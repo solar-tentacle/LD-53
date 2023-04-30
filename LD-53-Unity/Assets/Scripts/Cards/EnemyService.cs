@@ -39,7 +39,7 @@ public class EnemyService : IService, IInject, IStart
     {
         foreach (GroundGridElement ground in _agroGround)
         {
-            yield return ground.EnableAgroHighlight();
+            yield return ground.EnableHighlight(HighlightType.Agro);
         }
     }
     
@@ -47,7 +47,7 @@ public class EnemyService : IService, IInject, IStart
     {
         foreach (GroundGridElement ground in _agroGround)
         {
-            yield return ground.DisableAgroHighlight();
+            yield return ground.DisableHighlight(HighlightType.Agro);
         }
     }
 

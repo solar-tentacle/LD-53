@@ -10,6 +10,7 @@ public class FlowService : IService, IInject, IStart
     private bool _isBattle;
     private PlayerView _playerView;
     private GridService _gridService;
+    private GameObject _uiBattle;
 
     void IInject.Inject()
     {
@@ -19,6 +20,7 @@ public class FlowService : IService, IInject, IStart
         _enemyService = Services.Get<EnemyService>();
         _playerView = Services.Get<PlayerService>().PlayerView;
         _gridService = Services.Get<GridService>();
+        _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
     }
 
 
@@ -58,12 +60,14 @@ public class FlowService : IService, IInject, IStart
             if (inAgro && _isBattle == false)
             {
                 _isBattle = true;
+                _uiBattle.SetActive(true);
                 continue;
             }
 
             if (inAgro == false && _isBattle)
             {
                 _isBattle = false;
+                _uiBattle.SetActive(false);
             }
 
             if (_isBattle)
