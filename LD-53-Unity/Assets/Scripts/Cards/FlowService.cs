@@ -15,6 +15,7 @@ public class FlowService : IService, IInject, IStart
     private EncounterService _encounterService;
     private UIService _uiService;
     private Vector2Int _endLevelPosition;
+    private AssetsCollection _assetsCollection;
 
     void IInject.Inject()
     {
@@ -27,6 +28,7 @@ public class FlowService : IService, IInject, IStart
         _gameFlowService = Services.Get<GameFlowService>();
         _encounterService = Services.Get<EncounterService>();
         _uiService = Services.Get<UIService>();
+        _assetsCollection = Services.Get<AssetsCollection>();
     }
 
     void IStart.GameStart()
@@ -41,13 +43,13 @@ public class FlowService : IService, IInject, IStart
         while (true)
         {
             yield return _enemyService.EnableHighlight();
-            
+
             yield return _cardHandService.SelectCardFlow();
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
-            
+
             yield return action.Select();
-            
+
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && action.CanExecute())
@@ -59,7 +61,7 @@ public class FlowService : IService, IInject, IStart
 
                 yield return null;
             }
-            
+
             yield return _cardHandService.HideCardFlow();
             _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
 
@@ -75,8 +77,14 @@ public class FlowService : IService, IInject, IStart
                 _uiService.UICanvas.UIWinWindow.Show();
                 yield break;
             }
+            
+            if (!_cardHandService.Has(CardType.Movement))
+            {
+                _gameFlowService.LoseGame(_assetsCollection.GameConfig.EndMoveCardsLoseReasonText);
+                yield break;
+            }
 
-            bool inAgro = IsPlayerInAgroGround();
+            bool inAgro = IsPlayerInAgro();
             if (inAgro && _isBattle == false)
             {
                 _isBattle = true;
@@ -84,7 +92,8 @@ public class FlowService : IService, IInject, IStart
                 continue;
             }
 
-            if (inAgro == false && _isBattle)
+            bool farFromEnemies = FarFromEnemies();
+            if (farFromEnemies && _isBattle)
             {
                 _isBattle = false;
                 _uiBattle.SetActive(false);
@@ -97,5 +106,6 @@ public class FlowService : IService, IInject, IStart
         }
     }
 
-    private bool IsPlayerInAgroGround() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
+    private bool IsPlayerInAgro() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
+    private bool FarFromEnemies() => _enemyService.FarFromEnemies(_gridService.GetObjectPosition(_playerView));
 }

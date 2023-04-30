@@ -217,4 +217,17 @@ public class GridService : IService, IStart
 
         return res;
     }
+
+    public bool IsMovablePoint(Vector2Int point)
+    {
+        GroundType type = GetGroundView(point).Type;
+
+        if (type == GroundType.Water) return false;
+
+        ObjectGridElement element = GetObjectView(point);
+
+        if (element == null) return true;
+        if (element.Type == ObjectType.Encounter) return true;
+        return false;
+    }
 }
