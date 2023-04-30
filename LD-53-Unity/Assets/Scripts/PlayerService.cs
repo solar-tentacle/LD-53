@@ -21,6 +21,7 @@ public class PlayerService : IService, IInject, IStart, IUpdate
         _movement.Init();
     }
 
+
     void IUpdate.GameUpdate(float delta)
     {
 

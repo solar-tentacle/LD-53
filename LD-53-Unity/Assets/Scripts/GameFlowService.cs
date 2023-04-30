@@ -18,6 +18,11 @@ public class GameFlowService : IService, IInject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
+    public void CompleteLevel()
+    {
+        GoToNextLevel();
+    }
+    
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

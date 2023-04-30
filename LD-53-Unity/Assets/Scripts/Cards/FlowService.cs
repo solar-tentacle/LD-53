@@ -11,6 +11,8 @@ public class FlowService : IService, IInject, IStart
     private PlayerView _playerView;
     private GridService _gridService;
     private GameObject _uiBattle;
+    private GameFlowService _gameFlowService;
+    private Vector2Int _endLevelPosition;
 
     void IInject.Inject()
     {
@@ -20,6 +22,7 @@ public class FlowService : IService, IInject, IStart
         _enemyService = Services.Get<EnemyService>();
         _gridService = Services.Get<GridService>();
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
+        _gameFlowService = Services.Get<GameFlowService>();
     }
 
 
@@ -27,6 +30,7 @@ public class FlowService : IService, IInject, IStart
     {
         _coroutineService.StartCoroutine(FlowCoroutine());
         _playerView = Services.Get<PlayerService>().PlayerView;
+        _endLevelPosition = _gridService.GetObjectPosition(_gridService.GetEndLevelView());
     }
 
     private IEnumerator FlowCoroutine()
@@ -55,6 +59,13 @@ public class FlowService : IService, IInject, IStart
             
             yield return _cardHandService.HideCardFlow();
             _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
+
+            var playerPos = _gridService.GetObjectPosition(_playerView);
+            if (playerPos == _endLevelPosition)
+            {
+                _gameFlowService.CompleteLevel();
+                yield break;
+            }
 
             bool inAgro = IsPlayerInAgroGround();
             if (inAgro && _isBattle == false)
