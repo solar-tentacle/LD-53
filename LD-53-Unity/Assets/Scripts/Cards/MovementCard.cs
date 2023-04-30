@@ -13,6 +13,8 @@ public class MovementCard : CardAction
     private List<GroundGridElement> _elements;
     private GameFlowService _gameFlowService;
 
+    public int DirectionsCount => _directions.Count;
+
     public override void Init()
     {
         _playerService = Services.Get<PlayerService>();

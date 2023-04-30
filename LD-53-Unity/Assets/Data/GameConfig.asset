@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartMaxHp: 5
   StartCards:
+  - {fileID: 11400000, guid: ceae0e35084b74b05b73235117962f1b, type: 2}
+  - {fileID: 11400000, guid: ceae0e35084b74b05b73235117962f1b, type: 2}
   - {fileID: 11400000, guid: ce6d1cb78856e4841a3500b38a57b7cf, type: 2}
   - {fileID: 11400000, guid: ce6d1cb78856e4841a3500b38a57b7cf, type: 2}
   - {fileID: 11400000, guid: 17e7ae75f6750eb4db13402878ec4444, type: 2}
