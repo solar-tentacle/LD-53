@@ -8,7 +8,6 @@ public class CardHandService : IService, IInject
     private UICardsHand _uiHand;
     private CoroutineService _coroutineService;
     
-    private CardDeckService _cardDeckService;
     private Dictionary<CardView, Card> _cards = new();
     private CardView _selectedCard;
 
