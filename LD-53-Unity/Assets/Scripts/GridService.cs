@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.Utilities;
 using UnityEngine;
 
 public class GridService : IService, IStart
@@ -124,20 +126,27 @@ public class GridService : IService, IStart
     }
 
     public void GetSurroundingElements(int rowIndex, int colIndex, int range,
-        List<(GroundGridElement, ObjectGridElement)> buffer)
+        List<(GroundGridElement, ObjectGridElement)> buffer, params ObjectType[] objectTypes)
     {
         for (int row = rowIndex - range; row <= rowIndex + range; row++)
         {
             for (int col = colIndex - range; col <= colIndex + range; col++)
             {
-                if (row == rowIndex && col == colIndex)
-                {
-                    continue; // skip the current iteration if this is the target cell
+                if (row == rowIndex && col == colIndex) {
+                    continue;
                 }
 
                 if (row >= 0 && row < _ground.GetLength(0) && col >= 0 && col < _ground.GetLength(1))
                 {
-                    buffer.Add((_ground[row, col], _objects[row, col]));
+                    var objectGridElement = _objects[row, col];
+
+                    if (!objectTypes.IsNullOrEmpty() &&
+                        (objectGridElement == null || !objectTypes.Contains(objectGridElement.Type)))
+                    {
+                        continue;
+                    }
+
+                    buffer.Add((_ground[row, col], objectGridElement));
                 }
             }
         }

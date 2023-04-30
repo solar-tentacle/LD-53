@@ -60,11 +60,6 @@ public class CardHandService : IService, IInject
         _selectedCardView = null;
     }
 
-    private IEnumerator ExecuteAction(CardAction action)
-    {
-        yield return action.Execute();
-    }
-
     public void RemoveAllCards()
     {
         var cards = _currentHand.GetCopyCardsList();

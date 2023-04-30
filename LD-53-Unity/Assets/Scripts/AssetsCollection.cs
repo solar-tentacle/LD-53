@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Level;
 using UnityEngine;
@@ -69,5 +70,12 @@ public class AssetsCollection : Service
     {
         index = (uint)Mathf.Repeat(index, Levels.Length);
         return Levels[index].LevelData;
+    }
+
+    public ObjectType[] GetObjectsWithHealth()
+    {
+        return _objects
+            .Where(o => _objectsStats.Any(s => s.Type != ObjectType.Player && s.Type == o.Type && s.Health > 0))
+            .Select(o => o.Type).ToArray();
     }
 }

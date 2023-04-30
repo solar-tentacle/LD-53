@@ -6,12 +6,14 @@ using UnityEngine;
 [Serializable]
 public class AttackAction : CardAction
 {
-    private PlayerService _playerService;
+    protected PlayerService _playerService;
     private PlayerView _playerView;
-    private GridService _gridService;
+    protected GridService _gridService;
     private readonly List<(GroundGridElement, ObjectGridElement)> _elements = new();
-    private UnitService _unitService;
-    private ObjectGridElement _selectedElement;
+    protected UnitService _unitService;
+    protected ObjectGridElement _selectedElement;
+    private AssetsCollection _assetCollection;
+    private ObjectType[] _enemyTypes;
 
     public override void Init()
     {
@@ -19,6 +21,8 @@ public class AttackAction : CardAction
         _playerView = _playerService.PlayerView;
         _gridService = Services.Get<GridService>();
         _unitService = Services.Get<UnitService>();
+        _assetCollection = Services.Get<AssetsCollection>();
+        _enemyTypes = _assetCollection.GetObjectsWithHealth();
     }
 
     public override IEnumerator Select()
@@ -29,8 +33,8 @@ public class AttackAction : CardAction
         foreach (var element in _elements)
         {
             var (ground, gridObject) = element;
-            yield return ground.EnableMoveHighlight();
-            //yield return gridObject.EnableHighlight();
+            yield return ground.EnableHighlight(HighlightType.Attack);
+            //yield return gridObject.EnableHighlight(HighlightType.Attack);
         }
     }
 
@@ -69,6 +73,17 @@ public class AttackAction : CardAction
     {
         var range = 1;
         _elements.Clear();
-        _gridService.GetSurroundingElements(pos.x, pos.y, range, _elements);
+        _gridService.GetSurroundingElements(pos.x, pos.y, range, _elements, _enemyTypes);
+    }
+}
+
+[Serializable] public class LifeStealAttackAction : AttackAction
+{
+    [SerializeField] private uint _damage = 1;
+    [SerializeField] private uint _heal = 1;
+    public override IEnumerator Execute()
+    {
+        _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_heal);
+        yield return _unitService.AttackObject(_selectedElement, _damage);
     }
 }
