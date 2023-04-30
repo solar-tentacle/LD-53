@@ -41,8 +41,5 @@ public class EncounterService : IService, IInject, IStart
         {
             yield return null;
         }
-        
-        // yield return animationNagradi;
-        yield break;
     }
 }

@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 831459360358943026}
   - component: {fileID: 8880267210563759056}
   - component: {fileID: 3929646160251181340}
+  - component: {fileID: 6204827946507014775}
   m_Layer: 5
   m_Name: UIEncounterWindow
   m_TagString: Untagged
@@ -547,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  m_Color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -584,6 +585,19 @@ MonoBehaviour:
   _buttonYesText: {fileID: 4002266068875660003}
   _buttonNoText: {fileID: 1111361395267109335}
   _buttonEndText: {fileID: 5305772593632274974}
+  _canvasGroup: {fileID: 6204827946507014775}
+--- !u!225 &6204827946507014775
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3822502673580039160}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5809225808508454305
 GameObject:
   m_ObjectHideFlags: 0

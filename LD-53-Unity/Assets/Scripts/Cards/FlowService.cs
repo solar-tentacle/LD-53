@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -63,7 +64,7 @@ public class FlowService : IService, IInject, IStart
             }
 
             yield return _cardHandService.HideCardFlow();
-            _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
+            TryAddCard(card);
 
             var playerPos = _gridService.GetObjectPosition(_playerView);
 
@@ -71,13 +72,13 @@ public class FlowService : IService, IInject, IStart
             {
                 yield return _encounterService.Flow(encounter);
             }
-            
+
             if (playerPos == _endLevelPosition)
             {
                 _uiService.UICanvas.UIWinWindow.Show();
                 yield break;
             }
-            
+
             if (!_cardHandService.Has(CardType.Movement))
             {
                 _gameFlowService.LoseGame(_assetsCollection.GameConfig.EndMoveCardsLoseReasonText);
@@ -108,4 +109,29 @@ public class FlowService : IService, IInject, IStart
 
     private bool IsPlayerInAgro() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
     private bool FarFromEnemies() => _enemyService.FarFromEnemies(_gridService.GetObjectPosition(_playerView));
+
+    private void TryAddCard(Card card)
+    {
+        CardType type = card.Config.CardType;
+
+        switch (type)
+        {
+            case CardType.Movement:
+            {
+                _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
+
+                if (card.Config.Action is MovementCard {DirectionsCount: 16})
+                {
+                    _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
+                }
+
+                break;
+            }
+            case CardType.Action when _isBattle:
+                _cardDeckService.TryAddCardFromCurrentDeck(CardType.Action);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 }
