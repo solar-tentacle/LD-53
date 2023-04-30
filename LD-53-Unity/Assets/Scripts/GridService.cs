@@ -18,5 +18,7 @@ public class GridService : IService, IStart
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
         GridBuilder builder = new(assetsCollection.LevelDataHolder.LevelData);
         builder.Build(out _ground, out _objects);
+        UnitService unitService = Services.Get<UnitService>();
+        unitService.CreateUnitStates(_objects);
     }
 }

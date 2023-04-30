@@ -59,7 +59,9 @@ public class Services : MonoBehaviour
         Register(new PlayerService());
         Register(new DragAndDropService());
         Register(new CardDeckService());
+        Register(new UnitService());
     }
+    
     private void Register(IService service)
     {
         _services.Add(service.GetType(), service);
