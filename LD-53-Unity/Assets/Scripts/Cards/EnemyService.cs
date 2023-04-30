@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class EnemyContext
@@ -24,21 +25,27 @@ public class EnemyService : IService, IInject, IStart
     {
         _playerView = Services.Get<PlayerService>().PlayerView;
         List<EnemyView> enemies = _gridService.GetEnemies();
-        
+
 
         foreach (EnemyView enemy in enemies)
         {
-            EnemyContext ctx = new();
-            ctx.AgroGround = new List<GroundGridElement>();
-            Vector2Int pos = _gridService.GetObjectPosition(enemy);
-
-            foreach (Vector2Int delta in enemy.AgroDeltaPoints)
-            {
-                _gridService.TryAddGroundElement(ctx.AgroGround, pos + delta);
-            }
-            
+            EnemyContext ctx = CreateContext(enemy);
             _enemyContexts.Add(enemy, ctx);
         }
+    }
+
+    private EnemyContext CreateContext(EnemyView view)
+    {
+        EnemyContext ctx = new();
+        ctx.AgroGround = new List<GroundGridElement>();
+        Vector2Int pos = _gridService.GetObjectPosition(view);
+
+        foreach (Vector2Int delta in view.AgroDeltaPoints)
+        {
+            _gridService.TryAddGroundElement(ctx.AgroGround, pos + delta);
+        }
+
+        return ctx;
     }
 
     public IEnumerator EnableHighlight()
@@ -51,7 +58,7 @@ public class EnemyService : IService, IInject, IStart
             }
         }
     }
-    
+
     public IEnumerator DisableHighlight()
     {
         foreach ((EnemyView view, EnemyContext ctx) in _enemyContexts)
@@ -61,6 +68,16 @@ public class EnemyService : IService, IInject, IStart
                 yield return ground.DisableHighlight(HighlightType.Agro);
             }
         }
+    }
+
+    public void RemoveEnemy(EnemyView view)
+    {
+        foreach (GroundGridElement ground in _enemyContexts[view].AgroGround)
+        {
+            ground.StartCoroutine(ground.DisableHighlight(HighlightType.Agro));
+        }
+
+        _enemyContexts.Remove(view);
     }
 
     public bool IsAgroGround(Vector2Int pos)
@@ -79,13 +96,55 @@ public class EnemyService : IService, IInject, IStart
         return false;
     }
 
+    public bool FarFromEnemies(Vector2Int pos)
+    {
+        foreach (EnemyView view in _enemyContexts.Keys)
+        {
+            Vector2Int enemyPos = _gridService.GetObjectPosition(view);
+            float distance = Vector2Int.Distance(pos, enemyPos);
+            if (distance < 2.85f) return false;
+        }
+
+        return true;
+    }
+
     public IEnumerator BattleFlow()
     {
         EnemyView enemy = FindNearestEnemy();
 
         yield return DisableHighlight();
-        
-        _unitService.ChangeUnitHealth(_playerView, -enemy.Damage);
+
+        Vector2Int enemyPos = _gridService.GetObjectPosition(enemy);
+        Vector2Int playerPos = _gridService.GetObjectPosition(_playerView);
+        float distance = Vector2Int.Distance(enemyPos, playerPos);
+        if (distance > 1.5)
+        {
+            yield return TryMove(enemy, enemyPos, playerPos);
+        }
+        else
+        {
+            _unitService.ChangeUnitHealth(_playerView, -enemy.Damage);
+        }
+    }
+
+    private IEnumerator TryMove(EnemyView view, Vector2Int enemyPos, Vector2Int playerPos)
+    {
+        if (enemyPos.x > playerPos.x && _gridService.IsMovablePoint(enemyPos + Vector2Int.left))
+        {
+            yield return Move(view, enemyPos + Vector2Int.left);
+        }
+        else if (enemyPos.x < playerPos.x && _gridService.IsMovablePoint(enemyPos + Vector2Int.right))
+        {
+            yield return Move(view, enemyPos + Vector2Int.right);
+        }
+        else if (enemyPos.y > playerPos.y && _gridService.IsMovablePoint(enemyPos + Vector2Int.down))
+        {
+            yield return Move(view, enemyPos + Vector2Int.down);
+        }
+        else if (enemyPos.y < playerPos.y && _gridService.IsMovablePoint(enemyPos + Vector2Int.up))
+        {
+            yield return Move(view, enemyPos + Vector2Int.up);
+        }
     }
 
     private EnemyView FindNearestEnemy()
@@ -106,13 +165,13 @@ public class EnemyService : IService, IInject, IStart
         return nearestEnemy;
     }
 
-    public void RemoveEnemy(EnemyView view)
+    private IEnumerator Move(EnemyView view, Vector2Int pos)
     {
-        foreach (GroundGridElement ground in _enemyContexts[view].AgroGround)
-        {
-            ground.StartCoroutine(ground.DisableHighlight(HighlightType.Agro));
-        }
+        _gridService.Move(view, pos);
+        Vector3 newPosition = _gridService.GetWorldPoint(pos);
+        newPosition.y = view.transform.position.y;
 
-        _enemyContexts.Remove(view);
+        yield return view.transform.DOMove(newPosition, 0.5f).WaitForCompletion();
+        _enemyContexts[view] = CreateContext(view);
     }
 }

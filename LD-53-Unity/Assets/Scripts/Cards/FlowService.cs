@@ -55,7 +55,7 @@ public class FlowService : IService, IInject, IStart
             yield return _cardHandService.HideCardFlow();
             _cardDeckService.TryAddCardFromCurrentDeck(card.Config.CardType);
 
-            bool inAgro = IsPlayerInAgroGround();
+            bool inAgro = IsPlayerInAgro();
             if (inAgro && _isBattle == false)
             {
                 _isBattle = true;
@@ -63,7 +63,8 @@ public class FlowService : IService, IInject, IStart
                 continue;
             }
 
-            if (inAgro == false && _isBattle)
+            bool farFromEnemies = FarFromEnemies();
+            if (farFromEnemies && _isBattle)
             {
                 _isBattle = false;
                 _uiBattle.SetActive(false);
@@ -76,5 +77,6 @@ public class FlowService : IService, IInject, IStart
         }
     }
 
-    private bool IsPlayerInAgroGround() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
+    private bool IsPlayerInAgro() => _enemyService.IsAgroGround(_gridService.GetObjectPosition(_playerView));
+    private bool FarFromEnemies() => _enemyService.FarFromEnemies(_gridService.GetObjectPosition(_playerView));
 }
