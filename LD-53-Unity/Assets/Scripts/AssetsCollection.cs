@@ -46,7 +46,7 @@ public class AssetsCollection : Service
 
     public LevelData GetLevelData(uint index)
     {
-        index = (uint)Mathf.Repeat(index - 1, Levels.Length);
+        index = (uint)Mathf.Repeat(index, Levels.Length);
         return Levels[index].LevelData;
     }
 }
