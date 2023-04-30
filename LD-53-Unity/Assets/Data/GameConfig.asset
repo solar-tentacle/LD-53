@@ -15,3 +15,4 @@ MonoBehaviour:
   StartMaxHp: 5
   StartCards:
   - {fileID: 11400000, guid: 73327200930b0584088045f62dfb996e, type: 2}
+  - {fileID: 11400000, guid: 17e7ae75f6750eb4db13402878ec4444, type: 2}
