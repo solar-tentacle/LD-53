@@ -11,7 +11,7 @@ public class GridService : IService, IStart
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
         BuildLevel(assetsCollection.GetLevelData(GameFlowService.LevelIndex));
-        
+
         UnitService unitService = Services.Get<UnitService>();
         unitService.CreateUnitStates(_objects);
     }
@@ -101,19 +101,27 @@ public class GridService : IService, IStart
     {
         if (TryGetGroundView(pos, out GroundGridElement element))
         {
-            buffer.Add(element);
+            if (element.Type is GroundType.Water) return;
+
+            if (_objects[pos.x, pos.y] != null &&
+                _objects[pos.x, pos.y].Type is not ObjectType.Player or ObjectType.EndLevel) return;
+
+                buffer.Add(element);
         }
     }
-    
-    public void GetSurroundingElements(int rowIndex, int colIndex, int range, List<(GroundGridElement, ObjectGridElement)> buffer)
+
+    public void GetSurroundingElements(int rowIndex, int colIndex, int range,
+        List<(GroundGridElement, ObjectGridElement)> buffer)
     {
         for (int row = rowIndex - range; row <= rowIndex + range; row++)
         {
             for (int col = colIndex - range; col <= colIndex + range; col++)
             {
-                if (row == rowIndex && col == colIndex) {
+                if (row == rowIndex && col == colIndex)
+                {
                     continue; // skip the current iteration if this is the target cell
                 }
+
                 if (row >= 0 && row < _ground.GetLength(0) && col >= 0 && col < _ground.GetLength(1))
                 {
                     buffer.Add((_ground[row, col], _objects[row, col]));
