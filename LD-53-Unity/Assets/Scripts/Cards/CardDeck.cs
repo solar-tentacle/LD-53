@@ -19,9 +19,4 @@ public class CardDeck
     {
         return new List<Card>(_cards);
     }
-
-    public bool Has(CardType type)
-    {
-        return _cards.Any(card => card.Config.CardType == type);
-    }
 }

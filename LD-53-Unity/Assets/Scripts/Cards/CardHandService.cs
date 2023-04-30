@@ -7,20 +7,20 @@ public class CardHandService : IService, IInject
     private UIService _uiService;
     private UICardsHand _uiHand;
     private CoroutineService _coroutineService;
+    private CardHandService _cardHandService;
+    
     private CardDeckService _cardDeckService;
     private Dictionary<CardView, Card> _cards = new();
     private CardView _selectedCard;
 
     private CardDeck _currentHand = new CardDeck();
-
-    public bool IsCanAutoDrawCard(CardType cardType) => !_currentHand.Has(cardType);
-
+    
     public void Inject()
     {
         _uiService = Services.Get<UIService>();
         _uiHand = _uiService.UICanvas.HUD.UICardsHand;
         _coroutineService = Services.Get<CoroutineService>();
-        _cardDeckService = Services.Get<CardDeckService>();
+        _cardHandService = Services.Get<CardHandService>();
     }
 
     public void FillCurrentHand(List<Card> cards)
@@ -71,7 +71,7 @@ public class CardHandService : IService, IInject
         }
 
         yield return _uiHand.HideCard(_selectedCard);
-        _cardDeckService.RemoveCardFromCurrentDeck(_cards[_selectedCard]);
+        _cardHandService.RemoveCard(_cards[_selectedCard]);
         _selectedCard = null;
     }
 
@@ -86,7 +86,7 @@ public class CardHandService : IService, IInject
 
         for (int i = 0; i < cards.Count; i++)
         {
-            _cardDeckService.RemoveCardFromCurrentDeck(cards[i]);
+            _cardHandService.RemoveCard(cards[i]);
         }
 
         _uiService.UICanvas.HUD.UICardsHand.ClearHand();

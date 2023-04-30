@@ -9,6 +9,8 @@ public class CardPile
 
     public bool HasCard(CardType type) => _cards[type].Count > 0;
 
+    public int GetCount(CardType type) => _cards[type].Count;
+
     public CardPile()
     {
         foreach (CardType value in Enum.GetValues(typeof(CardType)))

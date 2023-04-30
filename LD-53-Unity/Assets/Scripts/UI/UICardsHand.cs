@@ -24,8 +24,10 @@ public class UICardsHand : ActivateView
     public IEnumerator SelectCard(CardView view)
     {
         view.transform.SetParent(_selectedCardParent);
+        yield return null;
         view.enabled = false;
-        yield return view.transform.DOLocalMove(Vector3.zero, 0.3f).WaitForCompletion();
+        yield return null;
+        yield return view.transform.DOMove(_selectedCardParent.position, 0.3f).WaitForCompletion();
     }
 
     public IEnumerator HideCard(CardView view)
