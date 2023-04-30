@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4172437702537446838}
   - component: {fileID: 2920063221423573734}
   - component: {fileID: 1145255949399195996}
+  - component: {fileID: 1807780062697833112}
   m_Layer: 5
   m_Name: UICardsHand
   m_TagString: Untagged
@@ -106,6 +107,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1807780062697833112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690704153101052136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5331046dca31941bdcf3be8fcc5927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hideTime: 1
+  _cardViewPrefab: {fileID: 0}
 --- !u!1001 &929135319359226799
 PrefabInstance:
   m_ObjectHideFlags: 0

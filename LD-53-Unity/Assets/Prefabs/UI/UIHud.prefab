@@ -447,6 +447,7 @@ MonoBehaviour:
   _hideTime: 1
   _playButton: {fileID: 3142915358465916211}
   _clearButton: {fileID: 5116012903242828264}
+  _uiCardsHand: {fileID: 7073555614299823526}
 --- !u!1 &8697951740007245771
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,3 +672,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8397729556859150560, guid: d1cf07294295dc547b6904c834d1f765, type: 3}
   m_PrefabInstance: {fileID: 8880209205289344830}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7073555614299823526 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1807780062697833112, guid: d1cf07294295dc547b6904c834d1f765, type: 3}
+  m_PrefabInstance: {fileID: 8880209205289344830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f5331046dca31941bdcf3be8fcc5927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
