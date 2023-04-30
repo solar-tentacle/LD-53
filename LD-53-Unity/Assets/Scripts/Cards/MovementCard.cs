@@ -11,14 +11,12 @@ public class MovementCard : CardAction
     private PlayerView _playerView;
     private GridService _gridService;
     private List<GroundGridElement> _elements;
-    private CardDeckService _cardDeckService;
 
     public override void Init()
     {
         _playerService = Services.Get<PlayerService>();
         _playerView = _playerService.PlayerView;
         _gridService = Services.Get<GridService>();
-        _cardDeckService = Services.Get<CardDeckService>();
     }
 
     public override IEnumerator Select()
@@ -28,7 +26,7 @@ public class MovementCard : CardAction
 
         foreach (GroundGridElement element in _elements)
         {
-            yield return element.EnableHighlight();
+            yield return element.EnableMoveHighlight();
         }
     }
 
@@ -36,7 +34,7 @@ public class MovementCard : CardAction
     {
         foreach (GroundGridElement element in _elements)
         {
-            yield return element.DisableHighlight();
+            yield return element.DisableMoveHighlight();
         }
     }
 
@@ -56,8 +54,6 @@ public class MovementCard : CardAction
         if (_gridService.TryGetMouseGridPos(out Vector2Int pos))
         {
             yield return _playerService.Move(pos);
-            
-            _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
         }
     }
 

@@ -60,6 +60,19 @@ public class GridService : IService, IStart
         return res;
     }
 
+    public Vector2Int GetGroundPosition(GroundGridElement element)
+    {
+        for (int i = 0; i < _ground.GetLength(0); i++)
+        {
+            for (int j = 0; j < _ground.GetLength(1); j++)
+            {
+                if (_ground[i, j] == element) return new Vector2Int(i, j);
+            }
+        }
+
+        return Vector2Int.zero;
+    }
+    
     public Vector2Int GetObjectPosition(ObjectGridElement element)
     {
         for (int i = 0; i < _objects.GetLength(0); i++)
@@ -150,5 +163,19 @@ public class GridService : IService, IStart
         var position = GetObjectPosition(element);
         _objects[position.x, position.y] = null;
         GameObject.Destroy(element.gameObject);
+    }
+    
+    public List<EnemyView> GetEnemies()
+    {
+        List<EnemyView> res = new();
+        foreach (ObjectGridElement element in _objects)
+        {
+            if (element is EnemyView view)
+            {
+                res.Add(view);
+            }
+        }
+
+        return res;
     }
 }

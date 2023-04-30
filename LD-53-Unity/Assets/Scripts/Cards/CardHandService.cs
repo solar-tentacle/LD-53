@@ -6,18 +6,18 @@ public class CardHandService : IService, IInject
 {
     private UIService _uiService;
     private UICardsHand _uiHand;
-    private CoroutineService _coroutineService;
     
     private Dictionary<CardView, Card> _cards = new();
-    private CardView _selectedCard;
+    private CardView _selectedCardView;
 
     private CardDeck _currentHand = new CardDeck();
-    
-    public void Inject()
+
+    public Card SelectedCard => _cards[_selectedCardView];
+
+    void IInject.Inject()
     {
         _uiService = Services.Get<UIService>();
         _uiHand = _uiService.UICanvas.HUD.UICardsHand;
-        _coroutineService = Services.Get<CoroutineService>();
     }
 
     public void FillCurrentHand(List<Card> cards)
@@ -44,32 +44,20 @@ public class CardHandService : IService, IInject
 
     private void OnCardThrown(CardView view)
     {
-        _selectedCard = view;
-        _coroutineService.StartCoroutine(ExecuteFlow());
+        _selectedCardView = view;
     }
 
-    private IEnumerator ExecuteFlow()
+    public IEnumerator SelectCardFlow()
     {
-        CardAction action = _cards[_selectedCard].Config.Action;
+        yield return new WaitUntil(() => _selectedCardView != null);
+        yield return _uiHand.SelectCard(_selectedCardView);
+    }
 
-        yield return _uiHand.SelectCard(_selectedCard);
-        yield return action.Select();
-
-        while (true)
-        {
-            if (Input.GetMouseButtonDown(0) && action.CanExecute())
-            {
-                yield return action.Deselect();
-                yield return action.Execute();
-                break;
-            }
-
-            yield return null;
-        }
-
-        yield return _uiHand.HideCard(_selectedCard);
-        RemoveCard(_cards[_selectedCard]);
-        _selectedCard = null;
+    public IEnumerator HideCardFlow()
+    {
+        yield return _uiHand.HideCard(_selectedCardView);
+        RemoveCard(_cards[_selectedCardView]);
+        _selectedCardView = null;
     }
 
     private IEnumerator ExecuteAction(CardAction action)

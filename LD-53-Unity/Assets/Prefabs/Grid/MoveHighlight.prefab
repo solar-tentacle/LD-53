@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4294296880218009399}
   - component: {fileID: 4148880353681833896}
   m_Layer: 0
-  m_Name: Highlight
+  m_Name: MoveHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

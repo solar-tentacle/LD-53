@@ -29,7 +29,7 @@ public class AttackAction : CardAction
         foreach (var element in _elements)
         {
             var (ground, gridObject) = element;
-            yield return ground.EnableHighlight();
+            yield return ground.EnableMoveHighlight();
             //yield return gridObject.EnableHighlight();
         }
     }
@@ -39,7 +39,7 @@ public class AttackAction : CardAction
         foreach (var element in _elements)
         {
             var (ground, gridObject) = element;
-            yield return ground.DisableHighlight();
+            yield return ground.DisableMoveHighlight();
             //yield return gridObject.EnableHighlight();
         }
     }
