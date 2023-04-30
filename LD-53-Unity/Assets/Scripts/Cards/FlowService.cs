@@ -58,7 +58,7 @@ public class FlowService : IService, IInject, IStart
 
             if (_encounterService.TryGetEncounter(playerPos, out var encounter))
             {
-                yield return _encounterService.Flow(encounter);
+                yield return _encounterService.Flow(encounter, playerPos);
             }
 
             if (playerPos == _endLevelPosition)
