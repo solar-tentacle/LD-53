@@ -22,7 +22,6 @@ public class FlowService : IService, IInject, IStart
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
     }
 
-
     void IStart.GameStart()
     {
         _coroutineService.StartCoroutine(FlowCoroutine());
