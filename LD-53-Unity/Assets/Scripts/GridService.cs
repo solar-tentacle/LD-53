@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridService : IService, IStart
 {
     private GroundGridElement[,] _ground;
     private ObjectGridElement[,] _objects;
+    private Plane _plane = new(Vector3.up, 0);
 
     void IStart.GameStart()
     {
@@ -92,5 +94,28 @@ public class GridService : IService, IStart
         if (pos.x < 0 || pos.x > _ground.GetLength(0)) return false;
         if (pos.y < 0 || pos.y > _ground.GetLength(1)) return false;
         return true;
+    }
+
+    public void TryAddGroundElement(List<GroundGridElement> buffer, Vector2Int pos)
+    {
+        if (TryGetGroundView(pos, out GroundGridElement element))
+        {
+            buffer.Add(element);
+        }
+    }
+
+    public bool TryGetMouseGridPos(out Vector2Int pos)
+    {
+        pos = Vector2Int.zero;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (_plane.Raycast(ray, out float distance))
+        {
+            Vector3 worldPosition = ray.GetPoint(distance);
+
+            pos = GetMatrixPosition(worldPosition);
+            return true;
+        }
+
+        return false;
     }
 }
