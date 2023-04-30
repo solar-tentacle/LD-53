@@ -9,11 +9,15 @@ public class UICanvas : MonoBehaviour
     [SerializeField] private HealthView _healthViewPrefab;
 
     public UIHud HUD => _hud;
+    
     [SerializeField] private UIWinWindow _uiWinWindow;
     public UIWinWindow UIWinWindow => _uiWinWindow;
 
     [SerializeField] private UILoseWindow _uiLoseWindow;
     public UILoseWindow UILoseWindow => _uiLoseWindow;
+
+    [SerializeField] private UIEncounterWindow _uiEncounterWindow;
+    public UIEncounterWindow UIEncounterWindow => _uiEncounterWindow;
 
     private void Start()
     {

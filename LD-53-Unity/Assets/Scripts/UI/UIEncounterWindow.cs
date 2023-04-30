@@ -16,12 +16,26 @@ public class UIEncounterWindow : ActivateView
     private EncounterData _data;
     private AnswerEncounterData _currentAnswerData;
     private CoroutineService _coroutineService;
-    
+
+    public AnswerEncounterData CurrentAnswerData => _currentAnswerData;
+
     private void Start()
     {
         _coroutineService = Services.Get<CoroutineService>();
         _buttonEnd.SetActive(false);
         _buttonEndText.text = "OK";
+    }
+
+    protected override void OnShow()
+    {
+        base.OnShow();
+        _currentAnswerData = null;
+    }
+
+    public void ShowEncounterWindow()
+    {
+        Show();
+        //make DOFade huetu
     }
 
     public void ButtonYesClick()
@@ -30,7 +44,7 @@ public class UIEncounterWindow : ActivateView
         _buttonEnd.SetActive(true);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);
-        ChangeEncounterWindowTextTo(_currentAnswerData.ResultText);
+        ChangeEncounterWindowTextTo(CurrentAnswerData.ResultText);
     }
 
     public void ButtonNoClick()
@@ -39,14 +53,14 @@ public class UIEncounterWindow : ActivateView
         _buttonEnd.SetActive(true);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);
-        ChangeEncounterWindowTextTo(_currentAnswerData.ResultText);
+        ChangeEncounterWindowTextTo(CurrentAnswerData.ResultText);
     }
 
     public void ButtonEndClick()
     {
-        if (_currentAnswerData.ResultAction != null)
+        if (CurrentAnswerData.ResultAction != null)
         {
-            _coroutineService.ExecuteAction(_currentAnswerData.ResultAction);
+            _coroutineService.ExecuteAction(CurrentAnswerData.ResultAction);
         }
         _buttonEnd.SetActive(false);
         _buttonNo.SetActive(false);
