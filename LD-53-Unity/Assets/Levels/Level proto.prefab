@@ -7,6 +7,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 2. You stumble upon the gym. Will you be engaged?
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.AnswerText
+      value: No i'm not a faggot...
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.ResultText
+      value: You pass by.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.AnswerText
+      value: Smoke like a chimney, die ten years early.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.ResultText
+      value: You gain additional health.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.Health
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1218,6 +1242,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1280,6 +1308,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 3. You've come across a bunch of thorny bushes. Bypass or pass through?
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.AnswerText
+      value: Try to get through.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.ResultText
+      value: Passing through the bushes, you will be injured and lose one heart.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.AnswerText
+      value: Don't try to get through.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.ResultText
+      value: Going around the bushes, you find a cool chest with a knife and bandages.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.Health
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.Health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.GetCardsFromDeck.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1404,6 +1468,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1590,6 +1658,35 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 5. A small bear pounces on you. Try to run away?
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.AnswerText
+      value: Try to pet a little puffy bear.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.ResultText
+      value: The little bear turns out to be not so small. After beating you, he
+        leaves. You lose a health point.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.AnswerText
+      value: Try to run away.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.ResultText
+      value: You run a good sprint and get an extra movement card.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.Health
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1900,6 +1997,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -1962,6 +2063,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -2148,6 +2253,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 4. You stumble upon a mailbox. Want to see what's inside?
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.AnswerText
+      value: Yes, sure.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.ResultText
+      value: It contained a book of martial arts. You receive an attack card.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.AnswerText
+      value: No it's stupid.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.ResultText
+      value: You pass by and get nothing.
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.GetCardsFromDeck.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
@@ -2708,23 +2841,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.Question
-      value: "\u0412\u044B \u0435\u0431\u0430\u043D\u0430\u0442?"
+      value: 1. You are walking through the forest and you see a bald monk. He invites
+        you to learn a new combat technique. Do you want to study it?
       objectReference: {fileID: 0}
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.AnswerData1.AnswerText
-      value: "\u0414\u0430"
+      value: Yes
       objectReference: {fileID: 0}
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.AnswerData1.ResultText
-      value: "\u0411\u044B\u0432\u0430\u0435\u0442)"
+      value: You learn a new move and get an additional combat card.
       objectReference: {fileID: 0}
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.AnswerData2.AnswerText
-      value: "\u041D\u0435\u0442"
+      value: No
       objectReference: {fileID: 0}
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.AnswerData2.ResultText
-      value: "\u0421\u043E\u0447\u0443\u0432\u0441\u0442\u0432\u0443\u044E"
+      value: You send a monk and move on.
       objectReference: {fileID: 0}
     - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: EncounterData.AnswerData2.Reward.Health
@@ -2804,6 +2938,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
