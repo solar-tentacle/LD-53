@@ -10,5 +10,5 @@ public class CardConfig : ScriptableObject
     public CardType CardType;
     public RarityType RarityType;
 
-    [SerializeReference] public List<CardAction> Actions = new List<CardAction>();
+    [SerializeReference] public CardAction Action;
 }

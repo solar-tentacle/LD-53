@@ -216,11 +216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d39031373149e59290bfc42e9bf124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FadeEndValue: 0
-  FadeDuration: 0
-  ScaleEndValueOnEnter: 0
-  ScaleDuration: 0
-  MoveYDuration: 0
+  FadeEndValue: 0.7
+  FadeDuration: 0.5
+  ScaleEndValueOnEnter: 1.5
+  ScaleDuration: 0.5
+  MoveYDuration: 40
   _canvasGroup: {fileID: 6883980260177753220}
   _icon: {fileID: 2735737055486495735}
   _titleText: {fileID: 7772095705213738758}

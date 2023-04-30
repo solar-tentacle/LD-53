@@ -17,3 +17,10 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 3042b019b052942a1baf7aa49d7ca6bb, type: 3}
   CardType: 0
   RarityType: 0
+  Action:
+    rid: 3673524013913604097
+  references:
+    version: 2
+    RefIds:
+    - rid: 3673524013913604097
+      type: {class: PlusMovement, ns: , asm: Assembly-CSharp}
