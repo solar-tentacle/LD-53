@@ -9,6 +9,9 @@ public class GridService : IService, IStart
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
         BuildLevel(assetsCollection.GetLevelData(GameFlowService.LevelIndex));
+        
+        UnitService unitService = Services.Get<UnitService>();
+        unitService.CreateUnitStates(_objects);
     }
 
     public void BuildLevel(LevelData levelData)
