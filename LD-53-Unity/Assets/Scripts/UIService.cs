@@ -27,6 +27,19 @@ public class UIService : Service, IInject, IUpdate
         var healthView = _healthViewsByObjects.FirstOrDefault(h => h.Key == element).Value;
         healthView.SetHealth(health);
     }
+    
+    public void RemoveHealthView(ObjectGridElement element)
+    {
+        for (int i = 0; i < _healthViewsByObjects.Count; i++)
+        {
+            if (_healthViewsByObjects[i].Key == element)
+            {
+                _healthViewsByObjects[i].Value.gameObject.SetActive(false);
+                _healthViewsByObjects.RemoveAt(i);
+                return;
+            }
+        }
+    }
 
     public void UpdateHealthPositions()
     {

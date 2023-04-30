@@ -23,6 +23,7 @@ public class GridService : IService, IStart
     }
 
     public GroundGridElement GetGroundView(Vector2Int point) => _ground[point.x, point.y];
+    public ObjectGridElement GetObjectView(Vector2Int point) => _objects[point.x, point.y];
 
     public bool TryGetGroundView(Vector2Int point, out GroundGridElement element)
     {
@@ -103,6 +104,23 @@ public class GridService : IService, IStart
             buffer.Add(element);
         }
     }
+    
+    public void GetSurroundingElements(int rowIndex, int colIndex, int range, List<(GroundGridElement, ObjectGridElement)> buffer)
+    {
+        for (int row = rowIndex - range; row <= rowIndex + range; row++)
+        {
+            for (int col = colIndex - range; col <= colIndex + range; col++)
+            {
+                if (row == rowIndex && col == colIndex) {
+                    continue; // skip the current iteration if this is the target cell
+                }
+                if (row >= 0 && row < _ground.GetLength(0) && col >= 0 && col < _ground.GetLength(1))
+                {
+                    buffer.Add((_ground[row, col], _objects[row, col]));
+                }
+            }
+        }
+    }
 
     public bool TryGetMouseGridPos(out Vector2Int pos)
     {
@@ -117,5 +135,12 @@ public class GridService : IService, IStart
         }
 
         return false;
+    }
+
+    public void RemoveElement(ObjectGridElement element)
+    {
+        var position = GetObjectPosition(element);
+        _objects[position.x, position.y] = null;
+        GameObject.Destroy(element.gameObject);
     }
 }
