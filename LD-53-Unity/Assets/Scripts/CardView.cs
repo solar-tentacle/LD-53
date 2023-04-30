@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -22,11 +23,13 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     [SerializeField] private TMP_Text _descriptionText;
     
     
-    public event Action OnThrowed;
+    public event Action OnExecuted;
     private bool _isSelected;
     private RectTransform _rectTransform;
     private Vector3 _endValue;
     private float _startPosY;
+
+    private CardConfig _cardConfig;
 
     private void Start()
     {
@@ -36,6 +39,8 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void SetContent(CardConfig cardConfig)
     {
+        _cardConfig = cardConfig;
+        
         _titleText.text = cardConfig.Title;
         _descriptionText.text = cardConfig.Description;
         _icon.sprite = cardConfig.Icon;
@@ -61,14 +66,21 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        StartCoroutine(_cardConfig.Action.Deselect());
+        
+        if (_cardConfig.Action.CanExecute())
+        {
+            OnExecuted?.Invoke();
+            Destroy(gameObject);
+        }
+        
         _isSelected = false;
-        OnThrowed?.Invoke();
-        gameObject.SetActive(false);
-        Debug.Log("Card destroyed [CardView]");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        StartCoroutine(_cardConfig.Action.Select());
+        
         _isSelected = true;
         _canvasGroup.DOFade(FadeEndValue, FadeDuration);
     }

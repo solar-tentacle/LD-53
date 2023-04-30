@@ -29,7 +29,7 @@ public class CardHandService : IService, IInject
         _currentHand.AddCard(card);
         
         var view = _uiService.UICanvas.HUD.UICardsHand.CreateCard(card.Config);
-        view.OnThrowed += () => OnCardUsed(card);
+        view.OnExecuted += () => OnCardUsed(card);
     }
 
     public void RemoveCard(Card card)
@@ -39,17 +39,14 @@ public class CardHandService : IService, IInject
 
     private void OnCardUsed(Card card)
     {
-        _coroutineService.StartCoroutine(ExecuteActions(card.Config.Actions));
+        _coroutineService.StartCoroutine(ExecuteAction(card.Config.Action));
 
         _cardDeckService.RemoveCardFromCurrentDeck(card);
     }
 
-    private IEnumerator ExecuteActions(List<CardAction> actions)
+    private IEnumerator ExecuteAction(CardAction action)
     {
-        for (int i = 0; i < actions.Count; i++)
-        {
-            yield return actions[i];
-        }
+        yield return action.Execute();
     }
 
     public void RemoveAllCards()
