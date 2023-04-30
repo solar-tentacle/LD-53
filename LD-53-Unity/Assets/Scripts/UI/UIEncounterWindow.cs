@@ -63,10 +63,7 @@ public class UIEncounterWindow : ActivateView
 
     public void ButtonEndClick()
     {
-        if (CurrentAnswerData.ResultAction != null)
-        {
-            _coroutineService.ExecuteAction(CurrentAnswerData.ResultAction);
-        }
+        CurrentAnswerData.Reward?.GiveReward();
         _buttonEnd.SetActive(false);
         _buttonNo.SetActive(false);
         _buttonYes.SetActive(false);

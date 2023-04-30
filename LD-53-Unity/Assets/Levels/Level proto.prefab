@@ -2706,6 +2706,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.Question
+      value: "\u0412\u044B \u0435\u0431\u0430\u043D\u0430\u0442?"
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.AnswerText
+      value: "\u0414\u0430"
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.ResultText
+      value: "\u0411\u044B\u0432\u0430\u0435\u0442)"
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.AnswerText
+      value: "\u041D\u0435\u0442"
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.ResultText
+      value: "\u0421\u043E\u0447\u0443\u0432\u0441\u0442\u0432\u0443\u044E"
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.Health
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData2.Reward.GetCardsFromDeck.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -763881647284763655, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
+      propertyPath: EncounterData.AnswerData1.Reward.GetCardsFromDeck.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 1ce5168f060f4784f992768a6e2318af, type: 3}
       propertyPath: m_Name
       value: encounter
