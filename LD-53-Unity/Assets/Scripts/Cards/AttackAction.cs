@@ -6,12 +6,12 @@ using UnityEngine;
 [Serializable]
 public class AttackAction : CardAction
 {
-    private PlayerService _playerService;
+    protected PlayerService _playerService;
     private PlayerView _playerView;
-    private GridService _gridService;
+    protected GridService _gridService;
     private readonly List<(GroundGridElement, ObjectGridElement)> _elements = new();
-    private UnitService _unitService;
-    private ObjectGridElement _selectedElement;
+    protected UnitService _unitService;
+    protected ObjectGridElement _selectedElement;
     private AssetsCollection _assetCollection;
     private ObjectType[] _enemyTypes;
 
@@ -74,5 +74,16 @@ public class AttackAction : CardAction
         var range = 1;
         _elements.Clear();
         _gridService.GetSurroundingElements(pos.x, pos.y, range, _elements, _enemyTypes);
+    }
+}
+
+[Serializable] public class LifeStealAttackAction : AttackAction
+{
+    [SerializeField] private uint _damage = 1;
+    [SerializeField] private uint _heal = 1;
+    public override IEnumerator Execute()
+    {
+        _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_heal);
+        yield return _unitService.AttackObject(_selectedElement, _damage);
     }
 }
