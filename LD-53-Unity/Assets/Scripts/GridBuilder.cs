@@ -32,7 +32,7 @@ public class GridBuilder
             {
                 GroundType type = tiles[i, j].TileView.GetComponent<GroundGridElement>().Type;
                 GroundGridElement element = Object.Instantiate(_assetsCollection.GetGround(type), _gridTransform);
-                element.transform.position = new Vector3(i, GroundHeight, j);
+                element.transform.position = new Vector3(i + i * 0.1f, GroundHeight, j + j * 0.1f);
                 ground[i, j] = element;
             }
         }
@@ -52,7 +52,7 @@ public class GridBuilder
 
                 ObjectType type = e.Type;
                 ObjectGridElement element = Object.Instantiate(_assetsCollection.GetObject(type), _gridTransform);
-                element.transform.position = new Vector3(i, ObjectHeight, j);
+                element.transform.position = new Vector3(i + i * 0.1f, ObjectHeight, j + j * 0.1f);
                 objects[i, j] = element;
             }
         }
