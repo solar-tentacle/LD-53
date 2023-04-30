@@ -10,17 +10,35 @@ public class HighlightView : MonoBehaviour
         DisableAll();
     }
 
-    public void Highlight(HighlightType type)
+    public void Enable(HighlightType type)
     {
-        foreach (var highlight in _highlights)
+        foreach (Highlight highlight in _highlights)
         {
-            highlight.Graphics.SetActive(highlight.Type == type);
+            if (highlight.Type != type)
+            {
+                continue;
+            }
+            
+            highlight.Graphics.SetActive(true);
+        }
+    }
+    
+    public void Disable(HighlightType type)
+    {
+        foreach (Highlight highlight in _highlights)
+        {
+            if (highlight.Type != type)
+            {
+                continue;
+            }
+            
+            highlight.Graphics.SetActive(false);
         }
     }
     
     public void DisableAll()
     {
-        foreach (var highlight in _highlights)
+        foreach (Highlight highlight in _highlights)
         {
             highlight.Graphics.SetActive(false);
         }
@@ -36,5 +54,6 @@ public class HighlightView : MonoBehaviour
 public enum HighlightType
 {
     Move,
-    Attack
+    Attack,
+    Agro,
 }

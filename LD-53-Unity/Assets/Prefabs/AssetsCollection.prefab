@@ -56,14 +56,18 @@ MonoBehaviour:
   - {fileID: 4197228296285816469, guid: 56711c12dbdef484f869903d55292e27, type: 3}
   - {fileID: 3840372947026379875, guid: c317674fe4b2e4e4089febef9b15e330, type: 3}
   - {fileID: 3840372947026379875, guid: 72acaeccc1d554dee9f9c38137fd31ee, type: 3}
-  - {fileID: 3840372947026379875, guid: a37624e2b57387e42b4f590d5a5a867a, type: 3}
+  - {fileID: 1221485795439300029, guid: a37624e2b57387e42b4f590d5a5a867a, type: 3}
   _objectsStats:
   - Type: 0
     Health: 2
+    AttackDamage: 1
   - Type: 3
     Health: 1
+    AttackDamage: 1
   - Type: 4
     Health: 2
+    AttackDamage: 1
   - Type: 4
     Health: 3
+    AttackDamage: 1
   GameConfig: {fileID: 11400000, guid: 4733e425885bd314ba59ff8113243e59, type: 2}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7110652465665368794}
   - component: {fileID: 9177061956416081518}
   - component: {fileID: 4302956354753442335}
-  - component: {fileID: 3840372947026379875}
+  - component: {fileID: 1221485795439300029}
   m_Layer: 0
   m_Name: EnemyEasyGridElement
   m_TagString: Untagged
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3840372947026379875
+--- !u!114 &1221485795439300029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4685043970458680019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95fb8a0bc8264032b0ca6de84d6be06d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ce7e2386c3448cabfc8f99888ce0bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 3
+  _damage: 1
+  _agroDeltaPoints:
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 1, y: -1}
+  - {x: -1, y: 1}
+  - {x: -1, y: -1}
