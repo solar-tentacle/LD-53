@@ -6,11 +6,13 @@ using UnityEngine;
 public class UIService : Service, IInject, IUpdate
 {
     [SerializeField] private UICanvas _uiCanvas;
+    public UICanvas UICanvas => _uiCanvas;
     private readonly List<KeyValuePair<ObjectGridElement, HealthView>> _healthViewsByObjects = new();
 
     public void Inject()
     {
         _uiCanvas.HUD.Show();
+        _uiCanvas.HUD.UICardsHand.Show();
     }
 
     public void AddHealthView(ObjectGridElement element, uint health)
