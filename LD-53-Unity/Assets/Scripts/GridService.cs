@@ -87,6 +87,24 @@ public class GridService : IService, IStart
 
         return Vector2Int.zero;
     }
+    
+    public Dictionary<Vector2Int, ObjectGridElement> GetObjectsPositions(ObjectType type)
+    {
+        Dictionary<Vector2Int, ObjectGridElement> objectsPositions = new Dictionary<Vector2Int, ObjectGridElement>();
+        for (int i = 0; i < _objects.GetLength(0); i++)
+        {
+            for (int j = 0; j < _objects.GetLength(1); j++)
+            {
+                if (_objects[i, j] == null) continue;
+                if (_objects[i, j].Type == type)
+                {
+                    objectsPositions.Add(new Vector2Int(i, j), _objects[i, j]);
+                }
+            }
+        }
+
+        return objectsPositions;
+    }
 
     public PlayerView GetPlayerView()
     {
