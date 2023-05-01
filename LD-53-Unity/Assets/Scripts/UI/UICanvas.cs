@@ -1,5 +1,4 @@
-﻿using System;
-using UI;
+﻿using UI;
 using UnityEngine;
 
 public class UICanvas : MonoBehaviour
@@ -7,6 +6,7 @@ public class UICanvas : MonoBehaviour
     [SerializeField] private UIHud _hud;
     [SerializeField] private Transform _healthViewParent;
     [SerializeField] private HealthView _healthViewPrefab;
+    [SerializeField] private ChangeHealthView _changeHealthViewPrefab;
 
     public UIHud HUD => _hud;
     
@@ -33,6 +33,13 @@ public class UICanvas : MonoBehaviour
     public HealthView AddHealthView()
     {
         var result = Instantiate(_healthViewPrefab, _healthViewParent);
+        result.gameObject.SetActive(true);
+        return result;
+    }
+
+    public ChangeHealthView SpawnHealthChangeAnim()
+    {
+        var result = Instantiate(_changeHealthViewPrefab, _healthViewParent);
         result.gameObject.SetActive(true);
         return result;
     }

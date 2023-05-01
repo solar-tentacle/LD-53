@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UI;
 using UnityEngine;
 
@@ -46,13 +47,32 @@ public class UIService : Service, IInject, IUpdate
     {
         foreach (var kv in _healthViewsByObjects)
         {
-            Vector3 playerPos = Camera.main.WorldToScreenPoint(kv.Key.transform.position);
-            kv.Value.transform.position = playerPos;
+            AnchorPosition(kv.Key.transform, kv.Value.transform);
         }
+    }
+
+    private static void AnchorPosition(Transform element, Transform healthView)
+    {
+        Vector3 elementPosition = Camera.main.WorldToScreenPoint(element.position);
+        healthView.position = elementPosition;
     }
 
     public void GameUpdate(float delta)
     {
         UpdateHealthPositions();
+    }
+
+    public void AnimateHealthChange(ObjectGridElement element, int delta)
+    {
+        var healthChangeAnim = _uiCanvas.SpawnHealthChangeAnim();
+        healthChangeAnim.SetHealth(delta);
+        AnchorPosition(element.transform, healthChangeAnim.transform);
+        var targetPosition = healthChangeAnim.transform.position;
+        healthChangeAnim.transform.position = new Vector3(targetPosition.x, targetPosition.y-100.5f, targetPosition.z);
+        healthChangeAnim.transform.DOMoveY(targetPosition.y, 1.3f);
+        healthChangeAnim.CanvasGroup.DOFade(0, 1.3f).OnComplete(() =>
+        {
+            Destroy(healthChangeAnim.gameObject);
+        });
     }
 }
