@@ -47,7 +47,7 @@ public class FlowService : IService, IInject, IStart
         while (true)
         {
             _usedMovementAction = false;
-            
+
             yield return _enemyService.EnableHighlight();
 
             yield return _cardHandService.SelectCardFlow(_isBattle);
@@ -56,11 +56,15 @@ public class FlowService : IService, IInject, IStart
             CardAction action = card.Config.Action;
             yield return HandleCardAction(action);
 
-            yield return _cardHandService.HideCardFlow();
+            if (_cardHandService.SelectedCard != null)
+            {
+                yield return _cardHandService.HideCardFlow();
+            }
+
             yield return TryAddCard(card);
 
             var playerPos = _gridService.GetObjectPosition(_playerView);
-            
+
             if (_usedMovementAction)
             {
                 if (_encounterService.TryGetEncounter(playerPos, out var encounter))
@@ -131,14 +135,12 @@ public class FlowService : IService, IInject, IStart
             case CardType.Action when _isBattle:
                 yield return _cardDeckService.TryAddCardFromCurrentDeck(CardType.Action);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
     private IEnumerator HandleCardAction(CardAction action)
     {
-        if (action is GetCardsFromHandAction)
+        if (action is GetCardsFromHandAction or CopyCardAction)
         {
             yield return action.Execute();
             yield break;
@@ -156,6 +158,7 @@ public class FlowService : IService, IInject, IStart
                 {
                     _usedMovementAction = true;
                 }
+
                 break;
             }
 
