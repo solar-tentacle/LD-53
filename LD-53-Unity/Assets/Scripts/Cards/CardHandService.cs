@@ -73,8 +73,8 @@ public class CardHandService : IService, IInject
         yield return new WaitUntil(() => _selectedCardView != null);
         RemoveCard(_cards[_selectedCardView]);
         _uiHand.ShowDarkRect();
-        yield return _uiHand.SelectCard(_selectedCardView);
         _uiHand.EnableBlocker();
+        yield return _uiHand.SelectCard(_selectedCardView);
 
         foreach (CardView view in _cards.Keys)
         {
@@ -118,6 +118,7 @@ public class CardHandService : IService, IInject
 
     public IEnumerator CancelFlow()
     {
+        _uiHand.DisableBlocker();
         yield return _uiHand.MoveCardToHand(_selectedCardView);
     }
 
