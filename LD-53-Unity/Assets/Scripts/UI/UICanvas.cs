@@ -19,6 +19,9 @@ public class UICanvas : MonoBehaviour
     [SerializeField] private UIEncounterWindow _uiEncounterWindow;
     public UIEncounterWindow UIEncounterWindow => _uiEncounterWindow;
 
+    [SerializeField] private UIStoreWindow _uiStoreWindow;
+    public UIStoreWindow UIStoreWindow => _uiStoreWindow;
+
     private void Start()
     {
         _healthViewPrefab.gameObject.SetActive(false);

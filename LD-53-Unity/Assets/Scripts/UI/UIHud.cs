@@ -15,6 +15,9 @@ public class UIHud : ActivateView
     [SerializeField] private HealthView _playerHealth;
     public HealthView PlayerHealth => _playerHealth;
 
+    [SerializeField] private UIPanel _coinsPanel;
+    public UIPanel CoinsPanel => _coinsPanel;
+
     protected override void OnInit()
     {
         base.OnInit();
