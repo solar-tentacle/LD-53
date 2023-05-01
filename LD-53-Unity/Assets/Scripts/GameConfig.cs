@@ -6,6 +6,7 @@ public class GameConfig : ScriptableObject
 {
     public int StartCoins;
     public int CoinsPerMove = 1;
+    public int StartPizzaCount = 5;
 
     public List<CardConfig> StartCards = new List<CardConfig>();
 
