@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlusMoveCard
   m_EditorClassIdentifier: 
   Title: Plus
-  Description: Move in Forward direction to 1 cell
+  Description: Move 1 Cell to Plus direction<br>Draw 1 Move Card
   Icon: {fileID: 21300000, guid: dcd9afec5904a1e47b28da8642d81759, type: 3}
   CardType: 0
   RarityType: 0

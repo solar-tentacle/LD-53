@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultAttackCard
   m_EditorClassIdentifier: 
   Title: Attack
-  Description: Damage 1 Hp
+  Description: Damage 1 Hp<br>Draw 1 Action Card
   Icon: {fileID: 21300000, guid: 169d45648e00348038299fc345aa6b4f, type: 3}
   CardType: 1
   RarityType: 0

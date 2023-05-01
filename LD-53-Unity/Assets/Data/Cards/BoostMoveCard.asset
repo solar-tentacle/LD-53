@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BoostMoveCard
   m_EditorClassIdentifier: 
   Title: Boost
-  Description: Move in Forward direction to 1 cell
+  Description: Move 2 Cell to Any direction<br>Draw 2 Move Card
   Icon: {fileID: 21300000, guid: 44f2803dad0404cbeb9ee038d70da104, type: 3}
   CardType: 0
   RarityType: 1
