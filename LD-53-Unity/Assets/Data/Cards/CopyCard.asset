@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Copy
   Description: Move in Forward direction to 1 cell
-  Icon: {fileID: 21300000, guid: 3042b019b052942a1baf7aa49d7ca6bb, type: 3}
+  Icon: {fileID: 21300000, guid: 04a1b73c89c542b44b86fca90743ed43, type: 3}
   CardType: 1
   RarityType: 1
   IsOnlyBattle: 0

@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Draw
   Description: Draw Move and Action cards
-  Icon: {fileID: 21300000, guid: ae869fe6797f4454cbbf417d87ff637c, type: 3}
+  Icon: {fileID: 21300000, guid: 7c43ca9276ebf444da9322adce3e4f72, type: 3}
   CardType: 1
   RarityType: 1
+  IsOnlyBattle: 0
   Action:
     rid: 3673524013913604100
   references:

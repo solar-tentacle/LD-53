@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Circle
   Description: Move any direction<br>1 cell
-  Icon: {fileID: 21300000, guid: 27e74bd746fbaf04982f639d3fef4604, type: 3}
+  Icon: {fileID: 21300000, guid: 939cfc2b577e4ef42b2b678904451791, type: 3}
   CardType: 0
   RarityType: 0
   IsOnlyBattle: 0
