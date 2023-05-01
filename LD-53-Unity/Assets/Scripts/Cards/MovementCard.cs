@@ -11,7 +11,6 @@ public class MovementCard : CardAction
     private PlayerView _playerView;
     private GridService _gridService;
     private List<GroundGridElement> _elements;
-    private GameFlowService _gameFlowService;
 
     public int DirectionsCount => _directions.Count;
 
@@ -20,7 +19,6 @@ public class MovementCard : CardAction
         _playerService = Services.Get<PlayerService>();
         _playerView = _playerService.PlayerView;
         _gridService = Services.Get<GridService>();
-        _gameFlowService = Services.Get<GameFlowService>();
     }
 
     public override IEnumerator Select()
