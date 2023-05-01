@@ -36,21 +36,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public CanvasGroup CanvasGroup => _canvasGroup;
     public RectTransform Container => _container;
     public Vector3 ContainerStartLocalPos = Vector3.zero;
-    private bool _disabled;
-
-    private void OnEnable()
-    {
-        if (_disabled)
-        {
-            _container.DOLocalMove(_endValue, _moveYDuration);
-            _container.DOScale(1f, _scaleDuration);
-        }
-    }
-
-    private void OnDisable()
-    {
-        _disabled = true;
-    }
+    public bool InSelectionZone;
 
     public void SetContent(CardConfig cardConfig)
     {
@@ -107,32 +93,44 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         Thrown?.Invoke(this);
         _isSelected = false;
         _canvasGroup.DOFade(1f, _fadeDuration);
-        // transform.DOMove(_endValue, _moveYDuration);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Picked?.Invoke(this);
-        _isSelected = true;
-        _canvasGroup.DOFade(_fadeEndValue, _fadeDuration);
+        if (InSelectionZone == false)
+        {
+            _isSelected = true;
+            _canvasGroup.DOFade(_fadeEndValue, _fadeDuration);
+        }
+        else
+        {
+            _container.DOScale(1f, _scaleDuration);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if(InSelectionZone) return;
         if (_isSelected) return;
 
         _endValue = new Vector3(_container.localPosition.x, ContainerStartLocalPos.y);
-        Vector3 tempEndValue = _endValue + Vector3.up * 30f;
+        Vector3 tempEndValue = _endValue + Vector3.up * 0100;
 
-        Debug.Log(tempEndValue);
         _container.DOLocalMove(tempEndValue, _moveYDuration);
         _container.DOScale(_scaleEndValueOnEnter, _scaleDuration);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if(InSelectionZone) return;
         if (_isSelected) return;
         _container.DOLocalMove(_endValue, _moveYDuration);
+        _container.DOScale(1f, _scaleDuration);
+    }
+
+    public void ScaleToDefault()
+    {
         _container.DOScale(1f, _scaleDuration);
     }
 }
