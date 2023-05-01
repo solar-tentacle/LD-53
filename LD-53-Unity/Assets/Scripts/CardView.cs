@@ -115,7 +115,7 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         if (_isSelected) return;
 
         _endValue = new Vector3(_container.localPosition.x, ContainerStartLocalPos.y);
-        Vector3 tempEndValue = _endValue + Vector3.up * 0100;
+        Vector3 tempEndValue = _endValue + Vector3.up * 100;
 
         _container.DOLocalMove(tempEndValue, _moveYDuration);
         _container.DOScale(_scaleEndValueOnEnter, _scaleDuration);
