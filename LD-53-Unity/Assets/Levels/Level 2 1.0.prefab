@@ -2018,6 +2018,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.Coins
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 0297292d0968058488e2780b991b7602, type: 3}
       propertyPath: m_Name
       value: enemy_easy
@@ -2142,6 +2150,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.Coins
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.GetCardsFromDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.GetCardsFromDeck.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 0297292d0968058488e2780b991b7602, type: 3}
       propertyPath: m_Name
       value: enemy_easy
@@ -2500,6 +2520,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: store
       objectReference: {fileID: 0}
+    - target: {fileID: 7776077437193050973, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
+      propertyPath: StoreData.StoreItemDatas.Array.data[0].Cost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776077437193050973, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
+      propertyPath: StoreData.StoreItemDatas.Array.data[1].Cost
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776077437193050973, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
+      propertyPath: StoreData.StoreItemDatas.Array.data[0].Reward.Health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776077437193050973, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
+      propertyPath: StoreData.StoreItemDatas.Array.data[1].Reward.CreateAndAddCardsToHand.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776077437193050973, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
+      propertyPath: StoreData.StoreItemDatas.Array.data[1].Reward.CreateAndAddCardsToHand.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e159a4c2782c05e4aa58895074c5068c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb9256c92e1893041b15a9c7a34a0870, type: 3}
 --- !u!1 &3677088114013401453 stripped

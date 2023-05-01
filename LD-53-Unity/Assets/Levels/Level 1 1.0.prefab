@@ -1726,6 +1726,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8286592779719851059}
     m_Modifications:
+    - target: {fileID: -6977098572783394458, guid: 0297292d0968058488e2780b991b7602, type: 3}
+      propertyPath: EncounterReward.Coins
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 134140, guid: 0297292d0968058488e2780b991b7602, type: 3}
       propertyPath: m_Name
       value: enemy_easy
