@@ -1,4 +1,6 @@
-﻿public class EncounterGridElement : ObjectGridElement
+﻿using UnityEngine;
+
+public class EncounterGridElement : ObjectGridElement
 {
     public EncounterData EncounterData;
 }

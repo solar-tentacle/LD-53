@@ -1,8 +1,10 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class EncounterData
 {
+    public Sprite Icon;
     public string Question;
     public AnswerEncounterData AnswerData1;
     public AnswerEncounterData AnswerData2;
