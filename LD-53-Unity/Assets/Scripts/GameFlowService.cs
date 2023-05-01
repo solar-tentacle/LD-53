@@ -6,6 +6,7 @@ public class GameFlowService : IService, IInject
     private AssetsCollection _assetsCollection;
     private UIService _uiService;
     public static uint LevelIndex;
+    public static int DieCount;
 
     void IInject.Inject()
     {
@@ -41,6 +42,8 @@ public class GameFlowService : IService, IInject
 
     public void LoseGame(string reasonText)
     {
+        DieCount++;
+        
         _uiService.UICanvas.UILoseWindow.SetContent(reasonText);
         _uiService.UICanvas.UILoseWindow.Show();
     }

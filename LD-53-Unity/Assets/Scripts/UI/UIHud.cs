@@ -18,6 +18,9 @@ public class UIHud : ActivateView
     [SerializeField] private UIPanel _coinsPanel;
     public UIPanel CoinsPanel => _coinsPanel;
 
+    [SerializeField] private ProgressBarUI _pizzaProgressBar;
+    public ProgressBarUI PizzaProgressBar => _pizzaProgressBar;
+
     protected override void OnInit()
     {
         base.OnInit();

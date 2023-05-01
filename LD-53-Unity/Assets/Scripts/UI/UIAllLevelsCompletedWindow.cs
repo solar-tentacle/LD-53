@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class  UIAllLevelsCompletedWindow : ActivateView
 {
     [SerializeField] private Button _nextLevelButton;
+    [SerializeField] private ProgressBarUI _pizzaProgressBar;
     private bool _clicked;
 
     private void Start()
@@ -20,6 +22,11 @@ public class  UIAllLevelsCompletedWindow : ActivateView
     protected override void OnShow()
     {
         _clicked = false;
+
+        var pizzaService = Services.Get<PizzaService>();
+        var assetsCollection = Services.Get<AssetsCollection>();
+        _pizzaProgressBar.SetValue(pizzaService.GetLeftPizzaCount, assetsCollection.GameConfig.StartPizzaCount);
+        
         base.OnShow();
     }
 
