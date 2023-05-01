@@ -55,8 +55,9 @@ public class PortalService : IService, IInject, IStart
 
             var portalData = (portal.Value as PortalGridElement).Data;
             var portalOutPosition = portal.Key + portalData.Direction;
-            
-            if (!resultPosition.HasValue || distance < minDistance && _gridService.TryGetGroundView(portalOutPosition, out _))
+
+            if ((!resultPosition.HasValue || distance < minDistance) &&
+                _gridService.TryAddGroundElement(new List<GroundGridElement>(), portalOutPosition))
             {
                 minDistance = distance;
                 resultPosition = portalOutPosition;

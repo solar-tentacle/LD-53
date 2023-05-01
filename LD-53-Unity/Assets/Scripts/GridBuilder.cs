@@ -53,6 +53,7 @@ public class GridBuilder
                 ObjectType type = e.Type;
                 ObjectGridElement element = Object.Instantiate(_assetsCollection.GetObject(type), _gridTransform);
                 element.transform.position = new Vector3(i + i * 0.1f, ObjectHeight, j + j * 0.1f);
+
                 objects[i, j] = element;
 
                 if (element is EncounterGridElement encounterElement)
@@ -63,6 +64,12 @@ public class GridBuilder
                 if (element is PortalGridElement portalElement)
                 {
                     portalElement.Data = (e as PortalGridElement).Data;
+                    var dir = portalElement.Data.Direction;
+
+                    var pos = element.transform.position;
+                    Vector3 lookAtPosition = new Vector3(pos.x + dir.x * 0.1f, pos.y, pos.z + dir.y * 0.1f);
+                    element.transform.LookAt(lookAtPosition);
+                    
                 }
             }
         }

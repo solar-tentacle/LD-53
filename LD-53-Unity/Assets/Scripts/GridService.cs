@@ -146,20 +146,22 @@ public class GridService : IService, IStart, IInject
         return true;
     }
 
-    public void TryAddGroundElement(List<GroundGridElement> buffer, Vector2Int pos)
+    public bool TryAddGroundElement(List<GroundGridElement> buffer, Vector2Int pos)
     {
         if (TryGetGroundView(pos, out GroundGridElement element))
         {
-            if (element.Type is GroundType.Water) return;
+            if (element.Type is GroundType.Water) return false;
 
             if (_objects[pos.x, pos.y] != null &&
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
                 _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
                 !HasValidPortal(pos) &&
-                _objects[pos.x, pos.y].Type != ObjectType.Encounter) return;
+                _objects[pos.x, pos.y].Type != ObjectType.Encounter) return false;
 
             buffer.Add(element);
         }
+        
+        return true;
     }
 
     private bool HasValidPortal(Vector2Int pos)
@@ -168,12 +170,37 @@ public class GridService : IService, IStart, IInject
         {
             return false;
         }
-        if (pos + (_objects[pos.x, pos.y] as PortalGridElement).Data.Direction != GetObjectPosition(_playerService.PlayerView))
+
+        var direction = (_objects[pos.x, pos.y] as PortalGridElement).Data.Direction;
+
+        var frontPosition = pos + direction;
+
+        var playerPosition = GetObjectPosition(_playerService.PlayerView);
+        
+        if (frontPosition == playerPosition)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        Vector2Int left = new Vector2Int(pos.x + (frontPosition.x - pos.x) - (frontPosition.y - pos.y),
+            pos.y + (frontPosition.y - pos.y) + (frontPosition.x - pos.x));
+
+        if (left == playerPosition)
+        {
+            return true;
+        }
+
+        Vector2Int right = new Vector2Int(pos.x + (frontPosition.x - pos.x) + (frontPosition.y - pos.y),
+            pos.y + (frontPosition.y - pos.y) - (frontPosition.x - pos.x));
+
+        if (right == playerPosition)
+        {
+            return true;
+        }
+
+        
+        Debug.Log($"diagonals: {pos} -> {frontPosition}: [{left}], [{right}]");
+        return false;
     }
 
     public void GetSurroundingElements(int rowIndex, int colIndex, int range,
