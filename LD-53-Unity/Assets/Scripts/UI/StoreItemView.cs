@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace UI
         
         [SerializeField] private GameObject _cardGO;
         [SerializeField] private GameObject _healthGO;
+        [SerializeField] private TMP_Text _healthText;
         
         [SerializeField] private GameObject _wasBoughtGO;
 
@@ -41,6 +43,7 @@ namespace UI
             }
             
             _pricePanel.SetText(data.Cost.ToString());
+            _healthText.text = $"+{_data.Reward.Health}";
         }
 
         public void UpdateView(bool wasBought)
