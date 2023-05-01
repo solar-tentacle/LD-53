@@ -587,6 +587,7 @@ MonoBehaviour:
   _buttonNoText: {fileID: 1111361395267109335}
   _buttonEndText: {fileID: 5305772593632274974}
   _canvasGroup: {fileID: 6204827946507014775}
+  _image: {fileID: 3487111537842073339}
 --- !u!225 &6204827946507014775
 CanvasGroup:
   m_ObjectHideFlags: 0
