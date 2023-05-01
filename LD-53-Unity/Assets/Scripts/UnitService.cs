@@ -75,6 +75,8 @@ public class UnitService : IService, IInject, IStart, IUpdate
             _uiService.UpdatedHealthView(element, unitState.Health);
         }
 
+        _uiService.AnimateHealthChange(element, delta);
+
         if (unitState.Health == 0)
         {
             if (element.Type == ObjectType.Player)

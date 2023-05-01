@@ -16,7 +16,7 @@ public class GridService : IService, IStart, IInject
         _playerService = Services.Get<PlayerService>();
         _portalService = Services.Get<PortalService>();
     }
-    
+
     void IStart.GameStart()
     {
         AssetsCollection assetsCollection = Services.Get<AssetsCollection>();
@@ -24,6 +24,8 @@ public class GridService : IService, IStart, IInject
 
         UnitService unitService = Services.Get<UnitService>();
         unitService.CreateUnitStates(_objects);
+
+        StopSmokeNearPlayer();
     }
 
     public void BuildLevel(LevelData levelData)
@@ -82,7 +84,7 @@ public class GridService : IService, IStart, IInject
 
         return Vector2Int.zero;
     }
-    
+
     public Vector2Int GetObjectPosition(ObjectGridElement element)
     {
         for (int i = 0; i < _objects.GetLength(0); i++)
@@ -95,7 +97,7 @@ public class GridService : IService, IStart, IInject
 
         return Vector2Int.zero;
     }
-    
+
     public Dictionary<Vector2Int, ObjectGridElement> GetObjectsPositions(ObjectType type)
     {
         Dictionary<Vector2Int, ObjectGridElement> objectsPositions = new Dictionary<Vector2Int, ObjectGridElement>();
@@ -123,7 +125,7 @@ public class GridService : IService, IStart, IInject
 
         return null;
     }
-    
+
     public ObjectGridElement GetEndLevelView()
     {
         foreach (ObjectGridElement element in _objects)
@@ -139,6 +141,8 @@ public class GridService : IService, IStart, IInject
         Vector2Int oldPos = GetObjectPosition(element);
         _objects[oldPos.x, oldPos.y] = null;
         _objects[pos.x, pos.y] = element;
+        
+        StopSmokeNearPlayer();
     }
 
     public bool IsInBounds(Vector2Int pos)
@@ -177,7 +181,7 @@ public class GridService : IService, IStart, IInject
 
             buffer.Add(element);
         }
-        
+
         return true;
     }
 
@@ -213,7 +217,7 @@ public class GridService : IService, IStart, IInject
         var frontPosition = pos + direction;
 
         var playerPosition = GetObjectPosition(_playerService.PlayerView);
-        
+
         if (frontPosition == playerPosition)
         {
             return true;
@@ -235,7 +239,7 @@ public class GridService : IService, IStart, IInject
             return true;
         }
 
-        
+
         Debug.Log($"diagonals: {pos} -> {frontPosition}: [{left}], [{right}]");
         return false;
     }
@@ -247,7 +251,8 @@ public class GridService : IService, IStart, IInject
         {
             for (int col = colIndex - range; col <= colIndex + range; col++)
             {
-                if (row == rowIndex && col == colIndex) {
+                if (row == rowIndex && col == colIndex)
+                {
                     continue;
                 }
 
@@ -288,7 +293,7 @@ public class GridService : IService, IStart, IInject
         _objects[position.x, position.y] = null;
         GameObject.Destroy(element.gameObject);
     }
-    
+
     public List<EnemyView> GetEnemies()
     {
         List<EnemyView> res = new();
@@ -314,5 +319,22 @@ public class GridService : IService, IStart, IInject
         if (element == null) return true;
         if (element.Type == ObjectType.Encounter) return true;
         return false;
+    }
+
+    private void StopSmokeNearPlayer()
+    {
+        PlayerView view = GetPlayerView();
+        List<(GroundGridElement, ObjectGridElement)> elements = new();
+        Vector2Int point = GetObjectPosition(view);
+
+        GroundGridElement playerGround = GetGroundView(point);
+        playerGround.StopSmoke();
+
+        GetSurroundingElements(point.x, point.y, 2, elements);
+
+        foreach ((GroundGridElement ground, ObjectGridElement obj) in elements)
+        {
+            ground.StopSmoke();
+        }
     }
 }
