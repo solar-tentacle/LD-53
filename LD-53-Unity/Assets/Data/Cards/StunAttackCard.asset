@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StunAttackCard
   m_EditorClassIdentifier: 
   Title: Stun
-  Description: Damage 1 Hp<Br>Stun 1 Turn
+  Description: Damage 1 Hp<Br>Stun 1 Turn<br>Draw 1 Action Card
   Icon: {fileID: 21300000, guid: 93be74ee564b04053816d1bfed959dd6, type: 3}
   CardType: 1
   RarityType: 1

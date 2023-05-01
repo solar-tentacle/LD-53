@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LifeStealAttackCard
   m_EditorClassIdentifier: 
   Title: Vampire Attack
-  Description: Damage 1 Hp<Br>Heal 1Hp
+  Description: Damage 1 Hp<Br>Heal 1Hp<br>Draw 1 Action Card
   Icon: {fileID: 21300000, guid: 9d6cddeae784fe741ad825a4c0936bb4, type: 3}
   CardType: 1
   RarityType: 1

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: GetMoveAndActionCard
   m_EditorClassIdentifier: 
   Title: Draw
-  Description: Draw Move and Action cards
+  Description: 'Draw 1 Move Card<br>Draw 1 Action Card<br>In Battle: Draw 1 Action
+    Card'
   Icon: {fileID: 21300000, guid: 7c43ca9276ebf444da9322adce3e4f72, type: 3}
   CardType: 1
   RarityType: 1
