@@ -26,5 +26,10 @@ public class EncounterReward
         {
             yield return cardDeckService.TryAddCardFromCurrentDeck(GetCardsFromDeck[i]);
         }
+
+        for (int i = 0; i < CreateAndAddCardsToHand.Count; i++)
+        {
+            yield return cardDeckService.AddNewCardByReward(CreateAndAddCardsToHand[i]);
+        }
     }
 }

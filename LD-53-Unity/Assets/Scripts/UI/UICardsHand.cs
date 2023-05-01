@@ -9,6 +9,11 @@ public class UICardsHand : ActivateView
     [SerializeField] private Transform _selectedCardParent;
     [SerializeField] private GameObject _blocker;
     [SerializeField] private Transform _drawStartPoint;
+    public Transform DrawStartPoint => _drawStartPoint;
+    
+    [SerializeField] private Transform _drawCenterPoint;
+    public Transform DrawCenterPoint => _drawCenterPoint;
+    
     [SerializeField] private RectTransform _darkRect;
     [SerializeField] private CanvasGroup _darkRectCanvasGroup;
 
@@ -61,9 +66,9 @@ public class UICardsHand : ActivateView
         HideDarkRect();
     }
 
-    public IEnumerator DrawAnimation(CardView view)
+    public IEnumerator DrawAnimation(CardView view, bool isFromDeck)
     {
-        view.Container.position = _drawStartPoint.position;
+        view.Container.position = isFromDeck ? _drawStartPoint.position : _drawCenterPoint.position;
         yield return view.Container.DOLocalMove(view.ContainerStartLocalPos, 1).WaitForCompletion();
     }
 
