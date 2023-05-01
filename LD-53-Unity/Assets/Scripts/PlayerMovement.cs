@@ -24,7 +24,7 @@ public class PlayerMovement
         _view.Animator.SetTrigger(IdleTrigger);
     }
 
-    public IEnumerator Move(Vector2Int pos, float? duration = null)
+    public IEnumerator Move(Vector2Int pos, float? duration = null, bool teleport = false)
     {
         _gridService.Move(_view, pos);
         Vector3 newPosition = _gridService.GetWorldPoint(pos);
@@ -35,7 +35,7 @@ public class PlayerMovement
         direction.Normalize();
         Quaternion newRotation = Quaternion.LookRotation(direction);
         
-        yield return _view.transform.DORotateQuaternion(newRotation, RotationTime).WaitForCompletion();
+        yield return _view.transform.DORotateQuaternion(newRotation, teleport ? 0 : RotationTime).WaitForCompletion();
         
         _view.Animator.SetTrigger(RunTrigger);
         

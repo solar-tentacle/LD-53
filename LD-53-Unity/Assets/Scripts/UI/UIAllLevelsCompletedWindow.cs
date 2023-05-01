@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class  UIWinWindow : ActivateView
+public class  UIAllLevelsCompletedWindow : ActivateView
 {
     [SerializeField] private Button _nextLevelButton;
     private bool _clicked;
@@ -12,15 +12,15 @@ public class  UIWinWindow : ActivateView
         _nextLevelButton.onClick.AddListener(OnNextButtonClicked);
     }
 
-    protected override void OnInit()
-    {
-        base.OnInit();
-        _clicked = false;
-    }
-
     private void OnNextButtonClicked()
     {
         _clicked = true;
+    }
+
+    protected override void OnShow()
+    {
+        _clicked = false;
+        base.OnShow();
     }
 
     public IEnumerator WaitForClose()

@@ -84,7 +84,7 @@ public class LifeStealAttackAction : AttackAction
 
     public override IEnumerator Execute()
     {
-        _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_heal);
+        _unitService.ChangeUnitHealth(_playerService.PlayerView, (int) _heal);
         yield return _unitService.AttackObject(_playerService.PlayerView, _selectedElement, _damage);
     }
 }

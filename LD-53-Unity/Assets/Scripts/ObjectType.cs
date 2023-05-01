@@ -8,5 +8,6 @@ public enum ObjectType
     EnemyMediumRare = 5,
     Encounter = 6,
     Portal = 7,
-    Store = 8,
+    Chest = 8,
+    Store = 9,
 }

@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class UnitService : IService, IInject, IStart, IUpdate
 {
@@ -12,7 +10,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         public uint AttackDamage;
         public uint Health;
     }
-    
+
     private AssetsCollection _assetsCollection;
     private readonly List<KeyValuePair<ObjectGridElement, UnitState>> _statesByObjects = new();
     private UIService _uiService;
@@ -33,11 +31,11 @@ public class UnitService : IService, IInject, IStart, IUpdate
     {
         var unitState = new UnitState();
         _statesByObjects.Add(new KeyValuePair<ObjectGridElement, UnitState>(element, unitState));
-        
-        unitState.Health = health.GetValueOrDefault(_assetsCollection.GetElementHealth(element));
-        unitState.AttackDamage = attackDamage.GetValueOrDefault(_assetsCollection. GetElementAttackDamage(element));
 
-        
+        unitState.Health = health.GetValueOrDefault(_assetsCollection.GetElementHealth(element));
+        unitState.AttackDamage = attackDamage.GetValueOrDefault(_assetsCollection.GetElementAttackDamage(element));
+
+
         if (element.Type == ObjectType.Player)
         {
             _uiService.UICanvas.HUD.PlayerHealth.SetHealth(unitState.Health);
@@ -107,6 +105,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
                         view.EncounterReward.GiveReward();
                     }
                 }
+
                 return;
             }
         }
@@ -115,7 +114,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
     void IStart.GameStart()
     {
     }
-    
+
     void IUpdate.GameUpdate(float delta)
     {
     }
@@ -132,11 +131,12 @@ public class UnitService : IService, IInject, IStart, IUpdate
                     continue;
                 }
 
-                if (element.Type is ObjectType.EndLevel or ObjectType.Obstacle or ObjectType.Encounter or ObjectType.Portal)
+                if (element.Type is ObjectType.EndLevel or ObjectType.Obstacle or ObjectType.Encounter
+                    or ObjectType.Portal or ObjectType.Chest or ObjectType.Store)
                 {
                     continue;
                 }
-                
+
                 CreateUnitState(element);
             }
         }
