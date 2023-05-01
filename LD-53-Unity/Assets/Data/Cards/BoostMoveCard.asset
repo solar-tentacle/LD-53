@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Boost
   Description: Move in Forward direction to 1 cell
-  Icon: {fileID: 21300000, guid: 3042b019b052942a1baf7aa49d7ca6bb, type: 3}
+  Icon: {fileID: 21300000, guid: 44f2803dad0404cbeb9ee038d70da104, type: 3}
   CardType: 0
   RarityType: 1
   IsOnlyBattle: 0
