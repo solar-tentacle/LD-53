@@ -9,6 +9,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
     {
         public uint AttackDamage;
         public uint Health;
+        public uint StunCounter;
     }
 
     private AssetsCollection _assetsCollection;
@@ -43,6 +44,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         else
         {
             _uiService.AddHealthView(element, unitState.Health);
+            _uiService.AddStunView(element, unitState.StunCounter);
         }
     }
 
@@ -88,6 +90,29 @@ public class UnitService : IService, IInject, IStart, IUpdate
                 yield return RemoveUnit(unitElement);
             }
         }
+    }    
+    
+    public void StunUnit(ObjectGridElement element, uint counter = 1)
+    {
+        if (element == null)
+        {
+            throw new NullReferenceException(
+                $"{nameof(UnitService)} нельзя выполнить {nameof(StunUnit)}, {nameof(element)} == null");
+        }
+
+        var (unitElement, unitState) = _statesByObjects.FirstOrDefault(s => s.Key == element);
+        var state = _statesByObjects.FirstOrDefault(s => s.Key == element);
+
+        if (state.Value is null)
+        {
+            throw new ArgumentOutOfRangeException(
+                $"{nameof(UnitService)} {nameof(_statesByObjects)} не содержит стейт для элемента {element.name}" +
+                $" типа {element.Type} айди {element.GetInstanceID()}");
+        }
+
+        unitState.StunCounter += (uint)Math.Max(-unitState.Health, counter);
+
+        _uiService.UpdatedStunView(element, unitState.StunCounter);
     }
 
     private IEnumerator RemoveUnit(ObjectGridElement element)
@@ -96,7 +121,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         {
             if (_statesByObjects[i].Key == element)
             {
-                _uiService.RemoveHealthView(element);
+                _uiService.RemoveViews(element);
                 _statesByObjects.RemoveAt(i);
                 _gridService.RemoveElement(element);
                 if (element is EnemyView view)
@@ -149,5 +174,29 @@ public class UnitService : IService, IInject, IStart, IUpdate
         damage = damage.GetValueOrDefault(_statesByObjects.FirstOrDefault(s => s.Key.Type == source.Type).Value
             .AttackDamage);
         yield return ChangeUnitHealth(target, -(int)damage);
+    }
+
+    public void UpdateStuns()
+    {
+        foreach (var statesByObject in _statesByObjects)
+        {
+            if (statesByObject.Value.StunCounter > 0)
+            {
+                statesByObject.Value.StunCounter--;
+            }
+        }
+    }
+    
+    public void UpdateStunViews()
+    {
+        foreach (var statesByObject in _statesByObjects)
+        {
+            _uiService.UpdatedStunView(statesByObject.Key, statesByObject.Value.StunCounter);
+        }
+    }
+
+    public bool IsStunned(EnemyView enemy)
+    {
+        return _statesByObjects.FirstOrDefault(s=>s.Key == enemy).Value.StunCounter > 0;
     }
 }

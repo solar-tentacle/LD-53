@@ -7,6 +7,7 @@ public class UICanvas : MonoBehaviour
     [SerializeField] private Transform _healthViewParent;
     [SerializeField] private HealthView _healthViewPrefab;
     [SerializeField] private ChangeHealthView _changeHealthViewPrefab;
+    [SerializeField] private StunView _stunViewPrefab;
 
     public UIHud HUD => _hud;
     
@@ -33,6 +34,13 @@ public class UICanvas : MonoBehaviour
     public HealthView AddHealthView()
     {
         var result = Instantiate(_healthViewPrefab, _healthViewParent);
+        result.gameObject.SetActive(true);
+        return result;
+    }
+    
+    public StunView AddStunView()
+    {
+        var result = Instantiate(_stunViewPrefab, _healthViewParent);
         result.gameObject.SetActive(true);
         return result;
     }

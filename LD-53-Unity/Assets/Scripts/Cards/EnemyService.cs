@@ -112,8 +112,13 @@ public class EnemyService : IService, IInject, IStart
     {
         EnemyView enemy = FindNearestEnemy();
 
+        if (enemy is null)
+        {
+            yield break;
+        }
+        
         yield return DisableHighlight();
-
+        
         Vector2Int enemyPos = _gridService.GetObjectPosition(enemy);
         Vector2Int playerPos = _gridService.GetObjectPosition(_playerView);
         float distance = Vector2Int.Distance(enemyPos, playerPos);
@@ -154,6 +159,11 @@ public class EnemyService : IService, IInject, IStart
 
         foreach (EnemyView enemy in _enemyContexts.Keys)
         {
+            if (_unitService.IsStunned(enemy))
+            {
+                continue;
+            }
+            
             float distance = Vector3.Distance(_playerView.transform.position, enemy.transform.position);
             if (minDistance > Vector3.Distance(_playerView.transform.position, enemy.transform.position))
             {
