@@ -33,8 +33,6 @@ public class ChangeHealthAction : CardAction
 
     public override IEnumerator Execute()
     {
-        _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_changeValue);
-
-        yield return null;
+        yield return _unitService.ChangeUnitHealth(_playerService.PlayerView, (int)_changeValue);
     }
 }

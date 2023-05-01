@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameConfig : ScriptableObject
 {
     public int StartCoins;
+    public int CoinsPerMove = 1;
 
     public List<CardConfig> StartCards = new List<CardConfig>();
 

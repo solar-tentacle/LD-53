@@ -21,6 +21,7 @@ public class FlowService : IService, IInject, IStart
     private bool _usedMovementAction;
     private PortalService _portalService;
     private ChestService _chestService;
+    private InventoryService _inventoryService;
     private bool _cancelSelection;
 
     void IInject.Inject()
@@ -38,6 +39,7 @@ public class FlowService : IService, IInject, IStart
         _uiService = Services.Get<UIService>();
         _assetsCollection = Services.Get<AssetsCollection>();
         _chestService = Services.Get<ChestService>();
+        _inventoryService = Services.Get<InventoryService>();
     }
 
     void IStart.GameStart()
@@ -152,6 +154,8 @@ public class FlowService : IService, IInject, IStart
                 {
                     yield return _cardDeckService.TryAddCardFromCurrentDeck(CardType.Movement);
                 }
+                
+                _inventoryService.AddCoins(_assetsCollection.GameConfig.CoinsPerMove);
 
                 break;
             }
