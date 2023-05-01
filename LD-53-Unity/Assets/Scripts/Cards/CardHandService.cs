@@ -9,11 +9,12 @@ public class CardHandService : IService, IInject
 
     private Dictionary<CardView, Card> _cards = new();
     private CardView _selectedCardView;
+    private CardView _copyCardView;
 
     private CardDeck _currentHand = new CardDeck();
     public bool Has(CardType cardType) => _currentHand.Has(cardType);
 
-    public Card SelectedCard => _cards[_selectedCardView];
+    public Card SelectedCard => _selectedCardView == null ? null : _cards[_selectedCardView];
 
     void IInject.Inject()
     {
@@ -35,7 +36,6 @@ public class CardHandService : IService, IInject
 
         var view = _uiHand.CreateCard(card.Config);
         _cards.Add(view, card);
-        view.Thrown += () => OnCardThrown(view);
 
         return view;
     }
@@ -50,24 +50,63 @@ public class CardHandService : IService, IInject
         _selectedCardView = view;
     }
 
+    private void OnCardPicked(CardView view)
+    {
+        _copyCardView = view;
+    }
+
     public IEnumerator SelectCardFlow(bool isBattle)
     {
         _uiHand.DisableBlocker();
 
         foreach ((CardView view, Card card) in _cards)
         {
-            if (card.Config.CardType == CardType.Action) view.enabled = isBattle;
+            view.Thrown += OnCardThrown;
+            view.enabled = true;
+            if (card.Config.IsOnlyBattle && isBattle == false) view.enabled = false;
         }
-        
+
+        _selectedCardView = null;
         yield return new WaitUntil(() => _selectedCardView != null);
+        RemoveCard(_cards[_selectedCardView]);
         yield return _uiHand.SelectCard(_selectedCardView);
         _uiHand.EnableBlocker();
+
+        foreach (CardView view in _cards.Keys)
+        {
+            view.Thrown -= OnCardThrown;
+        }
     }
 
     public IEnumerator HideCardFlow()
     {
+        _cards.Remove(_selectedCardView);
         yield return _uiHand.HideCard(_selectedCardView);
-        RemoveCard(_cards[_selectedCardView]);
+    }
+
+    public IEnumerator CopyCardFlow()
+    {
+        _uiHand.DisableBlocker();
+
+        foreach ((CardView view, Card card) in _cards)
+        {
+            if (view == _selectedCardView) continue;
+            view.Picked += OnCardPicked;
+            if (card.Config.CardType == CardType.Action) view.enabled = true;
+        }
+
+        _copyCardView = null;
+        yield return new WaitUntil(() => _copyCardView != null);
+        _selectedCardView.SetContent(_cards[_copyCardView].Config);
+        _cards[_selectedCardView] = _cards[_copyCardView];
+        _currentHand.AddCard(_cards[_copyCardView]);
+
+        foreach (CardView view in _cards.Keys)
+        {
+            view.Picked -= OnCardPicked;
+        }
+
+        yield return _uiHand.MoveCardToHand(_selectedCardView);
         _selectedCardView = null;
     }
 

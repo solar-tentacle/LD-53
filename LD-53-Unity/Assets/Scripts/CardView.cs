@@ -9,8 +9,10 @@ using UnityEngine.UI;
 
 public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
-    public event Action Thrown;
+    public event Action<CardView> Thrown;
+    public event Action<CardView> Picked;
 
+    [SerializeField] private RectTransform _container;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _titleText;
@@ -29,16 +31,25 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private float _moveYDuration = 0.3f;
 
     private bool _isSelected;
-    private RectTransform _rectTransform;
     private Vector3 _endValue;
-    private float _startPosY;
 
     public CanvasGroup CanvasGroup => _canvasGroup;
+    public RectTransform Container => _container;
+    public Vector3 ContainerStartLocalPos = Vector3.zero;
+    private bool _disabled;
 
-    private void Start()
+    private void OnEnable()
     {
-        _rectTransform = GetComponent<RectTransform>();
-        StartCoroutine(GetStartPositions());
+        if (_disabled)
+        {
+            _container.DOLocalMove(_endValue, _moveYDuration);
+            _container.DOScale(1f, _scaleDuration);
+        }
+    }
+
+    private void OnDisable()
+    {
+        _disabled = true;
     }
 
     public void SetContent(CardConfig cardConfig)
@@ -72,15 +83,8 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        _battleIconGO.SetActive(cardConfig.IsOnlyBattle);
-    }
 
-    private IEnumerator GetStartPositions()
-    {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        _startPosY = _rectTransform.position.y;
+        _battleIconGO.SetActive(cardConfig.IsOnlyBattle);
     }
 
     private void Update()
@@ -95,19 +99,20 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         var newPos = Input.mousePosition;
         newPos.z = 0f;
-        transform.position = newPos;
+        _container.position = newPos;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Thrown?.Invoke();
+        Thrown?.Invoke(this);
         _isSelected = false;
-        // _canvasGroup.DOFade(1f, _fadeDuration);
+        _canvasGroup.DOFade(1f, _fadeDuration);
         // transform.DOMove(_endValue, _moveYDuration);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Picked?.Invoke(this);
         _isSelected = true;
         _canvasGroup.DOFade(_fadeEndValue, _fadeDuration);
     }
@@ -115,17 +120,19 @@ public class CardView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_isSelected) return;
-        _endValue = new Vector3(_rectTransform.position.x, _startPosY);
-        var tempEndValue = new Vector3(_rectTransform.position.x, _startPosY + 30f);
 
-        transform.DOMove(tempEndValue, _moveYDuration);
-        transform.DOScale(_scaleEndValueOnEnter, _scaleDuration);
+        _endValue = new Vector3(_container.localPosition.x, ContainerStartLocalPos.y);
+        Vector3 tempEndValue = _endValue + Vector3.up * 30f;
+
+        Debug.Log(tempEndValue);
+        _container.DOLocalMove(tempEndValue, _moveYDuration);
+        _container.DOScale(_scaleEndValueOnEnter, _scaleDuration);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_isSelected) return;
-        transform.DOMove(_endValue, _moveYDuration);
-        transform.DOScale(1f, _scaleDuration);
+        _container.DOLocalMove(_endValue, _moveYDuration);
+        _container.DOScale(1f, _scaleDuration);
     }
 }

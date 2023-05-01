@@ -64,7 +64,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hideTime: 1
   _cardViewPrefab: {fileID: 4832002343442188586, guid: ba6f1665219a6d14f9532e5d232e77b0, type: 3}
-  _cardShirt: {fileID: 4832002343442188582, guid: dbea0cb1a52861d4083a9a0598f50b91, type: 3}
   _cardViewParent: {fileID: 1415935847834891006}
   _selectedCardParent: {fileID: 7089628371228172632}
   _blocker: {fileID: 3875771537726992802}
@@ -200,7 +199,7 @@ MonoBehaviour:
     m_Top: 5
     m_Bottom: 5
   m_ChildAlignment: 4
-  m_Spacing: 5
+  m_Spacing: 30
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
