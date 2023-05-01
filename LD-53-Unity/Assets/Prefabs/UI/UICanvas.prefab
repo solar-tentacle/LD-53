@@ -65,6 +65,7 @@ MonoBehaviour:
   _uiWinWindow: {fileID: 2251937983385769359}
   _uiLoseWindow: {fileID: 9012838365601960285}
   _uiEncounterWindow: {fileID: 1020927579604216624}
+  _allLevelsCompletedWindow: {fileID: 6943566092765384560}
 --- !u!223 &1896021729572241463
 Canvas:
   m_ObjectHideFlags: 0
@@ -401,7 +402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 875321452525082823, guid: 8d903cd7caedcf541a29b7961bda087e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1705802909783467359, guid: 8d903cd7caedcf541a29b7961bda087e, type: 3}
       propertyPath: m_Pivot.x
@@ -494,6 +495,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1705802909783467359, guid: 8d903cd7caedcf541a29b7961bda087e, type: 3}
   m_PrefabInstance: {fileID: 647866234935197839}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6943566092765384560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7539358356389105663, guid: 8d903cd7caedcf541a29b7961bda087e, type: 3}
+  m_PrefabInstance: {fileID: 647866234935197839}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0702ae13c2a44cea460c0bac247cf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1397674997433503924
 PrefabInstance:
   m_ObjectHideFlags: 0
