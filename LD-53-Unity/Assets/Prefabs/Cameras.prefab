@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3484365914792170954}
   - component: {fileID: 4010776216093639605}
-  - component: {fileID: 1641387915738980939}
   m_Layer: 0
   m_Name: Main Camera UI
   m_TagString: MainCamera
@@ -76,14 +75,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1641387915738980939
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986875001091027254}
-  m_Enabled: 1
 --- !u!1 &1479496307286508153
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +203,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4250698428339169299}
   - component: {fileID: 3504994299552697506}
-  - component: {fileID: 1309825770153802495}
   m_Layer: 0
   m_Name: Main Camera Smoke
   m_TagString: MainCamera
@@ -278,11 +268,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1309825770153802495
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3868939354091867364}
-  m_Enabled: 1
