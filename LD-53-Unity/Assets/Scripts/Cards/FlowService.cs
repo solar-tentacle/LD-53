@@ -82,6 +82,8 @@ public class FlowService : IService, IInject, IStart
                 if (playerPos == _endLevelPosition)
                 {
                     _uiService.UICanvas.UIWinWindow.Show();
+                    yield return _uiService.UICanvas.UIWinWindow.WaitForClose();
+                    yield return _gameFlowService.CompleteLevel();
                     yield break;
                 }
 
