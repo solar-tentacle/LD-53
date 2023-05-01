@@ -128,6 +128,8 @@ public class EnemyService : IService, IInject, IStart
         }
         else
         {
+            enemy.Attack();
+            yield return new WaitForSeconds(1);
             yield return _unitService.AttackObject(enemy, _playerView);
         }
     }
@@ -181,7 +183,10 @@ public class EnemyService : IService, IInject, IStart
         Vector3 newPosition = _gridService.GetWorldPoint(pos);
         newPosition.y = view.transform.position.y;
 
+        view.StartMove();
         yield return view.transform.DOMove(newPosition, 0.5f).WaitForCompletion();
+        view.EndMove();
+
         _enemyContexts[view] = CreateContext(view);
     }
 }
