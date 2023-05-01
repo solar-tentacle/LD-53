@@ -61,11 +61,11 @@ public class Services : MonoBehaviour
         Register(new CardDeckService());
         Register(new CardHandService());
         Register(new UnitService());
+        Register(new PortalService());
         Register(new EnemyService());
         Register(new GameFlowService());
         Register(new FlowService());
         Register(new EncounterService());
-        Register(new PortalService());
     }
     
     private void Register(IService service)

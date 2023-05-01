@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PortalService : IService, IInject, IStart
@@ -36,14 +37,16 @@ public class PortalService : IService, IInject, IStart
 
     public IEnumerator Teleport(Vector2Int playerPosition)
     {
-        var newPosition = GetNearestPortalPosition(playerPosition);
-        yield return _playerService.Move(newPosition, 0);
+        var (newPosition, portalPosition) = GetNearestPortalPosition(playerPosition);
+        yield return _playerService.Move(portalPosition, 0, true);
+        yield return _playerService.Move(newPosition);
     }
 
-    private Vector2Int GetNearestPortalPosition(Vector2Int playerPosition)
+    private (Vector2Int, Vector2Int) GetNearestPortalPosition(Vector2Int playerPosition)
     {
         float minDistance = float.MaxValue;
         Vector2Int? resultPosition = null;
+        Vector2Int? portalPosition = null;
         foreach (var portal in _portals)
         {
             if (portal.Key == playerPosition)
@@ -56,11 +59,12 @@ public class PortalService : IService, IInject, IStart
             var portalData = (portal.Value as PortalGridElement).Data;
             var portalOutPosition = portal.Key + portalData.Direction;
 
-            if ((!resultPosition.HasValue || distance < minDistance) &&
-                _gridService.TryAddGroundElement(new List<GroundGridElement>(), portalOutPosition))
+            if ((!resultPosition.HasValue || distance < minDistance) && !_portals.ContainsKey(portalOutPosition) &&
+                _gridService.TryAddGroundElement(new List<GroundGridElement>(), portalOutPosition, ObjectType.Portal))
             {
                 minDistance = distance;
                 resultPosition = portalOutPosition;
+                portalPosition = portal.Key;
             }
         }
 
@@ -70,6 +74,6 @@ public class PortalService : IService, IInject, IStart
             resultPosition = playerPosition + originalPortalData.Direction;
         }
 
-        return resultPosition.Value;
+        return (resultPosition.Value, portalPosition.Value);
     }
 }
