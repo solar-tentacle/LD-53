@@ -68,11 +68,14 @@ public class UICardsHand : ActivateView
 
     public IEnumerator DrawAnimation(CardView view, bool isFromDeck, float delay)
     {
+        DisableBlocker();
+        view.enabled = false;
         view.Container.position = isFromDeck ? _drawStartPoint.position : _drawCenterPoint.position;
 
         yield return new WaitForSeconds(delay);
         
         yield return view.Container.DOLocalMove(view.ContainerStartLocalPos, 0.5f).WaitForCompletion();
+        view.enabled = true;
     }
 
     public void ShowDarkRect()
