@@ -9,12 +9,10 @@ public class EnemyView : ObjectGridElement
 
     [SerializeField] private Animator _animator;
     [SerializeField] private List<Vector2Int> _agroDeltaPoints;
-
-    [SerializeField] private EncounterReward _encounterReward;
     
     public List<Vector2Int> AgroDeltaPoints => _agroDeltaPoints;
 
-    public EncounterReward EncounterReward => _encounterReward;
+    public EncounterReward EncounterReward;
 
     public void StartMove() => _animator.SetTrigger(MoveTrigger);
     public void EndMove() => _animator.SetTrigger(EndMoveTrigger);

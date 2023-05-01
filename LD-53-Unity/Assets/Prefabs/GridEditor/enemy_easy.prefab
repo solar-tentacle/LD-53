@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442672}
   - component: {fileID: 21229444}
-  - component: {fileID: 4000986618969593584}
+  - component: {fileID: -6977098572783394458}
   m_Layer: 0
   m_Name: enemy_easy
   m_TagString: Water
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4000986618969593584
+--- !u!114 &-6977098572783394458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 134140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95fb8a0bc8264032b0ca6de84d6be06d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ce7e2386c3448cabfc8f99888ce0bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 3
+  _agroDeltaPoints: []
+  EncounterReward:
+    Health: 0
+    Coins: 0
+    GetCardsFromDeck: 
+    CreateAndAddCardsToHand: []
