@@ -15,7 +15,7 @@ public class EncounterReward
         var playerService = Services.Get<PlayerService>();
         var unitService = Services.Get<UnitService>();
         
-        unitService.ChangeUnitHealth(playerService.PlayerView, (int)Health);
+        yield return unitService.ChangeUnitHealth(playerService.PlayerView, (int)Health);
 
         var inventoryService = Services.Get<InventoryService>();
         inventoryService.AddCoins(Coins);

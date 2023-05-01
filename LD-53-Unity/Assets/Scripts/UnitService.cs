@@ -46,7 +46,7 @@ public class UnitService : IService, IInject, IStart, IUpdate
         }
     }
 
-    public void ChangeUnitHealth(ObjectGridElement element, int delta)
+    public IEnumerator ChangeUnitHealth(ObjectGridElement element, int delta)
     {
         if (element == null)
         {
@@ -85,12 +85,12 @@ public class UnitService : IService, IInject, IStart, IUpdate
             }
             else
             {
-                RemoveUnit(unitElement);
+                yield return RemoveUnit(unitElement);
             }
         }
     }
 
-    private void RemoveUnit(ObjectGridElement element)
+    private IEnumerator RemoveUnit(ObjectGridElement element)
     {
         for (int i = 0; i < _statesByObjects.Count; i++)
         {
@@ -104,11 +104,11 @@ public class UnitService : IService, IInject, IStart, IUpdate
                     _enemyService.RemoveEnemy(view);
                     if (view.EncounterReward != null)
                     {
-                        view.EncounterReward.GiveReward();
+                        yield return view.EncounterReward.GiveReward();
                     }
                 }
 
-                return;
+                yield break;
             }
         }
     }
@@ -148,7 +148,6 @@ public class UnitService : IService, IInject, IStart, IUpdate
     {
         damage = damage.GetValueOrDefault(_statesByObjects.FirstOrDefault(s => s.Key.Type == source.Type).Value
             .AttackDamage);
-        ChangeUnitHealth(target, -(int)damage);
-        yield break;
+        yield return ChangeUnitHealth(target, -(int)damage);
     }
 }
