@@ -58,10 +58,18 @@ public class CardDeckService : IService, IInject, IStart
         {
             CardView view = _cardHandService.AddCard(card);
 
-            yield return _cardHandService.DrawAnimation(view);
+            yield return _cardHandService.DrawAnimation(view, true);
         }
         
         UpdateDeckIndicator();
+    }
+
+    public IEnumerator AddNewCardByReward(CardConfig cardConfig)
+    {
+        var card = new Card(cardConfig);
+        var view = _cardHandService.AddCard(card);
+
+        yield return _cardHandService.DrawAnimation(view, false);
     }
 
     private void UpdateDeckIndicator()
