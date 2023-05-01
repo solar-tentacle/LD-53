@@ -14,6 +14,7 @@ public class UIService : Service, IInject, IUpdate
         _uiCanvas.HUD.Show();
         _uiCanvas.HUD.UICardsHand.Show();
         _uiCanvas.HUD.UIDeckIndicator.Show();
+        _uiCanvas.HUD.CoinsPanel.Show();
     }
 
     public void AddHealthView(ObjectGridElement element, uint health)
