@@ -42,6 +42,7 @@ namespace UI
                 _cardView.SetContent(data.Reward.CreateAndAddCardsToHand[0]);
             }
             
+            _pricePanel.Show();
             _pricePanel.SetText(data.Cost.ToString());
             _healthText.text = $"+{_data.Reward.Health}";
         }
