@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public interface IService
@@ -69,6 +70,7 @@ public class Services : MonoBehaviour
         Register(new StoreService());
         Register(new InventoryService());
         Register(new ChestService());
+        Register(new PizzaService());
     }
     
     private void Register(IService service)
