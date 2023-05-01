@@ -134,8 +134,8 @@ public class CardHandService : IService, IInject
         _uiService.UICanvas.HUD.UICardsHand.ClearHand();
     }
 
-    public IEnumerator DrawAnimation(CardView view, bool isFromDeck)
+    public IEnumerator DrawAnimation(CardView view, bool isFromDeck, float delay)
     {
-        yield return _uiHand.DrawAnimation(view, isFromDeck);
+        yield return _uiHand.DrawAnimation(view, isFromDeck, delay);
     }
 }

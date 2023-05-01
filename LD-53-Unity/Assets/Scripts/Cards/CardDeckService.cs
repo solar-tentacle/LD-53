@@ -58,7 +58,7 @@ public class CardDeckService : IService, IInject, IStart
         {
             CardView view = _cardHandService.AddCard(card);
 
-            yield return _cardHandService.DrawAnimation(view, true);
+            yield return _cardHandService.DrawAnimation(view, true, 0f);
         }
         
         UpdateDeckIndicator();
@@ -69,7 +69,7 @@ public class CardDeckService : IService, IInject, IStart
         var card = new Card(cardConfig);
         var view = _cardHandService.AddCard(card);
 
-        yield return _cardHandService.DrawAnimation(view, false);
+        yield return _cardHandService.DrawAnimation(view, false, 0.7f);
     }
 
     private void UpdateDeckIndicator()

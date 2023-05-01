@@ -44,6 +44,7 @@ namespace UI
         {
             var item = Instantiate(_itemPrefab, _itemsParent);
             item.SetContent(data, buyFunc);
+            item.OnBuy += UpdateView;
             _items.Add(item);
         }
 

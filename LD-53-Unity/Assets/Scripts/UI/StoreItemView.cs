@@ -27,6 +27,8 @@ namespace UI
 
         private Func<StoreItemData, bool> _buyFunc;
 
+        public Action OnBuy;
+
         private void Start()
         {
             _buyButton.onClick.AddListener(OnBuyButtonClicked);
@@ -75,7 +77,7 @@ namespace UI
         {
             if (_buyFunc.Invoke(_data))
             {
-                UpdateView(true);
+                OnBuy.Invoke();
             }
         }
 
