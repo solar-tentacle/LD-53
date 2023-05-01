@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameFlowService : IService, IInject
 {
@@ -18,9 +19,19 @@ public class GameFlowService : IService, IInject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    public void CompleteLevel()
+    public IEnumerator CompleteLevel()
     {
-        GoToNextLevel();
+        if (_assetsCollection.IsLastLevel(LevelIndex))
+        {
+            _uiService.UICanvas.AllLevelsCompletedWindow.Show();
+            yield return _uiService.UICanvas.AllLevelsCompletedWindow.WaitForClose();
+            GoToNextLevel();
+        }
+        else
+        {
+            GoToNextLevel();
+            yield break;
+        }
     }
     
     public void RestartLevel()

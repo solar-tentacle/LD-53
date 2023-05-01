@@ -78,4 +78,9 @@ public class AssetsCollection : Service
             .Where(o => _objectsStats.Any(s => s.Type != ObjectType.Player && s.Type == o.Type && s.Health > 0))
             .Select(o => o.Type).ToArray();
     }
+
+    public bool IsLastLevel(uint levelIndex)
+    {
+        return levelIndex == Levels.Length - 1;
+    }
 }
