@@ -56,7 +56,7 @@ public class StoreService : IService, IInject, IStart
         _uiStoreWindow.SetContent(store.StoreData, _currentState, TryBuy);
         _uiStoreWindow.Show();
 
-        yield return new WaitUntil(() => _uiStoreWindow.IsShow);
+        yield return new WaitUntil(() => !_uiStoreWindow.IsShow);
 
         for (int i = 0; i < _encounterRewards.Count; i++)
         {
