@@ -9,10 +9,12 @@ public class GridService : IService, IStart, IInject
     private ObjectGridElement[,] _objects;
     private Plane _plane = new(Vector3.up, 0);
     private PlayerService _playerService;
+    private PortalService _portalService;
 
     public void Inject()
     {
         _playerService = Services.Get<PlayerService>();
+        _portalService = Services.Get<PortalService>();
     }
 
     void IStart.GameStart()
@@ -150,18 +152,31 @@ public class GridService : IService, IStart, IInject
         return true;
     }
 
-    public bool TryAddGroundElement(List<GroundGridElement> buffer, Vector2Int pos)
+    public bool TryAddGroundElement(List<GroundGridElement> buffer, Vector2Int pos, params ObjectType[] excludeObjects)
     {
         if (TryGetGroundView(pos, out GroundGridElement element))
         {
             if (element.Type is GroundType.Water) return false;
 
-            if (_objects[pos.x, pos.y] != null &&
+            var hasObject = _objects[pos.x, pos.y] != null;
+
+            if (hasObject && excludeObjects.Contains(_objects[pos.x, pos.y].Type))
+            {
+                return false;
+            }
+
+            if (BlockedByPortal(pos, excludeObjects))
+            {
+                return false;
+            }
+
+            if (hasObject &&
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
                 _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
-                !HasValidPortal(pos) &&
+                _objects[pos.x, pos.y].Type != ObjectType.Portal &&
                 _objects[pos.x, pos.y].Type != ObjectType.Encounter &&
-                _objects[pos.x, pos.y].Type != ObjectType.Chest)
+                _objects[pos.x, pos.y].Type != ObjectType.Chest &&
+                _objects[pos.x, pos.y].Type != ObjectType.Store)
                 return false;
 
             buffer.Add(element);
@@ -170,14 +185,34 @@ public class GridService : IService, IStart, IInject
         return true;
     }
 
-    private bool HasValidPortal(Vector2Int pos)
+    private bool BlockedByPortal(Vector2Int pos, ObjectType[] excludeObjects)
     {
-        if (_objects[pos.x, pos.y].Type != ObjectType.Portal)
+        if (!_portalService.TryGetPortal(pos, out var portalGridElement))
         {
             return false;
         }
 
-        var direction = (_objects[pos.x, pos.y] as PortalGridElement).Data.Direction;
+        if (excludeObjects.Contains(ObjectType.Portal))
+        {
+            return true;
+        }
+        
+        if (!HasValidPortal(pos))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool HasValidPortal(Vector2Int pos)
+    {
+        if (!_portalService.TryGetPortal(pos, out var portalGridElement))
+        {
+            return false;
+        }
+
+        var direction = portalGridElement.Data.Direction;
 
         var frontPosition = pos + direction;
 

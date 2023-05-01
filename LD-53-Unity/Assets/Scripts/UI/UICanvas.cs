@@ -22,6 +22,9 @@ public class UICanvas : MonoBehaviour
     [SerializeField] private UIAllLevelsCompletedWindow _allLevelsCompletedWindow;
     public UIAllLevelsCompletedWindow AllLevelsCompletedWindow => _allLevelsCompletedWindow;
 
+    [SerializeField] private UIStoreWindow _uiStoreWindow;
+    public UIStoreWindow UIStoreWindow => _uiStoreWindow;
+
     private void Start()
     {
         _healthViewPrefab.gameObject.SetActive(false);

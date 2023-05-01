@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694bde450f4841f093db7aefffbbd786, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  StartMaxHp: 5
+  StartCoins: 10
   StartCards:
   - {fileID: 11400000, guid: ce6d1cb78856e4841a3500b38a57b7cf, type: 2}
   - {fileID: 11400000, guid: ce6d1cb78856e4841a3500b38a57b7cf, type: 2}

@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class EncounterReward
 {
     public float Health;
+    public int Coins;
     public List<CardType> GetCardsFromDeck = new List<CardType>();
+    public List<CardConfig> CreateAndAddCardsToHand = new List<CardConfig>();
 
     public IEnumerator GiveReward()
     {
@@ -14,6 +16,9 @@ public class EncounterReward
         var unitService = Services.Get<UnitService>();
         
         unitService.ChangeUnitHealth(playerService.PlayerView, (int)Health);
+
+        var inventoryService = Services.Get<InventoryService>();
+        inventoryService.AddCoins(Coins);
 
         var cardDeckService = Services.Get<CardDeckService>();
         

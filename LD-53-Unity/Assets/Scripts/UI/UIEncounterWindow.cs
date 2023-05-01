@@ -15,6 +15,7 @@ public class UIEncounterWindow : ActivateView
     [SerializeField] private TextMeshProUGUI _buttonNoText;
     [SerializeField] private TextMeshProUGUI _buttonEndText;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private Image _image;
     private EncounterData _data;
     private AnswerEncounterData _currentAnswerData;
     private CoroutineService _coroutineService;
@@ -75,6 +76,7 @@ public class UIEncounterWindow : ActivateView
     public void SetContent(EncounterData data)
     {
         _data = data;
+        _image.sprite = data.Icon;
         ChangeEncounterWindowTextTo(data.Question);
         ChangeYesButtonTextTo(data.AnswerData1.AnswerText);
         ChangeNoButtonTextTo(data.AnswerData2.AnswerText);

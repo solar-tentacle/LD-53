@@ -14,6 +14,7 @@ public class FlowService : IService, IInject, IStart
     private GameObject _uiBattle;
     private GameFlowService _gameFlowService;
     private EncounterService _encounterService;
+    private StoreService _storeService;
     private UIService _uiService;
     private Vector2Int _endLevelPosition;
     private AssetsCollection _assetsCollection;
@@ -32,6 +33,7 @@ public class FlowService : IService, IInject, IStart
         _uiBattle = Services.Get<UIService>().UICanvas.HUD.BattleInProgress;
         _gameFlowService = Services.Get<GameFlowService>();
         _encounterService = Services.Get<EncounterService>();
+        _storeService = Services.Get<StoreService>();
         _portalService = Services.Get<PortalService>();
         _uiService = Services.Get<UIService>();
         _assetsCollection = Services.Get<AssetsCollection>();
@@ -79,6 +81,11 @@ public class FlowService : IService, IInject, IStart
                 if (_encounterService.TryGetEncounter(playerPos, out var encounter))
                 {
                     yield return _encounterService.Flow(encounter, playerPos);
+                }
+
+                if (_storeService.TryGetStore(playerPos, out var store))
+                {
+                    yield return _storeService.Flow(store, playerPos);
                 }
 
                 if (_chestService.TryGetChest(playerPos, out var chest))
