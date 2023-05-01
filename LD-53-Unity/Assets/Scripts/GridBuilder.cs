@@ -71,6 +71,11 @@ public class GridBuilder
                     storeGridElement.StoreData = (e as StoreGridElement).StoreData;
                 }
                 
+                if (element is EnemyView enemyGridElement)
+                {
+                    enemyGridElement.EncounterReward = (e as EnemyView).EncounterReward;
+                }
+                
                 if (element is PortalGridElement portalElement)
                 {
                     portalElement.Data = (e as PortalGridElement).Data;
