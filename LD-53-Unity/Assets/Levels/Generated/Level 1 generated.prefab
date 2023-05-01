@@ -319,7 +319,7 @@ MonoBehaviour:
     - Index0: 2
       Index1: 5
       Element:
-        TileView: {fileID: 0}
+        TileView: {fileID: 4069897798443194382}
     - Index0: 3
       Index1: 0
       Element:
@@ -481,6 +481,11 @@ GameObject:
 --- !u!1 &4047648575030709373 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3319717999046290793, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
+  m_PrefabInstance: {fileID: 1602757006568825108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4069897798443194382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3334085931565349146, guid: bcee88b57bffd634491f8890a8b1851e, type: 3}
   m_PrefabInstance: {fileID: 1602757006568825108}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4100311462800727497 stripped

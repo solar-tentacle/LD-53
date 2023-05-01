@@ -19,6 +19,8 @@ public class FlowService : IService, IInject, IStart
     private AssetsCollection _assetsCollection;
     private bool _usedMovementAction;
     private PortalService _portalService;
+    private ChestService _chestService;
+    private bool _cancelSelection;
 
     void IInject.Inject()
     {
@@ -33,6 +35,7 @@ public class FlowService : IService, IInject, IStart
         _portalService = Services.Get<PortalService>();
         _uiService = Services.Get<UIService>();
         _assetsCollection = Services.Get<AssetsCollection>();
+        _chestService = Services.Get<ChestService>();
     }
 
     void IStart.GameStart()
@@ -54,7 +57,13 @@ public class FlowService : IService, IInject, IStart
 
             Card card = _cardHandService.SelectedCard;
             CardAction action = card.Config.Action;
-            yield return HandleCardAction(action);
+            yield return HandleCardAction(_cardHandService.SelectedCardView, action);
+
+            if (_cancelSelection)
+            {
+                yield return _cardHandService.CancelFlow();
+                continue;
+            }
 
             if (_cardHandService.SelectedCard != null)
             {
@@ -70,6 +79,11 @@ public class FlowService : IService, IInject, IStart
                 if (_encounterService.TryGetEncounter(playerPos, out var encounter))
                 {
                     yield return _encounterService.Flow(encounter, playerPos);
+                }
+
+                if (_chestService.TryGetChest(playerPos, out var chest))
+                {
+                    yield return _chestService.Flow(chest, playerPos);
                 }
 
                 if (playerPos == _endLevelPosition)
@@ -140,7 +154,7 @@ public class FlowService : IService, IInject, IStart
         }
     }
 
-    private IEnumerator HandleCardAction(CardAction action)
+    private IEnumerator HandleCardAction(CardView view, CardAction action)
     {
         if (action is GetCardsFromHandAction or CopyCardAction)
         {
@@ -148,20 +162,33 @@ public class FlowService : IService, IInject, IStart
             yield break;
         }
 
+        _cancelSelection = false;
+
         yield return action.Select();
 
         while (true)
         {
-            if (Input.GetMouseButtonDown(0) && action.CanExecute())
+            if (Input.GetMouseButtonDown(0))
             {
-                yield return action.Deselect();
-                yield return action.Execute();
-                if (action is MovementCard)
+                if (RectTransformUtility.RectangleContainsScreenPoint(view.Container, Input.mousePosition) ||
+                    RectTransformUtility.RectangleContainsScreenPoint(_cardHandService.DarkRect, Input.mousePosition))
                 {
-                    _usedMovementAction = true;
+                    _cancelSelection = true;
+                    yield return action.Deselect();
+                    yield break;
                 }
 
-                break;
+                if (action.CanExecute())
+                {
+                    yield return action.Deselect();
+                    yield return action.Execute();
+                    if (action is MovementCard)
+                    {
+                        _usedMovementAction = true;
+                    }
+
+                    break;
+                }
             }
 
             yield return null;

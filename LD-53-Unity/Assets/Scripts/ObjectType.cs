@@ -7,5 +7,6 @@ public enum ObjectType
     EnemyMedium = 4,
     EnemyMediumRare = 5,
     Encounter = 6,
-    Portal = 7
+    Portal = 7,
+    Chest = 8
 }

@@ -61,6 +61,11 @@ public class GridBuilder
                     encounterElement.EncounterData = (e as EncounterGridElement).EncounterData;
                 }
                 
+                if (element is ChestGridElement chestElement)
+                {
+                    chestElement.Reward = (e as ChestGridElement).Reward;
+                }
+                
                 if (element is PortalGridElement portalElement)
                 {
                     portalElement.Data = (e as PortalGridElement).Data;
