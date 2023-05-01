@@ -61,6 +61,7 @@ MonoBehaviour:
   - {fileID: 3239879723301133259, guid: 8f246ac8b1b038245a6b92135974e49f, type: 3}
   - {fileID: 1221485795439300029, guid: 8bab739db24ed25458d9cefacf715bc0, type: 3}
   - {fileID: 8082392952171075469, guid: a31f3aeb344427141a96af08bc51c62e, type: 3}
+  - {fileID: 684747033394608815, guid: b8b9b7528a024f94abcf2bf6516e9aeb, type: 3}
   _objectsStats:
   - Type: 0
     Health: 5

@@ -156,7 +156,9 @@ public class GridService : IService, IStart, IInject
                 _objects[pos.x, pos.y].Type != ObjectType.Player &&
                 _objects[pos.x, pos.y].Type != ObjectType.EndLevel &&
                 !HasValidPortal(pos) &&
-                _objects[pos.x, pos.y].Type != ObjectType.Encounter) return false;
+                _objects[pos.x, pos.y].Type != ObjectType.Encounter &&
+                _objects[pos.x, pos.y].Type != ObjectType.Chest) 
+                return false;
 
             buffer.Add(element);
         }

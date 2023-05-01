@@ -66,6 +66,7 @@ public class Services : MonoBehaviour
         Register(new FlowService());
         Register(new EncounterService());
         Register(new PortalService());
+        Register(new ChestService());
     }
     
     private void Register(IService service)

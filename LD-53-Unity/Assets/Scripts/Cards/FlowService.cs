@@ -19,6 +19,7 @@ public class FlowService : IService, IInject, IStart
     private AssetsCollection _assetsCollection;
     private bool _usedMovementAction;
     private PortalService _portalService;
+    private ChestService _chestService;
 
     void IInject.Inject()
     {
@@ -33,6 +34,7 @@ public class FlowService : IService, IInject, IStart
         _portalService = Services.Get<PortalService>();
         _uiService = Services.Get<UIService>();
         _assetsCollection = Services.Get<AssetsCollection>();
+        _chestService = Services.Get<ChestService>();
     }
 
     void IStart.GameStart()
@@ -66,6 +68,11 @@ public class FlowService : IService, IInject, IStart
                 if (_encounterService.TryGetEncounter(playerPos, out var encounter))
                 {
                     yield return _encounterService.Flow(encounter, playerPos);
+                }
+
+                if (_chestService.TryGetChest(playerPos, out var chest))
+                {
+                    yield return _chestService.Flow(chest, playerPos);
                 }
 
                 if (playerPos == _endLevelPosition)
