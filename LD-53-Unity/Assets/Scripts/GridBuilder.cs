@@ -65,6 +65,11 @@ public class GridBuilder
                 {
                     chestElement.Reward = (e as ChestGridElement).Reward;
                 }
+
+                if (element is StoreGridElement storeGridElement)
+                {
+                    storeGridElement.StoreData = (e as StoreGridElement).StoreData;
+                }
                 
                 if (element is PortalGridElement portalElement)
                 {

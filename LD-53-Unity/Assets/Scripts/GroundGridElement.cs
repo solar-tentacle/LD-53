@@ -5,6 +5,7 @@ public class GroundGridElement : GridElement
 {
     [SerializeField] private GroundType _type;
     [SerializeField] private HighlightView _highlight;
+    [SerializeField] private ParticleSystem _smoke;
 
     public GroundType Type => _type;
 
@@ -24,5 +25,10 @@ public class GroundGridElement : GridElement
     {
         _highlight.DisableAll();
         yield return null;    
+    }
+
+    public void StopSmoke()
+    {
+        _smoke.Stop();
     }
 }
