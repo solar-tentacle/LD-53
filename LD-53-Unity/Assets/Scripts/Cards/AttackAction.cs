@@ -88,3 +88,16 @@ public class LifeStealAttackAction : AttackAction
         yield return _unitService.AttackObject(_playerService.PlayerView, _selectedElement, _damage);
     }
 }
+
+[Serializable]
+public class StunAttackAction : AttackAction
+{
+    [SerializeField] private uint _damage = 1;
+    [SerializeField] private uint _stun = 1;
+
+    public override IEnumerator Execute()
+    {
+        _unitService.StunUnit(_selectedElement, _stun);
+        yield return _unitService.AttackObject(_playerService.PlayerView, _selectedElement, _damage);
+    }
+}

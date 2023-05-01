@@ -9,6 +9,7 @@ public class UIService : Service, IInject, IUpdate
     [SerializeField] private UICanvas _uiCanvas;
     public UICanvas UICanvas => _uiCanvas;
     private readonly List<KeyValuePair<ObjectGridElement, HealthView>> _healthViewsByObjects = new();
+    private readonly List<KeyValuePair<ObjectGridElement, StunView>> _stunViewsByObjects = new();
 
     public void Inject()
     {
@@ -25,13 +26,20 @@ public class UIService : Service, IInject, IUpdate
         _healthViewsByObjects.Add(new KeyValuePair<ObjectGridElement, HealthView>(element, healthView));
     }
     
+    public void AddStunView(ObjectGridElement element, uint counter = 0)
+    {
+        var view = _uiCanvas.AddStunView();
+        view.SetCounter(counter);
+        _stunViewsByObjects.Add(new KeyValuePair<ObjectGridElement, StunView>(element, view));
+    }
+    
     public void UpdatedHealthView(ObjectGridElement element, uint health)
     {
         var healthView = _healthViewsByObjects.FirstOrDefault(h => h.Key == element).Value;
         healthView.SetHealth(health);
     }
     
-    public void RemoveHealthView(ObjectGridElement element)
+    public void RemoveViews(ObjectGridElement element)
     {
         for (int i = 0; i < _healthViewsByObjects.Count; i++)
         {
@@ -42,11 +50,26 @@ public class UIService : Service, IInject, IUpdate
                 return;
             }
         }
+        
+        for (int i = 0; i < _stunViewsByObjects.Count; i++)
+        {
+            if (_stunViewsByObjects[i].Key == element)
+            {
+                _stunViewsByObjects[i].Value.gameObject.SetActive(false);
+                _stunViewsByObjects.RemoveAt(i);
+                return;
+            }
+        }
     }
 
-    public void UpdateHealthPositions()
+    public void UpdateAnchoredPositions()
     {
         foreach (var kv in _healthViewsByObjects)
+        {
+            AnchorPosition(kv.Key.transform, kv.Value.transform);
+        }
+        
+        foreach (var kv in _stunViewsByObjects)
         {
             AnchorPosition(kv.Key.transform, kv.Value.transform);
         }
@@ -60,7 +83,7 @@ public class UIService : Service, IInject, IUpdate
 
     public void GameUpdate(float delta)
     {
-        UpdateHealthPositions();
+        UpdateAnchoredPositions();
     }
 
     public void AnimateHealthChange(ObjectGridElement element, int delta)
@@ -75,5 +98,15 @@ public class UIService : Service, IInject, IUpdate
         {
             Destroy(healthChangeAnim.gameObject);
         });
+    }
+
+    public void UpdatedStunView(ObjectGridElement element, uint counter)
+    {
+        var view = _stunViewsByObjects.FirstOrDefault(h => h.Key == element).Value;
+        if (view is null)
+        {
+            return;
+        }
+        view.SetCounter(counter);
     }
 }

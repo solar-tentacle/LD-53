@@ -23,6 +23,7 @@ public class FlowService : IService, IInject, IStart
     private ChestService _chestService;
     private InventoryService _inventoryService;
     private bool _cancelSelection;
+    private UnitService _unitService;
 
     void IInject.Inject()
     {
@@ -40,6 +41,7 @@ public class FlowService : IService, IInject, IStart
         _assetsCollection = Services.Get<AssetsCollection>();
         _chestService = Services.Get<ChestService>();
         _inventoryService = Services.Get<InventoryService>();
+        _unitService = Services.Get<UnitService>();
     }
 
     void IStart.GameStart()
@@ -53,6 +55,8 @@ public class FlowService : IService, IInject, IStart
     {
         while (true)
         {
+            _unitService.UpdateStuns();
+            
             _usedMovementAction = false;
 
             yield return _enemyService.EnableHighlight();
@@ -108,6 +112,8 @@ public class FlowService : IService, IInject, IStart
                     yield return _portalService.Teleport(playerPos);
                 }
             }
+            
+            _unitService.UpdateStunViews();
 
             if (!_cardHandService.Has(CardType.Movement))
             {

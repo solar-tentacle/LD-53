@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39470e9457544aab92ae4ab009a7b42, type: 3}
+  m_Name: StunAttackCard
+  m_EditorClassIdentifier: 
+  Title: Stun
+  Description: Damage 1 Hp<Br>Stun 1 Turn
+  Icon: {fileID: 21300000, guid: 93be74ee564b04053816d1bfed959dd6, type: 3}
+  CardType: 1
+  RarityType: 1
+  IsOnlyBattle: 1
+  Action:
+    rid: 2169304147512000515
+  references:
+    version: 2
+    RefIds:
+    - rid: 2169304147512000515
+      type: {class: StunAttackAction, ns: , asm: Assembly-CSharp}
+      data:
+        _damage: 1
+        _stun: 1
